@@ -1,12 +1,12 @@
-package edu.isel.csee.jchecker.core;
+package edu.isel.csee.jchecker.core.stage;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class GradleStage implements IGradeStage {
-	
+public class JavaStage implements IGradeStage {
+
 	
 	@Override
 	public int compile(String dpath)
@@ -15,6 +15,7 @@ public class GradleStage implements IGradeStage {
 		ProcessBuilder builder = null;
 		Process process = null;
 		
+		listup(dpath);
 		
 		try {
 			builder = new ProcessBuilder(getCommand());
@@ -28,11 +29,12 @@ public class GradleStage implements IGradeStage {
 			e.printStackTrace();
 		}
 		
-		
+		File list = new File(dpath + "/srclist.txt");
+		list.delete();
 		return state;
 	}
-	
 
+	
 	@Override
 	public boolean build(ArrayList<String> cases, String output, String dpath)
 	{
@@ -93,15 +95,30 @@ public class GradleStage implements IGradeStage {
 	
 	
 	
-	public ArrayList<String> getTest(String argument)
+	public ArrayList<String> getTest(String packagePath, String[] input)
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
-		command.add("gradle");
-		command.add("run");
-		command.add("--warning-mode=all");
-		command.add("--args=");
-		command.add("argument");
+		command.add("java -cp bin");
+		command.add(packagePath);
+		
+		
+		for (String segment : input)
+			command.add(segment);
+		
+		
+		return command;
+	}
+	
+	
+	
+	public ArrayList<String> getTestWithoutArguments(String packagePath)
+	{
+		ArrayList<String> command = new ArrayList<>();
+		
+		command.add("java -cp bin");
+		command.add(packagePath);
+
 		
 		return command;
 	}
@@ -112,10 +129,30 @@ public class GradleStage implements IGradeStage {
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
-		command.add("gradle");
-		command.add("build");
-		command.add("-Dfile.encoding=UTF-8");
+		command.add("javac -encoding UTF-8 -Xlint:deprecation -g:none -d bin @srclist.txt");
+
 		
 		return command;
+	}
+	
+	
+	
+	private void listup(String dpath)
+	{
+		String command = "find . -name *.java > srclist.txt";
+		ProcessBuilder builder = null;
+		Process process = null;
+		
+		
+		try {
+			builder = new ProcessBuilder(command);
+			builder.directory(new File(dpath));
+			process = builder.start();
+			process.destroy();
+		} catch (Exception e) {
+			System.out.println("Error: No java files in the path: " + dpath);
+			e.printStackTrace();
+		}
+		
 	}
 }

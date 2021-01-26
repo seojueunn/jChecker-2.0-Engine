@@ -1,4 +1,4 @@
-package edu.isel.csee.jchecker.core;
+package edu.isel.csee.jchecker.core.stage;
 
 import java.util.ArrayList;
 
