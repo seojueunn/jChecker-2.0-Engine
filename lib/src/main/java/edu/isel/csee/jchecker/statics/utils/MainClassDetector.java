@@ -7,6 +7,8 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.isel.csee.jchecker.statics.ASTChecker;
 
+
+
 public class MainClassDetector extends ASTChecker {
 	private String mainPath = "";
 	
