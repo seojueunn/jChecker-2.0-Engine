@@ -7,7 +7,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 
 public class ASTChecker {
-
+	
 	private ASTParser parser;
 
 	
