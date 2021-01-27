@@ -1,7 +1,7 @@
 package edu.isel.csee.jchecker.score;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -69,14 +69,14 @@ public class PolicyParser {
 		
 		obj = new Gson().fromJson(policy.get("inherit-super"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
-			policyTable.setSuperclass_pair(new Gson().fromJson(obj.get("class-super"), new TypeToken<ArrayList<String>>() {}.getType()));
+			policyTable.setSuperclass_pair(new Gson().fromJson(obj.get("class-super"), new TypeToken<HashMap<String, String>>() {}.getType()));
 			policyTable.setSpc_deduct_point(obj.get("deduct-point").getAsDouble());
 		}
 		
 		
 		obj = new Gson().fromJson(policy.get("inherit-interface"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
-			policyTable.setInterface_pair(new Gson().fromJson(obj.get("class-interface"), new TypeToken<ArrayList<String>>() {}.getType()));
+			policyTable.setInterface_pair(new Gson().fromJson(obj.get("class-interface"), new TypeToken<HashMap<String, String>>() {}.getType()));
 			policyTable.setItf_deduct_point(obj.get("deduct-point").getAsDouble());
 		}
 		
@@ -90,14 +90,14 @@ public class PolicyParser {
 		
 		obj = new Gson().fromJson(policy.get("overriding"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
-			policyTable.setOverriding(true);
+			policyTable.setOverriding(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
 			policyTable.setOvr_deduct_point(obj.get("deduct-point").getAsDouble());
 		}
 		
 		
 		obj = new Gson().fromJson(policy.get("overloading"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
-			policyTable.setOverloading(true);
+			policyTable.setOverloading(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
 			policyTable.setOvl_deduct_point(obj.get("deduct-point").getAsDouble());
 		}
 		
