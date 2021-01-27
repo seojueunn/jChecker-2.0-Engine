@@ -1,6 +1,7 @@
 package edu.isel.csee.jchecker.score;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EvaluationSchemeMapper {
 
@@ -13,11 +14,11 @@ public class EvaluationSchemeMapper {
 	private ArrayList<String> reqMethod = null;
 	private ArrayList<String> reqCustExc = null;
 	private ArrayList<String> reqCusStruct = null;
-	private ArrayList<String> superclass_pair = null;
-	private ArrayList<String> interface_pair = null;
+	private ArrayList<String> overriding = null;
+	private ArrayList<String> overloading = null;
+	private HashMap<String, String> superclass_pair = null;
+	private HashMap<String, String> interface_pair = null;
 	private boolean recursion = false;
-	private boolean overriding = false;
-	private boolean overloading = false;
 	private boolean threads = false;
 	private boolean javadoc = false;
 	private boolean encaps = false;
@@ -149,30 +150,31 @@ public class EvaluationSchemeMapper {
 	}
 	
 	
-	public ArrayList<String> getSuperclass_pair()
+	
+	public HashMap<String, String> getSuperclass_pair()
 	{
 		return superclass_pair;
 	}
-	
-	
-	public void setSuperclass_pair(ArrayList<String> superclass_pair)
+
+
+	public void setSuperclass_pair(HashMap<String, String> superclass_pair)
 	{
 		this.superclass_pair = superclass_pair;
 	}
-	
-	
-	public ArrayList<String> getInterface_pair()
+
+
+	public HashMap<String, String> getInterface_pair()
 	{
 		return interface_pair;
 	}
-	
-	
-	public void setInterface_pair(ArrayList<String> interface_pair)
+
+
+	public void setInterface_pair(HashMap<String, String> interface_pair)
 	{
 		this.interface_pair = interface_pair;
 	}
-	
-	
+
+
 	public boolean isRecursion()
 	{
 		return recursion;
@@ -185,30 +187,30 @@ public class EvaluationSchemeMapper {
 	}
 	
 	
-	public boolean isOverriding()
+	public ArrayList<String> getOverriding()
 	{
 		return overriding;
 	}
-	
-	
-	public void setOverriding(boolean overriding)
+
+
+	public void setOverriding(ArrayList<String> overriding)
 	{
 		this.overriding = overriding;
 	}
-	
-	
-	public boolean isOverloading()
+
+
+	public ArrayList<String> getOverloading()
 	{
 		return overloading;
 	}
-	
-	
-	public void setOverloading(boolean overloading)
+
+
+	public void setOverloading(ArrayList<String> overloading)
 	{
 		this.overloading = overloading;
 	}
-	
-	
+
+
 	public boolean isThreads()
 	{
 		return threads;
