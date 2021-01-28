@@ -7,7 +7,7 @@ public class EvaluationSchemeMapper {
 
 	private String assignmentName;
 	private String assignmentGroup;
-	private String packageName;
+	private ArrayList<String> packageName = null;
 	private ArrayList<String> inputs = null;
 	private ArrayList<String> outputs = null;
 	private ArrayList<String> reqClass = null;
@@ -66,18 +66,18 @@ public class EvaluationSchemeMapper {
 	}
 	
 	
-	public String getPackageName()
+	public ArrayList<String> getPackageName()
 	{
 		return packageName;
 	}
-	
-	
-	public void setPackageName(String packageName)
+
+
+	public void setPackageName(ArrayList<String> packageName)
 	{
 		this.packageName = packageName;
 	}
-	
-	
+
+
 	public ArrayList<String> getInputs()
 	{
 		return inputs;
