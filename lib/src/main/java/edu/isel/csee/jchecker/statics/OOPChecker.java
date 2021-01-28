@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.*;
+
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import edu.isel.csee.jchecker.score.EvaluationSchemeMapper;
 
@@ -32,37 +34,56 @@ public class OOPChecker extends ASTChecker {
 	private int spcViolationCount = 0;
 	private int itfViolationCount = 0;
 	
-	
-	private JsonObject scoresheet;
-	
-	
-	
-	
-	public OOPChecker(EvaluationSchemeMapper policy, JsonObject scoresheet)
+
+
+	public OOPChecker(EvaluationSchemeMapper policy)
 	{
 		this.policy = policy;
-		this.scoresheet = scoresheet;
 	}
 	
 	
-	public void run(List<String> source, String unitName)
+	public JsonObject run(List<String> source, String unitName, JsonObject scoresheet)
 	{
 		for (String each : source) {
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
 			
 			
-			if (policy.isEncaps())
+			if (policy.isEncaps()) {
 				testEncapsulation(unit);
+				
+				JsonObject item_ecp = new JsonObject();
+				item_ecp.addProperty("violation", ecpViolation);
+				scoresheet.add("encapsulation", item_ecp);
+			}
+			
+			
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) {
+				testOverriding(unit);
+				
+				JsonObject item_ovl = new JsonObject();
+				item_ovl.addProperty("violation", ovlViolation);
+				scoresheet.add("overloading", item_ovl);
+			}
+			
 			
 			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
 				getMethodDeclarations(unit);
 				testOverriding(unit);
+				
+				JsonObject item_ovr = new JsonObject();
+				item_ovr.addProperty("violation", ovrViolation);
+				scoresheet.add("overriding", item_ovr);
 			}
+	
 			
 			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
 				getClassNames(unit);
 				classesViolations = new ArrayList<>();
 				testRequiredClass();
+				
+				JsonObject item_class = new JsonObject();
+				item_class.addProperty("violation-count", classesViolationCount);
+				scoresheet.add("classes", item_class);
 			}
 			
 			
@@ -70,20 +91,36 @@ public class OOPChecker extends ASTChecker {
 				getPackageNames(unit);
 				pkgViolations = new ArrayList<>();
 				testRequiredPackage();
+				
+				JsonObject item_pkg = new JsonObject();
+				item_pkg.addProperty("violation-count", pkgViolationCount);
+				scoresheet.add("package", item_pkg);
 			}
+			
 			
 			if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
 				spcViolations = new ArrayList<>();
 				testSuperclass(unit);
+				
+				JsonObject item_spc = new JsonObject();
+				item_spc.addProperty("violation-count", spcViolationCount);
+				scoresheet.add("inherit-super", item_spc);
 			}
+			
 			
 			if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
 				itfViolations = new ArrayList<>();
 				testInterface(unit);
+				
+				JsonObject item_itf = new JsonObject();
+				item_itf.addProperty("violation-count", itfViolationCount);
+				scoresheet.add("inherit-interface", item_itf);
 			}
 			
 		}
 		
+		
+		return scoresheet;
 	}
 	
 	
@@ -350,5 +387,5 @@ public class OOPChecker extends ASTChecker {
 			e.printStackTrace();
 		}
 	}
-
+	
 }
