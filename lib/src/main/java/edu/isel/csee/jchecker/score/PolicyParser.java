@@ -29,7 +29,7 @@ public class PolicyParser {
 
 		
 		obj = new Gson().fromJson(policy.get("package"), JsonObject.class);
-		policyTable.setPackageName(obj.get("path").getAsString());
+		policyTable.setPackageName(new Gson().fromJson(obj.get("path"), new TypeToken<ArrayList<String>>() {}.getType()));
 		policyTable.setPackage_deduct_point(obj.get("deduct-point").getAsDouble());
 		
 		
