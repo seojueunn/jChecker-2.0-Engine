@@ -14,30 +14,21 @@ import edu.isel.csee.jchecker.score.EvaluationSchemeMapper;
 public class OOPChecker extends ASTChecker {
 	private EvaluationSchemeMapper policy;
 	private List<IMethodBinding> methods = new ArrayList<>();
-	private List<String> invocations = new ArrayList<>();
 	private List<String> packages = new ArrayList<>();
 	private List<String> classes = new ArrayList<>();
-	private Map<String, String> superclasses = new HashMap<>();
-	private Map<String, String> interfaces = new HashMap<>();
 	
-	private ArrayList<String> runtimeViolations = null;
 	private ArrayList<String> classesViolations = null;
-	private ArrayList<String> methodsViolations = null;
-	private ArrayList<String> customExcViolations = null;
-	private ArrayList<String> customStrViolations = null;
 	private ArrayList<String> spcViolations = null;
 	private ArrayList<String> itfViolations = null;
+	private ArrayList<String> pkgViolations = null;
 	
-	private boolean pkgViolation = false;
 	private boolean ovrViolation = false;
 	private boolean ovlViolation = false;
-	private boolean jvdViolation = false;
 	private boolean ecpViolation = false;
 	
 	
-	private int runtimeViolationCount = 0;
 	private int classesViolationCount = 0;
-	private int methodsViolationCount = 0;
+	private int pkgViolationCount = 0;
 	private int spcViolationCount = 0;
 	private int itfViolationCount = 0;
 	
@@ -47,10 +38,10 @@ public class OOPChecker extends ASTChecker {
 	
 	
 	
-	public OOPChecker(EvaluationSchemeMapper policy)
+	public OOPChecker(EvaluationSchemeMapper policy, JsonObject scoresheet)
 	{
 		this.policy = policy;
-		
+		this.scoresheet = scoresheet;
 	}
 	
 	
@@ -58,19 +49,77 @@ public class OOPChecker extends ASTChecker {
 	{
 		for (String each : source) {
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
-			getMethodDeclarations(unit);
-			getClassNames(unit);
-			getPackageNames(unit);
+			
+			
+			if (policy.isEncaps())
+				testEncapsulation(unit);
+			
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
+				getMethodDeclarations(unit);
+				testOverriding(unit);
+			}
+			
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
+				getClassNames(unit);
+				classesViolations = new ArrayList<>();
+				testRequiredClass();
+			}
+			
+			
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
+				getPackageNames(unit);
+				pkgViolations = new ArrayList<>();
+				testRequiredPackage();
+			}
+			
+			if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
+				spcViolations = new ArrayList<>();
+				testSuperclass(unit);
+			}
+			
+			if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
+				itfViolations = new ArrayList<>();
+				testInterface(unit);
+			}
+			
 		}
 		
-		
-		
+	}
+	
+	
+	
+	
+	private void testRequiredClass()
+	{
+		for (String each : policy.getReqClass())
+		{
+			if (!classes.contains(each)) {
+				classesViolations.add(each);
+				classesViolationCount++;
+			}
+				
+		}
+	}
+	
+	
+	
+	
+	private void testRequiredPackage()
+	{
+		for (String each : policy.getPackageName())
+		{
+			if (!packages.contains(each)) {
+				pkgViolations.add(each);
+				pkgViolationCount++;
+			}
+		}
 	}
 	
 	
 	
 	private void testSuperclass(CompilationUnit unit)
 	{
+		
 		try {
 			unit.accept(new ASTVisitor() {
 				public boolean visit(TypeDeclaration node)
@@ -87,6 +136,7 @@ public class OOPChecker extends ASTChecker {
 					return super.visit(node);
 				}
 			});
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -134,14 +184,12 @@ public class OOPChecker extends ASTChecker {
 			unit.accept(new ASTVisitor() {
 				public boolean visit(MethodDeclaration node)
 				{
-					if (!policy.getOverriding().isEmpty()) {
-						if (policy.getOverriding().contains(node.getName().toString())) {
-							for (IMethodBinding each : methods)
-							{
-								if (node.resolveBinding().overrides(each)) {
-									policy.getOverriding().remove(node.getName().toString());
-									return false;
-								}
+					if (policy.getOverriding().contains(node.getName().toString())) {
+						for (IMethodBinding each : methods)
+						{
+							if (node.resolveBinding().overrides(each)) {
+								policy.getOverriding().remove(node.getName().toString());
+								return false;
 							}
 						}
 					}
@@ -149,10 +197,59 @@ public class OOPChecker extends ASTChecker {
 					return super.visit(node);
 				}
 			});
+			
+			
+			
+			if (!policy.getOverriding().isEmpty())
+				ovrViolation = true;
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	
+	public void testOverloading(CompilationUnit unit)
+	{
+		
+		try {
+			unit.accept(new ASTVisitor() {
+				public boolean visit(TypeDeclaration node)
+				{
+					MethodDeclaration[] tmp = node.getMethods();
+					ArrayList<String> currentMethods = new ArrayList<>();
+					
+					for (MethodDeclaration each : tmp)
+						currentMethods.add(each.toString());
+					
+					
+					for (String ovr : policy.getOverloading()) 
+					{
+						for (String each : currentMethods)
+						{
+							if (each.equals(ovr)) {
+								currentMethods.remove(each);
+								
+								
+								if (!currentMethods.contains(ovr))
+									ovlViolation = true;
+								
+							}
+						}
+					}
+					
+					
+					return super.visit(node);
+				}
+			});
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	
