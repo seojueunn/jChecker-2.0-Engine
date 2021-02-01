@@ -61,8 +61,8 @@ public class CoreGrader {
 		
 		EntireContentParser source = new EntireContentParser();
 		
-		new OOPChecker(scheme).run(source.getAllFiles(workpath), "", policyObject);
-		new ImplementationChecker(scheme).run(source.getAllFiles(workpath), "", policyObject);
+		new OOPChecker(scheme, source.getAllFiles(workpath), "").run(policyObject);
+		new ImplementationChecker(scheme, source.getAllFiles(workpath), "").run(policyObject);
 		
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

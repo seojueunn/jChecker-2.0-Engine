@@ -17,14 +17,16 @@ import edu.isel.csee.jchecker.score.EvaluationSchemeMapper;
 
 public class ImplementationChecker extends ASTChecker {
 	EvaluationSchemeMapper policy;
+	private List<String> source = null;
+	private String unitName;
 	private List<String> instances = new ArrayList<>();
 	private List<String> classes = new ArrayList<>();
 	private List<String> superClasses = new ArrayList<>();
 	private List<String> interfaces = new ArrayList<>();
 	
-	private ArrayList<String> customExcViolations = null;
-	private ArrayList<String> customStructViolations = null;
-	private ArrayList<String> threadViolations = null;
+	private ArrayList<String> customExcViolations = new ArrayList<>();
+	private ArrayList<String> customStructViolations = new ArrayList<>();
+	private ArrayList<String> threadViolations = new ArrayList<>();
 	
 	private boolean jdocViolation = false;
 	private int threadViolationCount = 0;
@@ -33,45 +35,20 @@ public class ImplementationChecker extends ASTChecker {
 	
 	
 	
-	public ImplementationChecker(EvaluationSchemeMapper policy)
+	public ImplementationChecker(EvaluationSchemeMapper policy, List<String> source, String unitName)
 	{
 		this.policy = policy;
+		this.source = source;
+		this.unitName = unitName;
 	}
 	
 	
-	public JsonObject run(List<String> source, String unitName, JsonObject scoresheet)
+	
+	public JsonObject run(JsonObject scoresheet)
 	{
-		for (String each : source) {
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
-			getClassNames(unit);
-			getInstances(unit);
-			
-			
-			
-			if (policy.isJavadoc()) {
-				testJavadoc(unit);
-			}
-			
-			
-			if (policy.getThreads() != null && !policy.getThreads().isEmpty()) {
-				threadViolations = new ArrayList<>();
-				testThread();
-			}
-			
-			
-			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
-				customExcViolations = new ArrayList<>();
-				testCustomException();
-			}
-			
-			
-			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
-				customStructViolations = new ArrayList<>();
-				testCustomStructure();
-			}
-
-		}
+		collect();
 		
+		test();
 		
 		
 		if (policy.isJavadoc()) {
@@ -113,6 +90,44 @@ public class ImplementationChecker extends ASTChecker {
 	}
 	
 	
+	
+	private void collect()
+	{
+		for (String each : source) {
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
+			getClassNames(unit);
+			getInstances(unit);
+		}
+	}
+	
+	
+	
+	private void test()
+	{
+		for (String each : source) {
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
+			
+			if (policy.isJavadoc()) {
+				testJavadoc(unit);
+			}
+			
+			
+			if (policy.getThreads() != null && !policy.getThreads().isEmpty()) {
+				testThread();
+			}
+			
+			
+			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
+				testCustomException();
+			}
+			
+			
+			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
+				testCustomStructure();
+			}
+
+		}
+	}
 	
 	
 	private void testJavadoc(CompilationUnit unit)

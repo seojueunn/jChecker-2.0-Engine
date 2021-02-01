@@ -1,13 +1,11 @@
 package edu.isel.csee.jchecker.statics;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jdt.core.dom.*;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import edu.isel.csee.jchecker.score.EvaluationSchemeMapper;
 
@@ -15,14 +13,16 @@ import edu.isel.csee.jchecker.score.EvaluationSchemeMapper;
 
 public class OOPChecker extends ASTChecker {
 	private EvaluationSchemeMapper policy;
+	private List<String> source = null;
+	private String unitName;
 	private List<IMethodBinding> methods = new ArrayList<>();
 	private List<String> packages = new ArrayList<>();
 	private List<String> classes = new ArrayList<>();
 	
-	private ArrayList<String> classesViolations = null;
-	private ArrayList<String> spcViolations = null;
-	private ArrayList<String> itfViolations = null;
-	private ArrayList<String> pkgViolations = null;
+	private ArrayList<String> classesViolations = new ArrayList<>();
+	private ArrayList<String> spcViolations = new ArrayList<>();
+	private ArrayList<String> itfViolations = new ArrayList<>();
+	private ArrayList<String> pkgViolations = new ArrayList<>();
 	
 	private boolean ovrViolation = false;
 	private boolean ovlViolation = false;
@@ -36,13 +36,119 @@ public class OOPChecker extends ASTChecker {
 	
 
 
-	public OOPChecker(EvaluationSchemeMapper policy)
+	public OOPChecker(EvaluationSchemeMapper policy, List<String> source, String unitName)
 	{
 		this.policy = policy;
+		this.source = source;
+		this.unitName = unitName;
 	}
 	
 	
-	public JsonObject run(List<String> source, String unitName, JsonObject scoresheet)
+	public JsonObject run(JsonObject scoresheet)
+	{
+		collect();
+		
+		test();
+		
+
+		if (policy.isEncaps()) {
+			JsonObject item_ecp = new JsonObject();
+			item_ecp.addProperty("violation", ecpViolation);
+			
+			if (!ecpViolation)
+				policy.setEnc_deduct_point(0);
+			
+			item_ecp.addProperty("deducted", policy.getEnc_deduct_point());
+			scoresheet.add("encapsulation", item_ecp);
+		}
+		
+		
+		if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) {
+			JsonObject item_ovl = new JsonObject();
+			item_ovl.addProperty("violation", ovlViolation);
+			
+			if (!ovlViolation)
+				policy.setOvl_deduct_point(0);
+			
+			item_ovl.addProperty("deducted", policy.getOvl_deduct_point());
+			scoresheet.add("overloading", item_ovl);
+		}
+		
+		
+		if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
+			JsonObject item_ovr = new JsonObject();
+			item_ovr.addProperty("violation", ovrViolation);
+			
+			
+			if (!ovrViolation)
+				policy.setOvr_deduct_point(0);
+			
+			item_ovr.addProperty("deducted", policy.getOvr_deduct_point());
+			scoresheet.add("overriding", item_ovr);
+		}
+
+		
+		if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
+			JsonObject item_class = new JsonObject();
+			item_class.addProperty("violation-count", classesViolationCount);
+			item_class.addProperty("deducted", policy.getClass_deduct_point() * classesViolationCount);
+			scoresheet.add("classes", item_class);
+		}
+		
+		
+		if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
+			JsonObject item_pkg = new JsonObject();
+			item_pkg.addProperty("violation-count", pkgViolationCount);
+			item_pkg.addProperty("deducted", policy.getPackage_deduct_point() * pkgViolationCount);
+			scoresheet.add("package", item_pkg);
+		}
+		
+		
+		if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
+			JsonObject item_spc = new JsonObject();
+			item_spc.addProperty("violation-count", spcViolationCount);
+			item_spc.addProperty("deducted", policy.getSpc_deduct_point() * spcViolationCount);
+			scoresheet.add("inherit-super", item_spc);
+		}
+		
+		
+		if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
+			JsonObject item_itf = new JsonObject();
+			item_itf.addProperty("violation-count", itfViolationCount);
+			item_itf.addProperty("deducted", policy.getItf_deduct_point() * itfViolationCount);
+			scoresheet.add("inherit-interface", item_itf);
+		}
+		
+		return scoresheet;
+	}
+
+	
+	
+	private void collect()
+	{
+		for (String each : source) {
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
+			
+			
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
+				getMethodDeclarations(unit);
+			}
+	
+			
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
+				getClassNames(unit);
+			}
+			
+			
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
+				getPackageNames(unit);
+			}
+		}
+	}
+	
+	
+	
+	private void test()
 	{
 		for (String each : source) {
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
@@ -50,77 +156,39 @@ public class OOPChecker extends ASTChecker {
 			
 			if (policy.isEncaps()) {
 				testEncapsulation(unit);
-				
-				JsonObject item_ecp = new JsonObject();
-				item_ecp.addProperty("violation", ecpViolation);
-				scoresheet.add("encapsulation", item_ecp);
 			}
 			
 			
 			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) {
 				testOverriding(unit);
-				
-				JsonObject item_ovl = new JsonObject();
-				item_ovl.addProperty("violation", ovlViolation);
-				scoresheet.add("overloading", item_ovl);
 			}
 			
 			
 			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
-				getMethodDeclarations(unit);
 				testOverriding(unit);
-				
-				JsonObject item_ovr = new JsonObject();
-				item_ovr.addProperty("violation", ovrViolation);
-				scoresheet.add("overriding", item_ovr);
 			}
 	
 			
 			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
-				getClassNames(unit);
-				classesViolations = new ArrayList<>();
 				testRequiredClass();
-				
-				JsonObject item_class = new JsonObject();
-				item_class.addProperty("violation-count", classesViolationCount);
-				scoresheet.add("classes", item_class);
 			}
 			
 			
 			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
-				getPackageNames(unit);
-				pkgViolations = new ArrayList<>();
 				testRequiredPackage();
-				
-				JsonObject item_pkg = new JsonObject();
-				item_pkg.addProperty("violation-count", pkgViolationCount);
-				scoresheet.add("package", item_pkg);
 			}
 			
 			
 			if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
-				spcViolations = new ArrayList<>();
 				testSuperclass(unit);
-				
-				JsonObject item_spc = new JsonObject();
-				item_spc.addProperty("violation-count", spcViolationCount);
-				scoresheet.add("inherit-super", item_spc);
 			}
 			
 			
 			if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
-				itfViolations = new ArrayList<>();
 				testInterface(unit);
-				
-				JsonObject item_itf = new JsonObject();
-				item_itf.addProperty("violation-count", itfViolationCount);
-				scoresheet.add("inherit-interface", item_itf);
 			}
 			
 		}
-		
-		
-		return scoresheet;
 	}
 	
 	
