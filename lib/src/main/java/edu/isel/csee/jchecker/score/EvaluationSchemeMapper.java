@@ -16,10 +16,9 @@ public class EvaluationSchemeMapper {
 	private ArrayList<String> reqCusStruct = null;
 	private ArrayList<String> overriding = null;
 	private ArrayList<String> overloading = null;
+	private ArrayList<String> threads = null;
 	private HashMap<String, String> superclass_pair = null;
 	private HashMap<String, String> interface_pair = null;
-	private boolean recursion = false;
-	private boolean threads = false;
 	private boolean javadoc = false;
 	private boolean encaps = false;
 	
@@ -33,7 +32,6 @@ public class EvaluationSchemeMapper {
 	private double customStr_deduct_point = 0;
 	private double spc_deduct_point = 0;
 	private double itf_deduct_point = 0;
-	private double recur_deduct_point = 0;
 	private double ovr_deduct_point = 0;
 	private double ovl_deduct_point = 0;
 	private double thr_deduct_point = 0;
@@ -174,18 +172,6 @@ public class EvaluationSchemeMapper {
 		this.interface_pair = interface_pair;
 	}
 
-
-	public boolean isRecursion()
-	{
-		return recursion;
-	}
-	
-	
-	public void setRecursion(boolean recursion)
-	{
-		this.recursion = recursion;
-	}
-	
 	
 	public ArrayList<String> getOverriding()
 	{
@@ -211,18 +197,18 @@ public class EvaluationSchemeMapper {
 	}
 
 
-	public boolean isThreads()
+	public ArrayList<String> getThreads()
 	{
 		return threads;
 	}
-	
-	
-	public void setThreads(boolean threads)
+
+
+	public void setThreads(ArrayList<String> threads)
 	{
 		this.threads = threads;
 	}
-	
-	
+
+
 	public boolean isJavadoc()
 	{
 		return javadoc;
@@ -354,16 +340,6 @@ public class EvaluationSchemeMapper {
 		this.itf_deduct_point = itf_deduct_point;
 	}
 	
-	
-	public double getRecur_deduct_point()
-	{
-		return recur_deduct_point;
-	}
-	
-	public void setRecur_deduct_point(double recur_deduct_point)
-	{
-		this.recur_deduct_point = recur_deduct_point;
-	}
 	
 	
 	public double getOvr_deduct_point()

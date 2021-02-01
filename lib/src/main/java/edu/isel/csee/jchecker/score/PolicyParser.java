@@ -42,13 +42,13 @@ public class PolicyParser {
 		}
 		
 
-		
+		/*
 		obj = new Gson().fromJson(policy.get("methods"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
 			policyTable.setReqMethod(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
 			policyTable.setMethod_deduct_point(obj.get("deduct-point").getAsDouble());
 		}
-		
+		*/
 
 		
 		obj = new Gson().fromJson(policy.get("custom-exception"), JsonObject.class);
@@ -81,13 +81,6 @@ public class PolicyParser {
 		}
 		
 		
-		obj = new Gson().fromJson(policy.get("recursion"), JsonObject.class);
-		if (obj.get("state").getAsBoolean()) {
-			policyTable.setRecursion(true);
-			policyTable.setRecur_deduct_point(obj.get("deduct-point").getAsDouble());
-		}
-		
-		
 		obj = new Gson().fromJson(policy.get("overriding"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
 			policyTable.setOverriding(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
@@ -104,7 +97,7 @@ public class PolicyParser {
 		
 		obj = new Gson().fromJson(policy.get("threads"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
-			policyTable.setThreads(true);
+			policyTable.setThreads(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
 			policyTable.setThr_deduct_point(obj.get("deduct-point").getAsDouble());
 		}
 		
