@@ -28,7 +28,6 @@ public class PolicyParser {
 		}
 		
 		
-		
 		obj = new Gson().fromJson(policy.get("runtime-compare"), JsonObject.class);
 		policyTable.setInputs(new Gson().fromJson(obj.get("input"), new TypeToken<ArrayList<String>>() {}.getType()));
 		policyTable.setOutputs(new Gson().fromJson(obj.get("output"), new TypeToken<ArrayList<String>>() {}.getType()));
@@ -36,14 +35,12 @@ public class PolicyParser {
 		policyTable.setRuntime_max_deduct(obj.get("max-deduct").getAsDouble());
 		
 
-		
 		obj = new Gson().fromJson(policy.get("package"), JsonObject.class);
 		policyTable.setPackageName(new Gson().fromJson(obj.get("path"), new TypeToken<ArrayList<String>>() {}.getType()));
 		policyTable.setPackage_deduct_point(obj.get("deduct-point").getAsDouble());
 		policyTable.setPackage_max_deduct(obj.get("max-deduct").getAsDouble());
 		
 
-		
 		obj = new Gson().fromJson(policy.get("classes"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
 			policyTable.setReqClass(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
@@ -52,7 +49,6 @@ public class PolicyParser {
 		}
 		
 
-		
 		obj = new Gson().fromJson(policy.get("custom-exception"), JsonObject.class);
 		if (obj.get("state").getAsBoolean()) {
 			policyTable.setReqCustExc(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {}.getType()));
