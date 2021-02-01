@@ -22,14 +22,13 @@ public class ImplementationChecker extends ASTChecker {
 	private List<String> instances = new ArrayList<>();
 	private List<String> classes = new ArrayList<>();
 	private List<String> superClasses = new ArrayList<>();
-	private List<String> interfaces = new ArrayList<>();
+	private List<String> threads = new ArrayList<>();
 	
 	private ArrayList<String> customExcViolations = new ArrayList<>();
 	private ArrayList<String> customStructViolations = new ArrayList<>();
-	private ArrayList<String> threadViolations = new ArrayList<>();
 	
 	private boolean jdocViolation = false;
-	private int threadViolationCount = 0;
+	private boolean threadViolation = false;
 	private int customExcViolationCount = 0;
 	private int customStructViolationCount = 0;
 	
@@ -63,10 +62,14 @@ public class ImplementationChecker extends ASTChecker {
 		}
 		
 		
-		if (policy.getThreads() != null && !policy.getThreads().isEmpty()) {
+		if (policy.isThreads()) {
 			JsonObject item = new JsonObject();
-			item.addProperty("violation-count", threadViolationCount);
-			item.addProperty("deducted-point", policy.getThr_deduct_point() * threadViolationCount);
+			item.addProperty("violation", threadViolation);
+			
+			if (!threadViolation)
+				policy.setThr_deduct_point(0);
+			
+			item.addProperty("deducted-point", policy.getThr_deduct_point());
 			scoresheet.add("threads", item);
 		}
 		
@@ -74,6 +77,12 @@ public class ImplementationChecker extends ASTChecker {
 		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
 			JsonObject item = new JsonObject();
 			item.addProperty("violation-count", customExcViolationCount);
+			
+			
+			double deducted = policy.getCustomExc_deduct_point() * customExcViolationCount;
+			if (deducted > policy.getCustomExc_max_deduct())
+				deducted = policy.getCustomExc_max_deduct();
+			
 			item.addProperty("deducted-point", policy.getCustomExc_deduct_point() * customExcViolationCount);
 			scoresheet.add("custom-exception", item);
 		}
@@ -82,6 +91,12 @@ public class ImplementationChecker extends ASTChecker {
 		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
 			JsonObject item = new JsonObject();
 			item.addProperty("violation-count", customStructViolationCount);
+			
+			
+			double deducted = policy.getCustomStr_deduct_point() * customStructViolationCount;
+			if (deducted > policy.getCustomStr_max_deduct())
+				deducted = policy.getCustomStr_max_deduct();
+			
 			item.addProperty("deducted-point", policy.getCustomStr_deduct_point() * customStructViolationCount);
 			scoresheet.add("custom-structure", item);
 		}
@@ -110,22 +125,21 @@ public class ImplementationChecker extends ASTChecker {
 			if (policy.isJavadoc()) {
 				testJavadoc(unit);
 			}
-			
-			
-			if (policy.getThreads() != null && !policy.getThreads().isEmpty()) {
-				testThread();
-			}
-			
-			
-			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
-				testCustomException();
-			}
-			
-			
-			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
-				testCustomStructure();
-			}
 
+		}
+		
+		if (policy.isThreads()) {
+			testThread();
+		}
+		
+		
+		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
+			testCustomException();
+		}
+		
+		
+		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
+			testCustomStructure();
 		}
 	}
 	
@@ -166,31 +180,26 @@ public class ImplementationChecker extends ASTChecker {
 	
 	private void testThread()
 	{
-		for (String each : policy.getThreads())
-		{
-			if (classes.contains(each)) {
-				if (!interfaces.get(classes.indexOf(each)).equals("Runnable")) {
-					threadViolations.add(each);
-					threadViolationCount++;
-				}
-				
-				else {
-					if (!instances.contains(each)) {
-						threadViolations.add(each);
-						threadViolationCount++;
-					}
-				}
-			}
+		boolean checkThread = false;
+		
+		if(threads != null && !threads.isEmpty()) {
+			for(String thread : threads)
+				if(instances.contains(thread)) 
+					checkThread = true;
 			
-			else {
-				if (!instances.contains(each)) {
-					threadViolations.add(each);
-					threadViolationCount++;
-				}
-			}
+			if(!checkThread)
+				if(!instances.contains("Thread"))
+					threadViolation = true;
+
+		}
+		
+		
+		else {
+			if(!instances.contains("Thread"))
+				threadViolation = true;
 		}
 	}
-
+	
 	
 	
 	private void testCustomStructure()
@@ -205,8 +214,8 @@ public class ImplementationChecker extends ASTChecker {
 			}
 			
 			else {
-				customExcViolations.add(each);
-				customExcViolationCount++;
+				customStructViolations.add(each);
+				customStructViolationCount++;
 			}
 		}
 	}
@@ -260,8 +269,7 @@ public class ImplementationChecker extends ASTChecker {
 	
 	
 	private void getClassNames(CompilationUnit unit)
-	{
-		
+	{	
 		try {
 			unit.accept(new ASTVisitor() {
 				public boolean visit(TypeDeclaration node)
@@ -269,19 +277,15 @@ public class ImplementationChecker extends ASTChecker {
 					classes.add(node.getName().toString());
 					
 					if (node.getSuperclassType() != null)
+					{
 						superClasses.add(node.getSuperclassType().toString());
+						
+						if(node.getSuperclassType().toString().equals("Thread"))
+							threads.add(node.getName().toString());
+					}
 					else
 						superClasses.add("null");
-					
-					for (Object each : node.superInterfaceTypes()) {
-						if (each.toString().equals("Runnable"))
-							interfaces.add("Runnable");
-						
-					}
-					
-					if (interfaces.isEmpty())
-						interfaces.add("null");
-					
+
 					return super.visit(node);
 				}
 			});

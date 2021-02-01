@@ -19,17 +19,21 @@ public class CoreGrader {
 	private int violationCount = 0;
 	
 	
-	public void start(String workpath, String policy)
+	public String start(String workpath, String policy)
 	{
 		IGradeStage grader = preset(workpath);
 		
 		EvaluationSchemeMapper scheme = new EvaluationSchemeMapper();
 		JsonObject policyObject = new Gson().fromJson(policy, JsonObject.class);
+		JsonObject score = new JsonObject();
 		
 		new PolicyParser().parse(scheme, policyObject);
 		
-
+		
+		
 		if (grader.compile(workpath) == 0) {
+			score.addProperty("compiled", true);
+			
 			for (int i = 0; i < scheme.getInputs().size(); i++) {
 				boolean result = false;
 				if (!flag) {
@@ -47,28 +51,36 @@ public class CoreGrader {
 				
 				
 				if (!result) {
-					violations.add(String.valueOf(i));
+					violations.add(String.valueOf(i + 1));
 					violationCount++;
 				}
 			}
 			
 			
 			JsonObject item_class = new JsonObject();
+			item_class.add("violation-number", new Gson().toJsonTree(violations));
 			item_class.addProperty("violation-count", violationCount);
-			item_class.addProperty("deducted", scheme.getRuntime_deduct_point() * violationCount);
-			policyObject.add("classes", item_class);
+			
+			double deducted = scheme.getRuntime_deduct_point() * violationCount;
+			if (deducted > scheme.getRuntime_max_deduct())
+				deducted = scheme.getRuntime_max_deduct();
+			
+			item_class.addProperty("deducted", deducted);
+			score.add("runtime-result", item_class);
+		} else {
+			score.addProperty("compiled", false);
 		}
 		
 		EntireContentParser source = new EntireContentParser();
 		
-		new OOPChecker(scheme, source.getAllFiles(workpath), "").run(policyObject);
-		new ImplementationChecker(scheme, source.getAllFiles(workpath), "").run(policyObject);
+		new OOPChecker(scheme, source.getAllFiles(workpath), "").run(score);
+		new ImplementationChecker(scheme, source.getAllFiles(workpath), "").run(score);
 		
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String str = gson.toJson(policyObject);
-		
-		System.out.print(str);
+		String sheet = gson.toJson(score);
+		System.out.println(sheet);
+		return sheet;
 	}
 	
 	
