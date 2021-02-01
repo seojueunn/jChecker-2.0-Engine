@@ -112,7 +112,7 @@ public class JavaStage implements IGradeStage {
 	
 	
 	
-	public ArrayList<String> getTestWithoutArguments(String packagePath)
+	public ArrayList<String> getTest(String packagePath)
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
@@ -139,6 +139,7 @@ public class JavaStage implements IGradeStage {
 	
 	private void listup(String dpath)
 	{
+		int state = -1;
 		String command = "find . -name *.java > srclist.txt";
 		ProcessBuilder builder = null;
 		Process process = null;
@@ -148,6 +149,7 @@ public class JavaStage implements IGradeStage {
 			builder = new ProcessBuilder(command);
 			builder.directory(new File(dpath));
 			process = builder.start();
+			state = process.waitFor();
 			process.destroy();
 		} catch (Exception e) {
 			System.out.println("Error: No java files in the path: " + dpath);

@@ -3,6 +3,7 @@ package edu.isel.csee.jchecker.core.stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
 public class GradleStage implements IGradeStage {
@@ -15,6 +16,8 @@ public class GradleStage implements IGradeStage {
 		ProcessBuilder builder = null;
 		Process process = null;
 		
+		
+		listup(dpath);
 		
 		try {
 			builder = new ProcessBuilder(getCommand());
@@ -40,12 +43,11 @@ public class GradleStage implements IGradeStage {
 		BufferedReader stdout = null;
 		ProcessBuilder builder = null;
 		Process process = null;
-		
+	
 		
 		try {
 			builder = new ProcessBuilder(cases);
 			builder.directory(new File(dpath));
-			
 			process = builder.start();
 			
 			
@@ -65,19 +67,19 @@ public class GradleStage implements IGradeStage {
 				
 				
 				if (line.contains("BUILD SUCCESSFUL in"))
-					flag = true;
+					flag = false;
 				
 				if (flag)
 					sb.append(line + "\n");
 			}
 			
 			
-			String answer = sb.toString();
-			
+			String answer = sb.toString().trim();
+
 			if (output.equals(answer.trim()))
 				result = true;
 			
-			
+			process.waitFor();
 			stdout.close();
 			process.destroy();
 			
@@ -86,7 +88,6 @@ public class GradleStage implements IGradeStage {
 			System.out.println("Runtime Error: Fatal error in execute stage.");
 			e.printStackTrace();
 		}
-		
 		
 		return result;
 	}
@@ -97,13 +98,27 @@ public class GradleStage implements IGradeStage {
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
+		
+		command.add("cmd");
+		command.add("/c");
+		
+		
 		command.add("gradle");
 		command.add("run");
 		command.add("--warning-mode=all");
-		command.add("--args=");
-		command.add("argument");
+		command.add("--args=" + argument);
 		
 		return command;
+	}
+	
+	
+	
+	public ArrayList<String> getTest(String argument, String[] cases)
+	{
+		/*
+		 * Useless
+		 */
+		return null;
 	}
 	
 	
@@ -112,10 +127,46 @@ public class GradleStage implements IGradeStage {
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
+		command.add("cmd");
+		command.add("/c");
+		
+		
+		
 		command.add("gradle");
 		command.add("build");
 		command.add("-Dfile.encoding=UTF-8");
 		
 		return command;
+	}
+	
+	
+	
+	
+	private void listup(String dpath)
+	{
+		ArrayList<String> command = new ArrayList<>();
+		
+		command.add("cmd");
+		command.add("/c");
+		command.add("dir /s /B *.java > srclist.txt");
+		ProcessBuilder builder = null;
+		Process process = null;
+		
+		
+		try {
+			builder = new ProcessBuilder(command);
+			builder.directory(new File(dpath));
+			process = builder.start();
+			
+			process.waitFor();
+			
+			process.destroy();
+		} catch (Exception e) {
+			System.out.println("Error: No java files in the path: " + dpath);
+			e.printStackTrace();
+		}
+		
+		
+		System.out.println(dpath + "/srclist.txt 생성 완료");
 	}
 }
