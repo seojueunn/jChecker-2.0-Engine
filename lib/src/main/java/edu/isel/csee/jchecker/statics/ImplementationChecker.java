@@ -59,6 +59,9 @@ public class ImplementationChecker extends ASTChecker {
 			
 			item.addProperty("deducted-point", policy.getJvd_deduct_point());
 			scoresheet.add("javadoc", item);
+			
+			
+			policy.deduct_point(policy.getJvd_deduct_point());
 		}
 		
 		
@@ -71,6 +74,9 @@ public class ImplementationChecker extends ASTChecker {
 			
 			item.addProperty("deducted-point", policy.getThr_deduct_point());
 			scoresheet.add("threads", item);
+			
+			
+			policy.deduct_point(policy.getThr_deduct_point());
 		}
 		
 		
@@ -83,8 +89,11 @@ public class ImplementationChecker extends ASTChecker {
 			if (deducted > policy.getCustomExc_max_deduct())
 				deducted = policy.getCustomExc_max_deduct();
 			
-			item.addProperty("deducted-point", policy.getCustomExc_deduct_point() * customExcViolationCount);
+			item.addProperty("deducted-point", deducted);
 			scoresheet.add("custom-exception", item);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		
@@ -97,8 +106,11 @@ public class ImplementationChecker extends ASTChecker {
 			if (deducted > policy.getCustomStr_max_deduct())
 				deducted = policy.getCustomStr_max_deduct();
 			
-			item.addProperty("deducted-point", policy.getCustomStr_deduct_point() * customStructViolationCount);
+			item.addProperty("deducted-point", deducted);
 			scoresheet.add("custom-structure", item);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		return scoresheet;

@@ -25,6 +25,7 @@ public class EvaluationSchemeMapper {
 	
 	
 	private double point = 0;
+	private double result_point = 0;
 	private double compiled_deduct_point = 0;
 	private double runtime_deduct_point = 0;
 	private double package_deduct_point = 0;
@@ -281,9 +282,22 @@ public class EvaluationSchemeMapper {
 	public void setPoint(double point)
 	{
 		this.point = point;
+		this.result_point = point;
 	}
 	
 	
+	public double getResult_point()
+	{
+		return result_point;
+	}
+
+
+	public void deduct_point(double deduction_point)
+	{
+		this.result_point -= deduction_point;
+	}
+
+
 	public double getRuntime_deduct_point()
 	{
 		return runtime_deduct_point;

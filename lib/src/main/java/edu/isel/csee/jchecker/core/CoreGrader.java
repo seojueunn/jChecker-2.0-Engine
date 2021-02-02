@@ -30,9 +30,16 @@ public class CoreGrader {
 		new PolicyParser().parse(scheme, policyObject);
 		
 		
+		score.addProperty("name", scheme.getAssignmentName());
+		score.addProperty("group", scheme.getAssignmentGroup());
+		score.addProperty("point", scheme.getPoint());
+		
 		
 		if (grader.compile(workpath) == 0) {
-			score.addProperty("compiled", true);
+			JsonObject item = new JsonObject();
+			item.addProperty("compiled", true);
+			item.addProperty("deduct", 0);
+			score.add("compile", item);
 			
 			for (int i = 0; i < scheme.getInputs().size(); i++) {
 				boolean result = false;
@@ -42,7 +49,6 @@ public class CoreGrader {
 							workpath);
 					
 				} else {
-					System.out.println(grader.getTest(scheme.getInputs().get(i).toString()));
 					result = grader.build(grader.getTest(scheme.getInputs().get(i)), 
 							scheme.getOutputs().get(i), 
 							workpath);
@@ -65,10 +71,17 @@ public class CoreGrader {
 			if (deducted > scheme.getRuntime_max_deduct())
 				deducted = scheme.getRuntime_max_deduct();
 			
+			scheme.deduct_point(deducted);
 			item_class.addProperty("deducted", deducted);
 			score.add("runtime-result", item_class);
+			
 		} else {
-			score.addProperty("compiled", false);
+			JsonObject item = new JsonObject();
+			item.addProperty("compiled", false);
+			item.addProperty("deduct", scheme.getCompiled_deduct_point());
+			score.add("compile", item);
+			
+			scheme.deduct_point(scheme.getCompiled_deduct_point());
 		}
 		
 		EntireContentParser source = new EntireContentParser();
@@ -76,6 +89,8 @@ public class CoreGrader {
 		new OOPChecker(scheme, source.getAllFiles(workpath), "").run(score);
 		new ImplementationChecker(scheme, source.getAllFiles(workpath), "").run(score);
 		
+		
+		score.addProperty("result", scheme.getResult_point());
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String sheet = gson.toJson(score);
@@ -94,4 +109,6 @@ public class CoreGrader {
 		
 		return new JavaStage();
 	}
+	
+	
 }

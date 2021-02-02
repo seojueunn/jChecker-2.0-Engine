@@ -59,6 +59,9 @@ public class OOPChecker extends ASTChecker {
 			
 			item_ecp.addProperty("deducted", policy.getEnc_deduct_point());
 			scoresheet.add("encapsulation", item_ecp);
+			
+			
+			policy.deduct_point(policy.getEnc_deduct_point());
 		}
 		
 		
@@ -74,6 +77,9 @@ public class OOPChecker extends ASTChecker {
 			
 			item_ovl.addProperty("deducted", deducted);
 			scoresheet.add("overloading", item_ovl);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		
@@ -89,6 +95,9 @@ public class OOPChecker extends ASTChecker {
 			
 			item_ovr.addProperty("deducted", deducted);
 			scoresheet.add("overriding", item_ovr);
+			
+			
+			policy.deduct_point(deducted);
 		}
 
 		
@@ -102,8 +111,11 @@ public class OOPChecker extends ASTChecker {
 			if (deducted > policy.getClass_max_deduct())
 				deducted = policy.getClass_max_deduct();
 			
-			item_class.addProperty("deducted", policy.getClass_deduct_point() * classesViolationCount);
+			item_class.addProperty("deducted", deducted);
 			scoresheet.add("classes", item_class);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		
@@ -117,8 +129,11 @@ public class OOPChecker extends ASTChecker {
 			if (deducted > policy.getPackage_max_deduct())
 				deducted = policy.getPackage_max_deduct();
 			
-			item_pkg.addProperty("deducted", policy.getPackage_deduct_point() * pkgViolationCount);
+			item_pkg.addProperty("deducted", deducted);
 			scoresheet.add("package", item_pkg);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		
@@ -132,8 +147,11 @@ public class OOPChecker extends ASTChecker {
 			if (deducted > policy.getSpc_max_deduct())
 				deducted = policy.getSpc_max_deduct();
 			
-			item_spc.addProperty("deducted", policy.getSpc_deduct_point() * spcViolationCount);
+			item_spc.addProperty("deducted", deducted);
 			scoresheet.add("inherit-super", item_spc);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		
@@ -146,8 +164,11 @@ public class OOPChecker extends ASTChecker {
 			if (deducted > policy.getItf_max_deduct())
 				deducted = policy.getItf_max_deduct();
 			
-			item_itf.addProperty("deducted", policy.getItf_deduct_point() * itfViolationCount);
+			item_itf.addProperty("deducted", deducted);
 			scoresheet.add("inherit-interface", item_itf);
+			
+			
+			policy.deduct_point(deducted);
 		}
 		
 		return scoresheet;
