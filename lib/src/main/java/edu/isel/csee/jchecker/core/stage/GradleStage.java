@@ -3,7 +3,6 @@ package edu.isel.csee.jchecker.core.stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
 public class GradleStage implements IGradeStage {
@@ -165,8 +164,5 @@ public class GradleStage implements IGradeStage {
 			System.out.println("Error: No java files in the path: " + dpath);
 			e.printStackTrace();
 		}
-		
-		
-		System.out.println(dpath + "/srclist.txt 생성 완료");
 	}
 }
