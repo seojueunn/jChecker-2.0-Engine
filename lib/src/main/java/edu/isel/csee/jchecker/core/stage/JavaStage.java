@@ -3,6 +3,7 @@ package edu.isel.csee.jchecker.core.stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
 public class JavaStage implements IGradeStage {
@@ -14,9 +15,9 @@ public class JavaStage implements IGradeStage {
 		int state = -1;
 		ProcessBuilder builder = null;
 		Process process = null;
-		
+	
 		listup(dpath);
-		
+
 		try {
 			builder = new ProcessBuilder(getCommand());
 			builder.directory(new File(dpath));
@@ -29,8 +30,10 @@ public class JavaStage implements IGradeStage {
 			e.printStackTrace();
 		}
 		
-		File list = new File(dpath + "/srclist.txt");
-		list.delete();
+		System.out.println("state : " + state);
+		
+		// File list = new File(dpath + "//srclist.txt");
+		// list.delete();
 		return state;
 	}
 
@@ -47,6 +50,9 @@ public class JavaStage implements IGradeStage {
 		try {
 			builder = new ProcessBuilder(cases);
 			builder.directory(new File(dpath));
+			builder.redirectErrorStream(true);
+			
+			System.out.println(dpath);
 			
 			process = builder.start();
 			
@@ -55,26 +61,15 @@ public class JavaStage implements IGradeStage {
 			
 			StringBuffer sb = new StringBuffer();
 			String line;
-			boolean flag = false;
-			
 			
 			while( (line = stdout.readLine()) != null)
 			{
-				if (line.contains("> Task :app:run")) {
-					flag = true;
-					continue;
-				}
-				
-				
-				if (line.contains("BUILD SUCCESSFUL in"))
-					flag = true;
-				
-				if (flag)
-					sb.append(line + "\n");
+				sb.append(line + "\n");
 			}
 			
-			
 			String answer = sb.toString();
+			
+			System.out.println(answer);
 			
 			if (output.equals(answer.trim()))
 				result = true;
@@ -93,32 +88,32 @@ public class JavaStage implements IGradeStage {
 		return result;
 	}
 	
-	
-	
-	public ArrayList<String> getTest(String packagePath, String[] input)
+	public ArrayList<String> getTest(String packagePath, String input, boolean isTest)
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
-		command.add("java -cp bin");
-		command.add(packagePath);
+		command.add("bash");
+		command.add("-c");
 		
+		if(isTest)
+		{
+			packagePath += " " + input;
+		}	
 		
-		for (String segment : input)
-			command.add(segment);
-		
+		command.add("java -cp bin " + packagePath);
 		
 		return command;
 	}
 	
 	
 	
-	public ArrayList<String> getTest(String packagePath)
+	public ArrayList<String> getTest(String packagePath, boolean isTest)
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
-		command.add("java -cp bin");
-		command.add(packagePath);
-
+		command.add("bash");
+		command.add("-c");
+		command.add("java -cp bin " + packagePath);
 		
 		return command;
 	}
@@ -129,8 +124,9 @@ public class JavaStage implements IGradeStage {
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
+		command.add("bash");
+		command.add("-c");
 		command.add("javac -encoding UTF-8 -Xlint:deprecation -g:none -d bin @srclist.txt");
-
 		
 		return command;
 	}
@@ -139,7 +135,12 @@ public class JavaStage implements IGradeStage {
 	
 	private void listup(String dpath)
 	{
-		String command = "find . -name *.java > srclist.txt";
+		ArrayList<String> command = new ArrayList<>();
+		
+		command.add("bash");
+		command.add("-c");
+		command.add("find . -name *.java > srclist.txt");
+
 		ProcessBuilder builder = null;
 		Process process = null;
 		

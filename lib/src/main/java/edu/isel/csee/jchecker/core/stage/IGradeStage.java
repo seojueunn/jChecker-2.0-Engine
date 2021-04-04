@@ -11,8 +11,8 @@ public interface IGradeStage {
 	public boolean build(ArrayList<String> cases, String output, String dpath);
 	
 	
-	public ArrayList<String> getTest(String argument);
+	public ArrayList<String> getTest(String argument, boolean isTest);
 	
 	
-	public ArrayList<String> getTest(String argument, String[] cases);
+	public ArrayList<String> getTest(String argument, String cases, boolean isTest);
 }

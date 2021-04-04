@@ -5,8 +5,11 @@ import java.util.HashMap;
 
 public class EvaluationSchemeMapper {
 
-	private String assignmentName;
-	private String assignmentGroup;
+	private String token;
+	private String itoken;
+	private String className;
+	private String instructor;
+	
 	private ArrayList<String> packageName = null;
 	private ArrayList<String> inputs = null;
 	private ArrayList<String> outputs = null;
@@ -18,12 +21,16 @@ public class EvaluationSchemeMapper {
 	private ArrayList<String> overloading = null;
 	private HashMap<String, String> superclass_pair = null;
 	private HashMap<String, String> interface_pair = null;
+	
+	private boolean isDirect = false;
 	private boolean thread = false;
 	private boolean javadoc = false;
 	private boolean encaps = false;
 	private boolean compiled = false;
+	private boolean count = false;
+	private boolean test = false;
 	
-	
+
 	private double point = 0;
 	private double result_point = 0;
 	private double compiled_deduct_point = 0;
@@ -39,8 +46,9 @@ public class EvaluationSchemeMapper {
 	private double thr_deduct_point = 0;
 	private double jvd_deduct_point = 0;
 	private double enc_deduct_point = 0;
-	
-	
+	private double cnt_deduct_point = 0;
+
+
 	private double runtime_max_deduct = 0;
 	private double package_max_deduct = 0;
 	private double class_max_deduct = 0;
@@ -52,31 +60,50 @@ public class EvaluationSchemeMapper {
 	private double ovl_max_deduct = 0;
 	
 	
-
-
-
-
-	public String getAssignmentName()
+	private int methodCount;
+	private int fieldCount;
+	private int enForCount;
+	
+	
+	public String getToken()
 	{
-		return assignmentName;
+		return token;
+	}
+	
+	public void setToken(String token)
+	{
+		this.token = token;
+	}
+	
+	public String getItoken() {
+		return itoken;
+	}
+
+
+	public void setItoken(String itoken) {
+		this.itoken = itoken;
+	}
+	
+	public String getClassName()
+	{
+		return className;
 	}
 	
 	
-	public void setAssignmentName(String assignmentName)
+	public void setClassName(String className)
 	{
-		this.assignmentName = assignmentName;
+		this.className = className;
 	}
 	
-	
-	public String getAssignmentGroup()
+	public String getInstructor() 
 	{
-		return assignmentGroup;
+		return instructor;
 	}
-	
-	
-	public void setAssignmentGroup(String assignmentGroup)
+
+
+	public void setInstructor(String instructor) 
 	{
-		this.assignmentGroup = assignmentGroup;
+		this.instructor = instructor;
 	}
 	
 	
@@ -441,6 +468,14 @@ public class EvaluationSchemeMapper {
 	{
 		this.enc_deduct_point = enc_deduct_point;
 	}
+	
+	public double getCnt_deduct_point() {
+		return cnt_deduct_point;
+	}
+
+	public void setCnt_deduct_point(double cnt_deduct_point) {
+		this.cnt_deduct_point = cnt_deduct_point;
+	}
 
 
 	public double getRuntime_max_deduct()
@@ -546,5 +581,53 @@ public class EvaluationSchemeMapper {
 	public void setOvl_max_deduct(double ovl_max_deduct)
 	{
 		this.ovl_max_deduct = ovl_max_deduct;
+	}
+	
+	public boolean isCount() {
+		return count;
+	}
+
+	public void setCount(boolean count) {
+		this.count = count;
+	}
+	
+	public int getMethodCount() {
+		return methodCount;
+	}
+
+	public void setMethodCount(int methodCount) {
+		this.methodCount = methodCount;
+	}
+
+	public int getFieldCount() {
+		return fieldCount;
+	}
+
+	public void setFieldCount(int fieldCount) {
+		this.fieldCount = fieldCount;
+	}
+
+	public int getEnForCount() {
+		return enForCount;
+	}
+
+	public void setEnForCount(int enForCount) {
+		this.enForCount = enForCount;
+	}
+	
+	public boolean isTest() {
+		return test;
+	}
+
+	public void setTest(boolean test) {
+		this.test = test;
+	}
+	
+	public boolean isDirect() {
+		return isDirect;
+	}
+
+	public void setDirect(boolean isDirect) {
+		this.isDirect = isDirect;
 	}
 }

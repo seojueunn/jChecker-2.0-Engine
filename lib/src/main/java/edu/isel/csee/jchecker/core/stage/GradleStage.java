@@ -3,6 +3,7 @@ package edu.isel.csee.jchecker.core.stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
 public class GradleStage implements IGradeStage {
@@ -14,17 +15,18 @@ public class GradleStage implements IGradeStage {
 		int state = -1;
 		ProcessBuilder builder = null;
 		Process process = null;
-		
-		
+
 		listup(dpath);
 		
 		try {
 			builder = new ProcessBuilder(getCommand());
 			builder.directory(new File(dpath));
+			builder.redirectOutput(Redirect.INHERIT);
 			
 			process = builder.start();
 			state = process.waitFor();
 			process.destroy();
+			
 		} catch(Exception e) {
 			System.out.println("Compile Error: Fatal error in compile stage.");
 			e.printStackTrace();
@@ -58,7 +60,7 @@ public class GradleStage implements IGradeStage {
 			
 			
 			while( (line = stdout.readLine()) != null)
-			{
+			{	
 				if (line.contains("> Task :app:run")) {
 					flag = true;
 					continue;
@@ -72,8 +74,10 @@ public class GradleStage implements IGradeStage {
 					sb.append(line + "\n");
 			}
 			
-			
+	
 			String answer = sb.toString().trim();
+			
+			
 
 			if (output.equals(answer.trim()))
 				result = true;
@@ -93,26 +97,21 @@ public class GradleStage implements IGradeStage {
 	
 	
 	
-	public ArrayList<String> getTest(String argument)
+	public ArrayList<String> getTest(String argument, boolean isTest)
 	{
 		ArrayList<String> command = new ArrayList<>();
-		
-		
-		command.add("cmd");
-		command.add("/c");
-		
 		
 		command.add("gradle");
 		command.add("run");
 		command.add("--warning-mode=all");
-		command.add("--args=" + argument);
+		if(isTest) command.add("--args=" + argument);
 		
 		return command;
 	}
 	
 	
 	
-	public ArrayList<String> getTest(String argument, String[] cases)
+	public ArrayList<String> getTest(String argument, String cases, boolean isTest)
 	{
 		/*
 		 * Useless
@@ -125,12 +124,7 @@ public class GradleStage implements IGradeStage {
 	private ArrayList<String> getCommand()
 	{
 		ArrayList<String> command = new ArrayList<>();
-		
-		command.add("cmd");
-		command.add("/c");
-		
-		
-		
+
 		command.add("gradle");
 		command.add("build");
 		command.add("-Dfile.encoding=UTF-8");
@@ -145,15 +139,17 @@ public class GradleStage implements IGradeStage {
 	{
 		ArrayList<String> command = new ArrayList<>();
 		
-		command.add("cmd");
-		command.add("/c");
-		command.add("dir /s /B *.java > srclist.txt");
+		command.add("bash");
+		command.add("-c");
+		command.add("find . -name *.java > srclist.txt");
+		
 		ProcessBuilder builder = null;
 		Process process = null;
 		
 		
 		try {
 			builder = new ProcessBuilder(command);
+
 			builder.directory(new File(dpath));
 			process = builder.start();
 			

@@ -24,8 +24,7 @@ public class MainClassDetector extends ASTChecker {
 				{
 					String qualified = node.resolveBinding().getMethodDeclaration().toString().trim();
 					
-					
-					if (qualified.equals("public static void main(java.lang.String[]")) {
+					if (qualified.equals("public static void main(java.lang.String[])")) {
 						mainPath = node.resolveBinding().getDeclaringClass().getQualifiedName();
 					}
 					

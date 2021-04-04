@@ -4,11 +4,28 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.BreakStatement;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ConditionalExpression;
+import org.eclipse.jdt.core.dom.ContinueStatement;
+import org.eclipse.jdt.core.dom.DoStatement;
+import org.eclipse.jdt.core.dom.EmptyStatement;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
+import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.LambdaExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.ThisExpression;
+import org.eclipse.jdt.core.dom.ThrowStatement;
+import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.WhileStatement;
 
 import com.google.gson.JsonObject;
 
@@ -19,26 +36,38 @@ public class ImplementationChecker extends ASTChecker {
 	EvaluationSchemeMapper policy;
 	private List<String> source = null;
 	private String unitName;
+	private String filePath;
 	private List<String> instances = new ArrayList<>();
 	private List<String> classes = new ArrayList<>();
 	private List<String> superClasses = new ArrayList<>();
 	private List<String> threads = new ArrayList<>();
+	private List<String> expressions = new ArrayList<>();
 	
 	private ArrayList<String> customExcViolations = new ArrayList<>();
 	private ArrayList<String> customStructViolations = new ArrayList<>();
 	
 	private boolean jdocViolation = false;
 	private boolean threadViolation = false;
+	private boolean countViolation = false;
+	private boolean customExcViolation = false;
+	private boolean customStructViolation = false;
+	
 	private int customExcViolationCount = 0;
 	private int customStructViolationCount = 0;
+	private String result ="";
+	
+	private int numOfEnhancedForStatement = 0;
+	private int numOfMethods = 0;
+	private int numOfFields = 0;
 	
 	
 	
-	public ImplementationChecker(EvaluationSchemeMapper policy, List<String> source, String unitName)
+	public ImplementationChecker(EvaluationSchemeMapper policy, List<String> source, String unitName, String filePath)
 	{
 		this.policy = policy;
 		this.source = source;
 		this.unitName = unitName;
+		this.filePath = filePath;
 	}
 	
 	
@@ -50,14 +79,30 @@ public class ImplementationChecker extends ASTChecker {
 		test();
 		
 		
-		if (policy.isJavadoc()) {
+		if (policy.isCount()) 
+		{
+			JsonObject item = new JsonObject();
+			item.addProperty("violation", countViolation);
+			
+			if (!countViolation)
+				policy.setCnt_deduct_point(0);
+			
+			item.addProperty("deductedPoint", policy.getCnt_deduct_point());
+			scoresheet.add("count", item);
+			
+			
+			policy.deduct_point(policy.getCnt_deduct_point());
+		}
+		
+		if (policy.isJavadoc()) 
+		{
 			JsonObject item = new JsonObject();
 			item.addProperty("violation", jdocViolation);
 			
 			if (!jdocViolation)
 				policy.setJvd_deduct_point(0);
 			
-			item.addProperty("deducted-point", policy.getJvd_deduct_point());
+			item.addProperty("deductedPoint", policy.getJvd_deduct_point());
 			scoresheet.add("javadoc", item);
 			
 			
@@ -65,49 +110,55 @@ public class ImplementationChecker extends ASTChecker {
 		}
 		
 		
-		if (policy.isThreads()) {
+		if (policy.isThreads()) 
+		{
 			JsonObject item = new JsonObject();
 			item.addProperty("violation", threadViolation);
 			
 			if (!threadViolation)
 				policy.setThr_deduct_point(0);
 			
-			item.addProperty("deducted-point", policy.getThr_deduct_point());
-			scoresheet.add("threads", item);
+			item.addProperty("deductedPoint", policy.getThr_deduct_point());
+			scoresheet.add("thread", item);
 			
 			
 			policy.deduct_point(policy.getThr_deduct_point());
 		}
 		
 		
-		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
+		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
+		{
 			JsonObject item = new JsonObject();
-			item.addProperty("violation-count", customExcViolationCount);
+			item.addProperty("violation", customExcViolation);
+			item.addProperty("violationCount", customExcViolationCount);
 			
 			
 			double deducted = policy.getCustomExc_deduct_point() * customExcViolationCount;
 			if (deducted > policy.getCustomExc_max_deduct())
 				deducted = policy.getCustomExc_max_deduct();
 			
-			item.addProperty("deducted-point", deducted);
-			scoresheet.add("custom-exception", item);
+			item.addProperty("deductedPoint", deducted);
+			scoresheet.add("customException", item);
 			
 			
 			policy.deduct_point(deducted);
 		}
 		
 		
-		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
+		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
+		{
 			JsonObject item = new JsonObject();
-			item.addProperty("violation-count", customStructViolationCount);
+			
+			item.addProperty("violation", customStructViolation);
+			item.addProperty("violationCount", customStructViolationCount);
 			
 			
 			double deducted = policy.getCustomStr_deduct_point() * customStructViolationCount;
 			if (deducted > policy.getCustomStr_max_deduct())
 				deducted = policy.getCustomStr_max_deduct();
 			
-			item.addProperty("deducted-point", deducted);
-			scoresheet.add("custom-structure", item);
+			item.addProperty("deductedPoint", deducted);
+			scoresheet.add("customStructure", item);
 			
 			
 			policy.deduct_point(deducted);
@@ -120,10 +171,12 @@ public class ImplementationChecker extends ASTChecker {
 	
 	private void collect()
 	{
-		for (String each : source) {
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
+		for (String each : source) 
+		{
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
 			getClassNames(unit);
 			getInstances(unit);
+			getCountInfo(unit);
 		}
 	}
 	
@@ -131,61 +184,55 @@ public class ImplementationChecker extends ASTChecker {
 	
 	private void test()
 	{
-		for (String each : source) {
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName).createAST(null);
+		for (String each : source) 
+		{
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
 			
-			if (policy.isJavadoc()) {
-				testJavadoc(unit);
-			}
-
+			if (policy.isJavadoc()) testJavadoc(unit);
 		}
 		
-		if (policy.isThreads()) {
-			testThread();
-		}
+		if(policy.isCount()) testCount();
 		
 		
-		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) {
-			testCustomException();
-		}
+		if (policy.isThreads()) testThread();
 		
 		
-		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) {
-			testCustomStructure();
-		}
+		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) testCustomException();
+		
+		
+		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) testCustomStructure();
+	}
+	
+	private void testCount()
+	{
+		if(policy.getMethodCount() > numOfMethods) countViolation = false;
+		if(policy.getFieldCount() > numOfFields) countViolation = false;
+		if(policy.getEnForCount() > numOfEnhancedForStatement) countViolation = false;
+		
+		System.out.println(numOfMethods + " "  + numOfFields + " "  + numOfEnhancedForStatement);
 	}
 	
 	
 	private void testJavadoc(CompilationUnit unit)
 	{
-		
-		try {
+		try 
+		{
 			unit.accept(new ASTVisitor() {
 				public boolean visit(TypeDeclaration node)
 				{
-					if (policy.getReqClass().contains(node.getName().toString())) {
-						if (node.getJavadoc() == null)
-							jdocViolation = true;
-						
-					}
-					
-					
+					if (policy.getReqClass().contains(node.getName().toString()))
+						if (node.getJavadoc() == null) jdocViolation = true;
 					
 					for (MethodDeclaration each : node.getMethods())
 					{
-						if ((each.getModifiers() & Modifier.PUBLIC) > 0) {
-							if (each.getJavadoc() == null)
-								jdocViolation = true;
-						}
+						if ((each.getModifiers() & Modifier.PUBLIC) > 0)
+							if (each.getJavadoc() == null) jdocViolation = true;
 					}
-					
 					
 					return super.visit(node);
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
@@ -194,22 +241,17 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		boolean checkThread = false;
 		
-		if(threads != null && !threads.isEmpty()) {
+		if(threads != null && !threads.isEmpty()) 
+		{
 			for(String thread : threads)
-				if(instances.contains(thread)) 
-					checkThread = true;
+				if(instances.contains(thread)) checkThread = true;
 			
 			if(!checkThread)
-				if(!instances.contains("Thread"))
-					threadViolation = true;
+				if(!instances.contains("Thread")) threadViolation = true;
 
 		}
 		
-		
-		else {
-			if(!instances.contains("Thread"))
-				threadViolation = true;
-		}
+		else { if(!instances.contains("Thread")) threadViolation = true; }
 	}
 	
 	
@@ -218,16 +260,21 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		for (String each : policy.getReqCusStruct())
 		{
-			if (classes.contains(each)) {
-				if (!instances.contains(each)) {
+			if (classes.contains(each)) 
+			{
+				if (!instances.contains(each)) 
+				{
 					customStructViolations.add(each);
 					customStructViolationCount++;
+					customStructViolation = true;
 				}
-			}
+			}		
 			
-			else {
+			else 
+			{
 				customStructViolations.add(each);
 				customStructViolationCount++;
+				customStructViolation = true;
 			}
 		}
 	}
@@ -238,23 +285,73 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		for (String each : policy.getReqCustExc())
 		{
-			if (classes.contains(each)) {
-				if (!superClasses.get(classes.indexOf(each)).equals("Exception") || superClasses.isEmpty()) {
+			if (classes.contains(each)) 
+			{
+				if (!superClasses.get(classes.indexOf(each)).equals("Exception") || superClasses.isEmpty()) 
+				{
 					customExcViolations.add(each);
 					customExcViolationCount++;
+					customExcViolation = true;
 				}
 				
-				else {
-					if (!instances.contains(each)) {
+				else 
+				{
+					if (instances.contains(each)) 
+					{
+						String result = getStatement(each);
+						
+						if(!result.isEmpty())
+						{
+							if(!result.contains("throw"))
+							{
+								expressions = getExpression();
+								
+								if(expressions.isEmpty())
+								{
+									customExcViolations.add(each);
+									customExcViolationCount++;
+									customExcViolation = true;
+								}
+								
+								else
+								{
+									boolean checkExpression = false;
+									
+									for(String expression : expressions)
+									{
+										if(result.contains(expression))
+										{
+											checkExpression = true;
+											break;
+										}
+									}
+									
+									if(!checkExpression)
+									{
+										customExcViolations.add(each);
+										customExcViolationCount++;
+										customExcViolation = true;
+									}
+								}
+							}
+						}
+						
+					}
+					
+					else
+					{
 						customExcViolations.add(each);
 						customExcViolationCount++;
+						customExcViolation = true;
 					}
 				}
 			}
 			
-			else {
+			else 
+			{
 				customExcViolations.add(each);
 				customExcViolationCount++;
+				customExcViolation = true;
 			}
 		}
 	}
@@ -263,8 +360,8 @@ public class ImplementationChecker extends ASTChecker {
 	
 	private void getInstances(CompilationUnit unit)
 	{
-		
-		try {
+		try 
+		{
 			unit.accept(new ASTVisitor() {
 				public boolean visit(ClassInstanceCreation node)
 				{
@@ -273,16 +370,15 @@ public class ImplementationChecker extends ASTChecker {
 					return super.visit(node);
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
 	
 	private void getClassNames(CompilationUnit unit)
 	{	
-		try {
+		try 
+		{
 			unit.accept(new ASTVisitor() {
 				public boolean visit(TypeDeclaration node)
 				{
@@ -295,15 +391,176 @@ public class ImplementationChecker extends ASTChecker {
 						if(node.getSuperclassType().toString().equals("Thread"))
 							threads.add(node.getName().toString());
 					}
-					else
-						superClasses.add("null");
+					else superClasses.add("null");
 
 					return super.visit(node);
 				}
+			});
+		} catch (Exception e) { e.printStackTrace(); }
+	}
+	
+	
+	private void getCountInfo(CompilationUnit unit)
+	{
+		try {
+			unit.accept(new ASTVisitor() {
+				public boolean visit(EnhancedForStatement node)
+				{
+					if(policy.getEnForCount() < 0) return false;
+					
+					numOfEnhancedForStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(TypeDeclaration node)
+				{
+					if(policy.getMethodCount() < 0 && policy.getFieldCount() < 0) return false;
+					
+					numOfFields += node.getFields().length;
+					numOfMethods += node.getMethods().length;
+					
+					return super.visit(node);
+				}
+				
+				/*
+				public boolean visit(IfStatement node)
+				{
+					numOfIfStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(BreakStatement node)
+				{
+					numOfBreakStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(ContinueStatement node)
+				{
+					numOfContinueStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(DoStatement node)
+				{
+					numOfDoStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(EmptyStatement node)
+				{
+					numOfEmptyStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(ForStatement node)
+				{
+					numOfForStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(SwitchStatement node)
+				{
+					numOfSwitchStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(TryStatement node)
+				{
+					numOfTryStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(WhileStatement node)
+				{
+					numOfWhileStatement++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(ConditionalExpression node)
+				{
+					numOfConditionalExpression++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(LambdaExpression node)
+				{
+					numOfLambdaExpression++;
+					
+					return super.visit(node);
+				}
+				
+				public boolean visit(ThisExpression node)
+				{
+					numOfThisExpression++;
+					
+					return super.visit(node);
+				}
+				*/		
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public String getStatement(String name)
+	{
+		for (String each : source) 
+		{
+			if(!result.isEmpty()) break;
+			
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+				
+			try 
+			{
+				unit.accept(new ASTVisitor() {
+					public boolean visit(ClassInstanceCreation node)
+					{
+						if(node.getType().toString().equals(name))
+						{
+							result = node.getParent().toString();
+							return false ;
+						}
+			
+						return super.visit(node);
+					}
+				});
+			} catch (Exception e) { e.printStackTrace(); }
+		}
+		
+		return result;
+	}
+	
+	public List<String> getExpression()
+	{
+		for (String each : source) 
+		{
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			
+			try 
+			{
+				unit.accept(new ASTVisitor() {
+					public boolean visit(ThrowStatement node)
+					{
+						expressions.add(node.getExpression().toString());
+						
+						return super.visit(node);
+					}
+				});
+			} catch (Exception e) { e.printStackTrace(); }
+		}
+		
+		return expressions;
+	}
 }

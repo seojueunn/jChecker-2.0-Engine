@@ -14,7 +14,7 @@ public class EntireContentParser {
 		List<String> source = new ArrayList<>();
 		
 		try {
-			File srclist = new File(target + "\\srclist.txt");
+			File srclist = new File(target + "//srclist.txt");
 			
 			BufferedReader br = new BufferedReader(new FileReader(srclist));
 			BufferedReader piece = null;
@@ -26,8 +26,8 @@ public class EntireContentParser {
 			
 			while ( (line = br.readLine()) != null)
 			{
-				sb = new StringBuffer();
-				File file = new File(line);
+				sb = new StringBuffer();	
+				File file = new File(target+"/"+line);
 				piece = new BufferedReader(new FileReader(file));
 				
 				String content = "";

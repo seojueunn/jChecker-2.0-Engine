@@ -1,5 +1,6 @@
 package edu.isel.csee.jchecker.statics;
 
+import java.io.File;
 import java.util.Map;
 
 import org.eclipse.jdt.core.JavaCore;
@@ -9,11 +10,12 @@ import org.eclipse.jdt.core.dom.ASTParser;
 public class ASTChecker {
 	
 	private ASTParser parser;
-
+	private String filePath ;
 	
-	public ASTParser parserSetProperties(String source, String unit)
+	public ASTParser parserSetProperties(String source, String unit, String filePath)
 	{
 		char[] content = source.toCharArray();
+		this.filePath = filePath;
 		
 		parser = ASTParser.newParser(AST.JLS15);
 		parser.setUnitName(unit);
@@ -25,8 +27,9 @@ public class ASTChecker {
 		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_7);
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 		
-		String[] sources = { System.getProperty("user.dir") };
-		String[] classpath = { };
+		String[] sources = { this.filePath };
+		String[] classpath = { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" };
+		// String[] classpath = { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" };
 		
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8" }, true);
 		
@@ -47,6 +50,7 @@ public class ASTChecker {
 		char[] content = source.toCharArray();
 		
 		parser = ASTParser.newParser(AST.JLS15);
+		parser.setUnitName("GraceTheTable.java") ;
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(content);
 		
@@ -55,8 +59,9 @@ public class ASTChecker {
 		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_7);
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 		
-		String[] sources = { System.getProperty("user.dir") };
-		String[] classpath = { };
+		String[] sources = { this.filePath };
+		String[] classpath = { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" };
+		// String[] classpath = { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" };
 		
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8" }, true);
 		
@@ -69,4 +74,6 @@ public class ASTChecker {
 		
 		return parser;
 	}
+	
+	public void setFilePath(String filePath) { this.filePath = filePath ; }
 }
