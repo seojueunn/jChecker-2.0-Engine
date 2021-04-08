@@ -133,9 +133,9 @@ public class ImplementationChecker extends ASTChecker {
 			item.addProperty("violationCount", customExcViolationCount);
 			
 			
-			double deducted = policy.getCustomExc_deduct_point() * customExcViolationCount;
+			float deducted = (float)(policy.getCustomExc_deduct_point() * (double)customExcViolationCount);
 			if (deducted > policy.getCustomExc_max_deduct())
-				deducted = policy.getCustomExc_max_deduct();
+				deducted = (float)policy.getCustomExc_max_deduct();
 			
 			item.addProperty("deductedPoint", deducted);
 			scoresheet.add("customException", item);
@@ -153,9 +153,9 @@ public class ImplementationChecker extends ASTChecker {
 			item.addProperty("violationCount", customStructViolationCount);
 			
 			
-			double deducted = policy.getCustomStr_deduct_point() * customStructViolationCount;
+			float deducted = (float)(policy.getCustomStr_deduct_point() * (double)customStructViolationCount);
 			if (deducted > policy.getCustomStr_max_deduct())
-				deducted = policy.getCustomStr_max_deduct();
+				deducted = (float)policy.getCustomStr_max_deduct();
 			
 			item.addProperty("deductedPoint", deducted);
 			scoresheet.add("customStructure", item);

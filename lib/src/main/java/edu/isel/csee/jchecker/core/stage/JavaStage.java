@@ -31,6 +31,7 @@ public class JavaStage implements IGradeStage {
 		}
 		
 		System.out.println("state : " + state);
+		System.out.println("dpath : " + dpath);
 		
 		// File list = new File(dpath + "//srclist.txt");
 		// list.delete();
@@ -52,10 +53,7 @@ public class JavaStage implements IGradeStage {
 			builder.directory(new File(dpath));
 			builder.redirectErrorStream(true);
 			
-			System.out.println(dpath);
-			
 			process = builder.start();
-			
 			
 			stdout = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
 			
@@ -69,7 +67,7 @@ public class JavaStage implements IGradeStage {
 			
 			String answer = sb.toString();
 			
-			System.out.println(answer);
+			System.out.println("answer : " + answer);
 			
 			if (output.equals(answer.trim()))
 				result = true;

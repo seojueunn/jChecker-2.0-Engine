@@ -75,7 +75,8 @@ public class PolicyParser {
 			
 			obj = new Gson().fromJson(policy.get("inheritSuper"), JsonObject.class);
 			if (obj.get("state").getAsBoolean()) {
-				policyTable.setSuperclass_pair(new Gson().fromJson(obj.get("class-super"), new TypeToken<HashMap<String, String>>() {}.getType()));
+				policyTable.setSoriginClass(new Gson().fromJson(obj.get("origins"), new TypeToken<ArrayList<String>>() {}.getType()));
+				policyTable.setSuperClass(new Gson().fromJson(obj.get("inherit"), new TypeToken<ArrayList<String>>() {}.getType()));
 				policyTable.setSpc_deduct_point(obj.get("deductPoint").getAsDouble());
 				policyTable.setSpc_max_deduct(obj.get("maxDeduct").getAsDouble());
 			}
@@ -83,7 +84,8 @@ public class PolicyParser {
 			
 			obj = new Gson().fromJson(policy.get("inheritInterface"), JsonObject.class);
 			if (obj.get("state").getAsBoolean()) {
-				policyTable.setInterface_pair(new Gson().fromJson(obj.get("class-interface"), new TypeToken<HashMap<String, String>>() {}.getType()));
+				policyTable.setIoriginClass(new Gson().fromJson(obj.get("origins"), new TypeToken<ArrayList<String>>() {}.getType()));
+				policyTable.setInterfaceClass(new Gson().fromJson(obj.get("inherit"), new TypeToken<ArrayList<String>>() {}.getType()));
 				policyTable.setItf_deduct_point(obj.get("deductPoint").getAsDouble());
 				policyTable.setItf_max_deduct(obj.get("maxDeduct").getAsDouble());
 			}

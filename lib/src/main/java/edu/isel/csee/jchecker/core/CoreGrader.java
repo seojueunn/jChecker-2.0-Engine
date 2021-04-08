@@ -25,6 +25,9 @@ public class CoreGrader {
 	
 	public String start(String workpath, String policy)
 	{
+		System.out.println("workpath : " + workpath);
+		System.out.println("policy : " + policy);
+		
 		IGradeStage grader = preset(workpath);
 		
 		EvaluationSchemeMapper scheme = new EvaluationSchemeMapper();
@@ -98,9 +101,9 @@ public class CoreGrader {
 			item_class.add("violationNumber", new Gson().toJsonTree(violations));
 			item_class.addProperty("violationCount", violationCount);
 			
-			double deducted = scheme.getRuntime_deduct_point() * violationCount;
+			float deducted = (float)(scheme.getRuntime_deduct_point() * (double)violationCount);
 			if (deducted > scheme.getRuntime_max_deduct())
-				deducted = scheme.getRuntime_max_deduct();
+				deducted = (float)scheme.getRuntime_max_deduct();
 			
 			scheme.deduct_point(deducted);
 			item_class.addProperty("deductedPoint", deducted);
@@ -138,7 +141,7 @@ public class CoreGrader {
 		new OOPChecker(scheme, srcList, "", workpath).run(score);
 		new ImplementationChecker(scheme, srcList, "", workpath).run(score);
 
-		score.addProperty("result", scheme.getResult_point());
+		score.addProperty("result", (float)scheme.getResult_point());
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String sheet = gson.toJson(score);

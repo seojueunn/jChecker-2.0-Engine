@@ -24,6 +24,8 @@ public class OOPChecker extends ASTChecker {
 	private ArrayList<String> spcViolations = new ArrayList<>();
 	private ArrayList<String> itfViolations = new ArrayList<>();
 	private ArrayList<String> pkgViolations = new ArrayList<>();
+	private boolean isInterface = false;
+	private boolean isSuperclass = false;
 	
 	private boolean ecpViolation = false;
 	private boolean clasViolation = false;
@@ -82,9 +84,9 @@ public class OOPChecker extends ASTChecker {
 			item_ovl.addProperty("violationCount", policy.getOverloading().size());
 			
 			
-			double deducted = policy.getOvl_deduct_point() * policy.getOverloading().size();
+			float deducted = (float)(policy.getOvl_deduct_point() * (double)policy.getOverloading().size());
 			if (deducted > policy.getOvl_max_deduct())
-				deducted = policy.getOvl_max_deduct();
+				deducted = (float)policy.getOvl_max_deduct();
 			
 			item_ovl.addProperty("deductedPoint", deducted);
 			scoresheet.add("overloading", item_ovl);
@@ -103,9 +105,9 @@ public class OOPChecker extends ASTChecker {
 			item_ovr.addProperty("violationCount", policy.getOverriding().size());
 			
 			
-			double deducted = policy.getOvr_deduct_point() * policy.getOverriding().size();
+			float deducted = (float)(policy.getOvr_deduct_point() * (double)policy.getOverriding().size());
 			if (deducted > policy.getOvr_max_deduct())
-				deducted = policy.getOvr_max_deduct();
+				deducted = (float)policy.getOvr_max_deduct();
 			
 			item_ovr.addProperty("deductedPoint", deducted);
 			scoresheet.add("overriding", item_ovr);
@@ -123,9 +125,9 @@ public class OOPChecker extends ASTChecker {
 			item_class.addProperty("violationCount", classesViolationCount);
 			
 			
-			double deducted = policy.getClass_deduct_point() * classesViolationCount;
+			float deducted = (float)(policy.getClass_deduct_point() * (double)classesViolationCount);
 			if (deducted > policy.getClass_max_deduct())
-				deducted = policy.getClass_max_deduct();
+				deducted = (float)policy.getClass_max_deduct();
 			
 			item_class.addProperty("deductedPoint", deducted);
 			scoresheet.add("classes", item_class);
@@ -143,9 +145,9 @@ public class OOPChecker extends ASTChecker {
 			item_pkg.addProperty("violationCount", pkgViolationCount);
 			
 			
-			double deducted = policy.getPackage_deduct_point() * pkgViolationCount;
+			float deducted = (float)(policy.getPackage_deduct_point() * (double)pkgViolationCount);
 			if (deducted > policy.getPackage_max_deduct())
-				deducted = policy.getPackage_max_deduct();
+				deducted = (float)policy.getPackage_max_deduct();
 			
 			item_pkg.addProperty("deductedPoint", deducted);
 			scoresheet.add("packages", item_pkg);
@@ -156,16 +158,16 @@ public class OOPChecker extends ASTChecker {
 		
 		
 		
-		if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
+		if (isSuperclass) {
 			JsonObject item_spc = new JsonObject();
 			
 			item_spc.addProperty("violation", spcViolation);
-			item_spc.addProperty("violationCount", spcViolationCount);
+			item_spc.addProperty("violationCount", spcViolationCount + policy.getSoriginClass().size());
 			
 			
-			double deducted = policy.getSpc_deduct_point() * spcViolationCount;
+			float deducted = (float)(policy.getSpc_deduct_point() * (double)(spcViolationCount + policy.getSoriginClass().size()));
 			if (deducted > policy.getSpc_max_deduct())
-				deducted = policy.getSpc_max_deduct();
+				deducted = (float)policy.getSpc_max_deduct();
 			
 			item_spc.addProperty("deductedPoint", deducted);
 			scoresheet.add("inheritSuper", item_spc);
@@ -175,16 +177,16 @@ public class OOPChecker extends ASTChecker {
 		}
 		
 		
-		if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
+		if (isInterface) {
 			JsonObject item_itf = new JsonObject();
 			
 			item_itf.addProperty("violation", itfViolation);
-			item_itf.addProperty("violationCount", itfViolationCount);
+			item_itf.addProperty("violationCount", itfViolationCount + policy.getIoriginClass().size());
 			
 			
-			double deducted = policy.getItf_deduct_point() * itfViolationCount;
+			float deducted = (float)(policy.getItf_deduct_point() * (double)(itfViolationCount + policy.getIoriginClass().size()));
 			if (deducted > policy.getItf_max_deduct())
-				deducted = policy.getItf_max_deduct();
+				deducted = (float)policy.getItf_max_deduct();
 			
 			item_itf.addProperty("deductedPoint", deducted);
 			scoresheet.add("inheritInterface", item_itf);
@@ -243,12 +245,14 @@ public class OOPChecker extends ASTChecker {
 			}
 			
 			
-			if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
+			if (policy.getSuperClass() != null && !policy.getSuperClass().isEmpty()) {
+				isSuperclass = true;
 				testSuperclass(unit);
 			}
 			
 			
-			if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
+			if (policy.getInterfaceClass() != null && !policy.getInterfaceClass().isEmpty()) {
+				isInterface = true;
 				testInterface(unit);
 			}
 			
@@ -282,7 +286,6 @@ public class OOPChecker extends ASTChecker {
 	
 	
 	
-	
 	private void testRequiredPackage()
 	{
 		for (String each : policy.getPackageName())
@@ -304,13 +307,22 @@ public class OOPChecker extends ASTChecker {
 			unit.accept(new ASTVisitor() {
 				public boolean visit(TypeDeclaration node)
 				{
-					if (!policy.getSuperclass_pair().containsKey(node.getName().toString()))
-						return super.visit(node);
+					int idx = -1;
 					
-					if (policy.getSuperclass_pair().get(node.getName().toString()).equals(node.getSuperclassType().toString())) {
-						spcViolations.add(policy.getSuperclass_pair().get(node.getName().toString()));
+					if (!policy.getSoriginClass().contains(node.getName().toString()))
+						return super.visit(node);
+					else 
+						idx = policy.getSoriginClass().indexOf(node.getName().toString());
+					
+					if (!policy.getSuperClass().get(idx).equals(node.getSuperclassType().toString())) {
+						spcViolations.add(node.getName().toString());
 						spcViolationCount++;
 						spcViolation = true;
+					}
+					else
+					{
+						policy.getSoriginClass().remove(idx);
+						policy.getSuperClass().remove(idx);
 					}
 					
 					
@@ -334,17 +346,24 @@ public class OOPChecker extends ASTChecker {
 				public boolean visit(TypeDeclaration node)
 				{
 					boolean flag = false;
-					if (!policy.getInterface_pair().containsKey(node.getName().toString()))
+					int idx = -1;
+					
+					if (!policy.getIoriginClass().contains(node.getName().toString()))
 						return super.visit(node);
+					else 
+						idx = policy.getIoriginClass().indexOf(node.getName().toString());
 					
 					for (Object each : node.superInterfaceTypes()) {
-						if (policy.getInterface_pair().get(node.getName().toString()).equals(each.toString())) {
+						if (policy.getInterfaceClass().get(idx).equals(each.toString())) {
 							flag = true;
+							policy.getIoriginClass().remove(idx);
+							policy.getInterfaceClass().remove(idx);
+							break;
 						}
 					}
 					
 					if (!flag) {
-						itfViolations.add(policy.getInterface_pair().get(node.getName().toString()));
+						itfViolations.add(node.getName().toString());
 						itfViolationCount++;
 						itfViolation = true;
 					}

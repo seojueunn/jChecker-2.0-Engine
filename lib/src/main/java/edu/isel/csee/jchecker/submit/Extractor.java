@@ -17,9 +17,12 @@ public class Extractor {
 	public void unzip(String filepath, String output)
 	{
 		ZipFile zipfile = null;
+		boolean flag = true;
+		String rootName = "";
 		
 		try {
 			zipfile = new ZipFile(filepath, Charset.forName("EUC-KR"));
+			
 			Enumeration<? extends ZipEntry> e = zipfile.entries();
 			
 			
@@ -27,11 +30,19 @@ public class Extractor {
 				ZipEntry entry = e.nextElement();
 				File dest = new File(output, entry.getName());
 				
+				if(flag)
+				{
+					rootName = entry.getName().replace("/", "");
+					flag = false;
+				}
+				
 				dest.getParentFile().mkdirs();
 				
 				if (entry.isDirectory())
+				{
+					System.out.println(entry.getName());
 					continue;
-				
+				}
 				else {
 					BufferedInputStream bis = new BufferedInputStream(zipfile.getInputStream(entry));
 					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(dest), 1024);
@@ -48,6 +59,7 @@ public class Extractor {
 				}
 				
 			}
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("No zip file in the path: " + filepath);
 			e.printStackTrace();
