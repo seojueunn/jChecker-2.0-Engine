@@ -205,9 +205,9 @@ public class ImplementationChecker extends ASTChecker {
 	
 	private void testCount()
 	{
-		if(policy.getMethodCount() > numOfMethods) countViolation = false;
-		if(policy.getFieldCount() > numOfFields) countViolation = false;
-		if(policy.getEnForCount() > numOfEnhancedForStatement) countViolation = false;
+		if(policy.getMethodCount() > numOfMethods) countViolation = true;
+		if(policy.getFieldCount() > numOfFields) countViolation = true;
+		if(policy.getEnForCount() > numOfEnhancedForStatement) countViolation = true;
 		
 		System.out.println(numOfMethods + " "  + numOfFields + " "  + numOfEnhancedForStatement);
 	}
