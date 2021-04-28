@@ -6,9 +6,8 @@ import java.io.InputStreamReader;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
-public class GradleStage implements IGradeStage {
-	
-	
+public class GradleStage implements IGradeStage 
+{
 	@Override
 	public int compile(String dpath)
 	{
@@ -18,7 +17,8 @@ public class GradleStage implements IGradeStage {
 
 		listup(dpath);
 		
-		try {
+		try 
+		{
 			builder = new ProcessBuilder(getCommand());
 			builder.directory(new File(dpath));
 			builder.redirectOutput(Redirect.INHERIT);
@@ -27,16 +27,16 @@ public class GradleStage implements IGradeStage {
 			state = process.waitFor();
 			process.destroy();
 			
-		} catch(Exception e) {
+		} 
+		catch(Exception e) 
+		{
 			System.out.println("Compile Error: Fatal error in compile stage.");
 			e.printStackTrace();
 		}
 		
-		
 		return state;
 	}
 	
-
 	@Override
 	public boolean build(ArrayList<String> cases, String output, String dpath)
 	{
@@ -46,11 +46,11 @@ public class GradleStage implements IGradeStage {
 		Process process = null;
 	
 		
-		try {
+		try 
+		{
 			builder = new ProcessBuilder(cases);
 			builder.directory(new File(dpath));
 			process = builder.start();
-			
 			
 			stdout = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
 			
@@ -58,14 +58,13 @@ public class GradleStage implements IGradeStage {
 			String line;
 			boolean flag = false;
 			
-			
-			while( (line = stdout.readLine()) != null)
+			while((line = stdout.readLine()) != null)
 			{	
-				if (line.contains("> Task :app:run")) {
+				if (line.contains("> Task :app:run")) 
+				{
 					flag = true;
 					continue;
 				}
-				
 				
 				if (line.contains("BUILD SUCCESSFUL in"))
 					flag = false;
@@ -74,10 +73,7 @@ public class GradleStage implements IGradeStage {
 					sb.append(line + "\n");
 			}
 			
-	
 			String answer = sb.toString().trim();
-			
-			
 
 			if (output.equals(answer.trim()))
 				result = true;
@@ -87,15 +83,15 @@ public class GradleStage implements IGradeStage {
 			process.destroy();
 			
 			
-		} catch(Exception e) {
+		} 
+		catch(Exception e) 
+		{
 			System.out.println("Runtime Error: Fatal error in execute stage.");
 			e.printStackTrace();
 		}
 		
 		return result;
 	}
-	
-	
 	
 	public ArrayList<String> getTest(String argument, boolean isTest)
 	{
@@ -104,12 +100,11 @@ public class GradleStage implements IGradeStage {
 		command.add("gradle");
 		command.add("run");
 		command.add("--warning-mode=all");
+		
 		if(isTest) command.add("--args=" + argument);
 		
 		return command;
 	}
-	
-	
 	
 	public ArrayList<String> getTest(String argument, String cases, boolean isTest)
 	{
@@ -118,8 +113,6 @@ public class GradleStage implements IGradeStage {
 		 */
 		return null;
 	}
-	
-	
 	
 	private ArrayList<String> getCommand()
 	{
@@ -132,9 +125,6 @@ public class GradleStage implements IGradeStage {
 		return command;
 	}
 	
-	
-	
-	
 	private void listup(String dpath)
 	{
 		ArrayList<String> command = new ArrayList<>();
@@ -146,18 +136,19 @@ public class GradleStage implements IGradeStage {
 		ProcessBuilder builder = null;
 		Process process = null;
 		
-		
-		try {
+		try 
+		{
 			builder = new ProcessBuilder(command);
-
 			builder.directory(new File(dpath));
 			process = builder.start();
 			
 			process.waitFor();
 			
 			process.destroy();
-		} catch (Exception e) {
-			System.out.println("Error: No java files in the path: " + dpath);
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("File Error: No java files in the path: " + dpath);
 			e.printStackTrace();
 		}
 	}

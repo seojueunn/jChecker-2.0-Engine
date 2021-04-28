@@ -133,9 +133,9 @@ public class ImplementationChecker extends ASTChecker {
 			item.addProperty("violationCount", customExcViolationCount);
 			
 			
-			float deducted = (float)(policy.getCustomExc_deduct_point() * (double)customExcViolationCount);
+			double deducted = (double)(policy.getCustomExc_deduct_point() * (double)customExcViolationCount);
 			if (deducted > policy.getCustomExc_max_deduct())
-				deducted = (float)policy.getCustomExc_max_deduct();
+				deducted = (double)policy.getCustomExc_max_deduct();
 			
 			item.addProperty("deductedPoint", deducted);
 			scoresheet.add("customException", item);
@@ -153,9 +153,9 @@ public class ImplementationChecker extends ASTChecker {
 			item.addProperty("violationCount", customStructViolationCount);
 			
 			
-			float deducted = (float)(policy.getCustomStr_deduct_point() * (double)customStructViolationCount);
+			double deducted = (double)(policy.getCustomStr_deduct_point() * (double)customStructViolationCount);
 			if (deducted > policy.getCustomStr_max_deduct())
-				deducted = (float)policy.getCustomStr_max_deduct();
+				deducted = (double)policy.getCustomStr_max_deduct();
 			
 			item.addProperty("deductedPoint", deducted);
 			scoresheet.add("customStructure", item);
@@ -208,8 +208,6 @@ public class ImplementationChecker extends ASTChecker {
 		if(policy.getMethodCount() > numOfMethods) countViolation = true;
 		if(policy.getFieldCount() > numOfFields) countViolation = true;
 		if(policy.getEnForCount() > numOfEnhancedForStatement) countViolation = true;
-		
-		System.out.println(numOfMethods + " "  + numOfFields + " "  + numOfEnhancedForStatement);
 	}
 	
 	
@@ -217,7 +215,8 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		try 
 		{
-			unit.accept(new ASTVisitor() {
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					if (policy.getReqClass().contains(node.getName().toString()))
@@ -250,7 +249,6 @@ public class ImplementationChecker extends ASTChecker {
 				if(!instances.contains("Thread")) threadViolation = true;
 
 		}
-		
 		else { if(!instances.contains("Thread")) threadViolation = true; }
 	}
 	
@@ -269,7 +267,6 @@ public class ImplementationChecker extends ASTChecker {
 					customStructViolation = true;
 				}
 			}		
-			
 			else 
 			{
 				customStructViolations.add(each);
@@ -293,7 +290,6 @@ public class ImplementationChecker extends ASTChecker {
 					customExcViolationCount++;
 					customExcViolation = true;
 				}
-				
 				else 
 				{
 					if (instances.contains(each)) 
@@ -312,7 +308,6 @@ public class ImplementationChecker extends ASTChecker {
 									customExcViolationCount++;
 									customExcViolation = true;
 								}
-								
 								else
 								{
 									boolean checkExpression = false;
@@ -337,7 +332,6 @@ public class ImplementationChecker extends ASTChecker {
 						}
 						
 					}
-					
 					else
 					{
 						customExcViolations.add(each);
@@ -346,7 +340,6 @@ public class ImplementationChecker extends ASTChecker {
 					}
 				}
 			}
-			
 			else 
 			{
 				customExcViolations.add(each);
@@ -362,7 +355,8 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		try 
 		{
-			unit.accept(new ASTVisitor() {
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(ClassInstanceCreation node)
 				{
 					instances.add(node.getType().toString());
@@ -379,7 +373,8 @@ public class ImplementationChecker extends ASTChecker {
 	{	
 		try 
 		{
-			unit.accept(new ASTVisitor() {
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					classes.add(node.getName().toString());
@@ -400,10 +395,13 @@ public class ImplementationChecker extends ASTChecker {
 	}
 	
 	
+	
 	private void getCountInfo(CompilationUnit unit)
 	{
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(EnhancedForStatement node)
 				{
 					if(policy.getEnForCount() < 0) return false;
@@ -509,9 +507,7 @@ public class ImplementationChecker extends ASTChecker {
 				}
 				*/		
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	public String getStatement(String name)
@@ -524,12 +520,15 @@ public class ImplementationChecker extends ASTChecker {
 				
 			try 
 			{
-				unit.accept(new ASTVisitor() {
+				unit.accept(new ASTVisitor() 
+				{
 					public boolean visit(ClassInstanceCreation node)
 					{
 						if(node.getType().toString().equals(name))
 						{
 							result = node.getParent().toString();
+							
+							
 							return false ;
 						}
 			
@@ -550,10 +549,12 @@ public class ImplementationChecker extends ASTChecker {
 			
 			try 
 			{
-				unit.accept(new ASTVisitor() {
+				unit.accept(new ASTVisitor() 
+				{
 					public boolean visit(ThrowStatement node)
 					{
 						expressions.add(node.getExpression().toString());
+						
 						
 						return super.visit(node);
 					}

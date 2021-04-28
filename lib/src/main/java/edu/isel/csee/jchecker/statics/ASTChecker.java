@@ -1,13 +1,13 @@
 package edu.isel.csee.jchecker.statics;
 
-import java.io.File;
 import java.util.Map;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 
-public class ASTChecker {
+public class ASTChecker 
+{
 	
 	private ASTParser parser;
 	private String filePath ;
@@ -43,14 +43,12 @@ public class ASTChecker {
 		return parser;
 	}
 	
-	
-	
 	public ASTParser parserSetProperties(String source)
 	{
 		char[] content = source.toCharArray();
 		
 		parser = ASTParser.newParser(AST.JLS15);
-		parser.setUnitName("GraceTheTable.java") ;
+		parser.setUnitName("source.java") ;
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(content);
 		
@@ -64,7 +62,6 @@ public class ASTChecker {
 		// String[] classpath = { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" };
 		
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8" }, true);
-		
 		
 		parser.setResolveBindings(true);
 		parser.setCompilerOptions(options);
