@@ -17,6 +17,7 @@ import edu.isel.csee.jchecker.statics.utils.MainClassDetector;
 
 public class CoreGrader {
 	private boolean flag = false;
+	private boolean bViolation = false;
 	private ArrayList<String> violations = new ArrayList<>();
 	private List<String> srcList = new ArrayList<>();
 	private int violationCount = 0;
@@ -43,6 +44,17 @@ public class CoreGrader {
 		score.addProperty("instructor", scheme.getInstructor());
 		score.addProperty("point", scheme.getPoint());
 		
+		JsonObject item_build = new JsonObject();
+		
+		if(scheme.isBTool() && flag) item_build.addProperty("violation", false);
+		else if(scheme.isBTool() && !flag)
+		{
+			item_build.addProperty("violation", true);
+			bViolation = true; 
+		}
+
+		score.add("BuildTool", item_build);
+		
 		checkCompile = grader.compile(workpath);
 
 		srcList = source.getAllFiles(workpath);
@@ -65,10 +77,21 @@ public class CoreGrader {
 		
 		if (checkCompile == 0) 
 		{	
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", false);
-			item.addProperty("deductedPoint", 0);
-			score.add("compile", item);
+			if(bViolation)
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				item.addProperty("deductedPoint", scheme.getCompiled_deduct_point());
+				score.add("compile", item);
+			}
+			else
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", false);
+				item.addProperty("deductedPoint", 0);
+				score.add("compile", item);
+			}
+			
 
 			for (int i = 0; i < scheme.getInputs().size(); i++) 
 			{

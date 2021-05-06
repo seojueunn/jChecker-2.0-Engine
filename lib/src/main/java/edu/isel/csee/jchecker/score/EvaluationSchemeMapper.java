@@ -26,6 +26,7 @@ public class EvaluationSchemeMapper {
 	private ArrayList<String> soriginClass = null;
 	private ArrayList<String> interfaceClass = null;
 	
+	private boolean isBTool = false;
 	private boolean isDirect = false;
 	private boolean thread = false;
 	private boolean javadoc = false;
@@ -640,5 +641,13 @@ public class EvaluationSchemeMapper {
 
 	public void setDirect(boolean isDirect) {
 		this.isDirect = isDirect;
+	}
+	
+	public boolean isBTool() {
+		return isBTool;
+	}
+
+	public void setBTool(boolean isBTool) {
+		this.isBTool = isBTool;
 	}
 }

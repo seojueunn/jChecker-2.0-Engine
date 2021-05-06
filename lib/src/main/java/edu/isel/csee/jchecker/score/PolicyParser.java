@@ -21,6 +21,7 @@ public class PolicyParser
 			policyTable.setInstructor(policy.get("instructor").getAsString());
 			policyTable.setPoint(policy.get("point").getAsDouble());
 			policyTable.setDirect(policy.get("feedback").getAsBoolean());
+			policyTable.setBTool(policy.get("BuildTool").getAsBoolean());
 			
 				
 			obj = new Gson().fromJson(policy.get("compiled"), JsonObject.class);
