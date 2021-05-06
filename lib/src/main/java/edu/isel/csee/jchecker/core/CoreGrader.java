@@ -135,7 +135,7 @@ public class CoreGrader {
 			
 			scheme.deduct_point(deducted);
 			item_class.addProperty("deductedPoint", deducted);
-			score.add("runtimeCompare", item_class);
+			score.add("oracle", item_class);
 			
 		} 
 		else 
@@ -158,7 +158,7 @@ public class CoreGrader {
 				
 				scheme.deduct_point(deducted);
 				item_class.addProperty("deductedPoint", deducted);
-				score.add("runtimeCompare", item_class);
+				score.add("oracle", item_class);
 			}	
 			
 			JsonObject item = new JsonObject();
