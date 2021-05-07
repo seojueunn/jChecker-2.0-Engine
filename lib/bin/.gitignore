@@ -1,9 +1,0 @@
-/main/
-/default/
-.DS_Store
-.gradle
-!gradle/wrapper/gradle-wrapper.jar
-.settings
-.classpath
-.project
-/bin/
