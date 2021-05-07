@@ -32,7 +32,7 @@ public class PolicyParser
 			}
 			
 			
-			obj = new Gson().fromJson(policy.get("runtimeCompare"), JsonObject.class);
+			obj = new Gson().fromJson(policy.get("oracle"), JsonObject.class);
 			if (obj.get("state").getAsBoolean()) 
 			{
 				policyTable.setTest(true);
