@@ -54,153 +54,249 @@ public class OOPChecker extends ASTChecker
 	
 	public JsonObject run(JsonObject scoresheet)
 	{
-		collect();
-		
-		test();
-		
+		if(source.isEmpty() || source == null)
+		{
+			if (policy.isEncaps()) 
+			{
+				JsonObject item_ecp = new JsonObject();
+				
+				item_ecp.addProperty("violation", true);
+				
+				item_ecp.addProperty("deductedPoint", policy.getEnc_deduct_point());
+				scoresheet.add("encapsulation", item_ecp);
+				
+				policy.deduct_point(policy.getEnc_deduct_point());
+			}
+			
+			
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) 
+			{
+				JsonObject item_ovl = new JsonObject();
+				
+				item_ovl.addProperty("violation", true);
+				item_ovl.addProperty("violationCount", policy.getOverloading().size());
+				
+				item_ovl.addProperty("deductedPoint", policy.getOvl_max_deduct());
+				scoresheet.add("overloading", item_ovl);
+				
+				policy.deduct_point(policy.getOvl_max_deduct());
+			}
+			
+			
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
+			{
+				JsonObject item_ovr = new JsonObject();
+				
+				item_ovr.addProperty("violation", true);
+				item_ovr.addProperty("violationCount", policy.getOverriding().size());
 
-		if (policy.isEncaps()) 
-		{
-			JsonObject item_ecp = new JsonObject();
-			
-			item_ecp.addProperty("violation", ecpViolation);
-			
-			if (!ecpViolation) 
-				policy.setEnc_deduct_point(0);
+				item_ovr.addProperty("deductedPoint", policy.getOvr_max_deduct());
+				scoresheet.add("overriding", item_ovr);
+				
+				policy.deduct_point(policy.getOvr_max_deduct());
+			}
 			
 			
-			item_ecp.addProperty("deductedPoint", policy.getEnc_deduct_point());
-			scoresheet.add("encapsulation", item_ecp);
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) 
+			{
+				JsonObject item_class = new JsonObject();
+				
+				item_class.addProperty("violation", true);
+				item_class.addProperty("violationCount", policy.getReqClass().size());
+				
+				item_class.addProperty("deductedPoint", policy.getClass_max_deduct());
+				scoresheet.add("classes", item_class);
+				
+				policy.deduct_point(policy.getClass_max_deduct());
+			}
 			
 			
-			policy.deduct_point(policy.getEnc_deduct_point());
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) 
+			{
+				JsonObject item_pkg = new JsonObject();
+				
+				item_pkg.addProperty("violation", true);
+				item_pkg.addProperty("violationCount", policy.getPackageName().size());
+		
+				item_pkg.addProperty("deductedPoint", policy.getPackage_max_deduct());
+				scoresheet.add("packages", item_pkg);
+				
+				policy.deduct_point(policy.getPackage_max_deduct());
+			}
+			
+			
+			if (isSuperclass) 
+			{
+				JsonObject item_spc = new JsonObject();
+				
+				item_spc.addProperty("violation", true);
+				item_spc.addProperty("violationCount", policy.getSoriginClass().size());
+				
+				item_spc.addProperty("deductedPoint", policy.getSpc_max_deduct());
+				scoresheet.add("inheritSuper", item_spc);
+				
+				policy.deduct_point(policy.getSpc_max_deduct());
+			}
+			
+			
+			if (isInterface) 
+			{
+				JsonObject item_itf = new JsonObject();
+				
+				item_itf.addProperty("violation", true);
+				item_itf.addProperty("violationCount", policy.getIoriginClass().size());
+				
+				item_itf.addProperty("deductedPoint", policy.getItf_max_deduct());
+				scoresheet.add("inheritInterface", item_itf);
+					
+				policy.deduct_point(policy.getItf_max_deduct());
+			}
 		}
-		
-		
-		
-		if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) 
+		else
 		{
-			JsonObject item_ovl = new JsonObject();
+			collect();
 			
-			if(policy.getOverloading().size() > 0)
-				item_ovl.addProperty("violation", ovlViolation);
-			item_ovl.addProperty("violationCount", policy.getOverloading().size());
+			test();
 			
-			
-			double deducted = (double)(policy.getOvl_deduct_point() * (double)policy.getOverloading().size());
-			if (deducted > policy.getOvl_max_deduct())
-				deducted = (double)policy.getOvl_max_deduct();
-			
-			item_ovl.addProperty("deductedPoint", deducted);
-			scoresheet.add("overloading", item_ovl);
-			
-			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		
-		if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
-		{
-			JsonObject item_ovr = new JsonObject();
-			
-			if(policy.getOverriding().size() > 0)
-				item_ovr.addProperty("violation", ovrViolation);
-			item_ovr.addProperty("violationCount", policy.getOverriding().size());
-			
-			
-			double deducted = (double)(policy.getOvr_deduct_point() * (double)policy.getOverriding().size());
-			if (deducted > policy.getOvr_max_deduct())
-				deducted = (double)policy.getOvr_max_deduct();
-			
-			item_ovr.addProperty("deductedPoint", deducted);
-			scoresheet.add("overriding", item_ovr);
-			
-			
-			policy.deduct_point(deducted);
-		}
 
-		
-		
-		if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) 
-		{
-			JsonObject item_class = new JsonObject();
-			
-			item_class.addProperty("violation", clasViolation);
-			item_class.addProperty("violationCount", classesViolationCount);
-			
-			
-			double deducted = (double)(policy.getClass_deduct_point() * (double)classesViolationCount);
-			if (deducted > policy.getClass_max_deduct())
-				deducted = (double)policy.getClass_max_deduct();
-			
-			item_class.addProperty("deductedPoint", deducted);
-			scoresheet.add("classes", item_class);
-			
-			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		
-		if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) 
-		{
-			JsonObject item_pkg = new JsonObject();
-			
-			item_pkg.addProperty("violation", pkgViolation);
-			item_pkg.addProperty("violationCount", pkgViolationCount);
+			if (policy.isEncaps()) 
+			{
+				JsonObject item_ecp = new JsonObject();
+				
+				item_ecp.addProperty("violation", ecpViolation);
+				
+				if (!ecpViolation) 
+					policy.setEnc_deduct_point(0);
+				
+				
+				item_ecp.addProperty("deductedPoint", policy.getEnc_deduct_point());
+				scoresheet.add("encapsulation", item_ecp);
+				
+				
+				policy.deduct_point(policy.getEnc_deduct_point());
+			}
 			
 			
-			double deducted = (double)(policy.getPackage_deduct_point() * (double)pkgViolationCount);
-			if (deducted > policy.getPackage_max_deduct())
-				deducted = (double)policy.getPackage_max_deduct();
-			
-			item_pkg.addProperty("deductedPoint", deducted);
-			scoresheet.add("packages", item_pkg);
-			
-			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		
-		if (isSuperclass) 
-		{
-			JsonObject item_spc = new JsonObject();
-			
-			item_spc.addProperty("violation", spcViolation);
-			item_spc.addProperty("violationCount", spcViolationCount + policy.getSoriginClass().size());
-			
-			
-			double deducted = (double)(policy.getSpc_deduct_point() * (double)(spcViolationCount + policy.getSoriginClass().size()));
-			if (deducted > policy.getSpc_max_deduct())
-				deducted = (double)policy.getSpc_max_deduct();
-			
-			item_spc.addProperty("deductedPoint", deducted);
-			scoresheet.add("inheritSuper", item_spc);
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) 
+			{
+				JsonObject item_ovl = new JsonObject();
+				
+				if(policy.getOverloading().size() > 0)
+					item_ovl.addProperty("violation", ovlViolation);
+				item_ovl.addProperty("violationCount", policy.getOverloading().size());
+				
+				
+				double deducted = (double)(policy.getOvl_deduct_point() * (double)policy.getOverloading().size());
+				if (deducted > policy.getOvl_max_deduct())
+					deducted = (double)policy.getOvl_max_deduct();
+				
+				item_ovl.addProperty("deductedPoint", deducted);
+				scoresheet.add("overloading", item_ovl);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
 			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		if (isInterface) 
-		{
-			JsonObject item_itf = new JsonObject();
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
+			{
+				JsonObject item_ovr = new JsonObject();
+				
+				if(policy.getOverriding().size() > 0)
+					item_ovr.addProperty("violation", ovrViolation);
+				item_ovr.addProperty("violationCount", policy.getOverriding().size());
+				
+				
+				double deducted = (double)(policy.getOvr_deduct_point() * (double)policy.getOverriding().size());
+				if (deducted > policy.getOvr_max_deduct())
+					deducted = (double)policy.getOvr_max_deduct();
+				
+				item_ovr.addProperty("deductedPoint", deducted);
+				scoresheet.add("overriding", item_ovr);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
-			item_itf.addProperty("violation", itfViolation);
-			item_itf.addProperty("violationCount", itfViolationCount + policy.getIoriginClass().size());
+			
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) 
+			{
+				JsonObject item_class = new JsonObject();
+				
+				item_class.addProperty("violation", clasViolation);
+				item_class.addProperty("violationCount", classesViolationCount);
+				
+				
+				double deducted = (double)(policy.getClass_deduct_point() * (double)classesViolationCount);
+				if (deducted > policy.getClass_max_deduct())
+					deducted = (double)policy.getClass_max_deduct();
+				
+				item_class.addProperty("deductedPoint", deducted);
+				scoresheet.add("classes", item_class);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
 			
-			double deducted = (double)(policy.getItf_deduct_point() * (double)(itfViolationCount + policy.getIoriginClass().size()));
-			if (deducted > policy.getItf_max_deduct()) 
-				deducted = (double)policy.getItf_max_deduct();
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) 
+			{
+				JsonObject item_pkg = new JsonObject();
+				
+				item_pkg.addProperty("violation", pkgViolation);
+				item_pkg.addProperty("violationCount", pkgViolationCount);
+				
+				
+				double deducted = (double)(policy.getPackage_deduct_point() * (double)pkgViolationCount);
+				if (deducted > policy.getPackage_max_deduct())
+					deducted = (double)policy.getPackage_max_deduct();
+				
+				item_pkg.addProperty("deductedPoint", deducted);
+				scoresheet.add("packages", item_pkg);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
-			item_itf.addProperty("deductedPoint", deducted);
-			scoresheet.add("inheritInterface", item_itf);
+			
+			if (isSuperclass) 
+			{
+				JsonObject item_spc = new JsonObject();
+				
+				item_spc.addProperty("violation", spcViolation);
+				item_spc.addProperty("violationCount", spcViolationCount + policy.getSoriginClass().size());
+				
+				
+				double deducted = (double)(policy.getSpc_deduct_point() * (double)(spcViolationCount + policy.getSoriginClass().size()));
+				if (deducted > policy.getSpc_max_deduct())
+					deducted = (double)policy.getSpc_max_deduct();
+				
+				item_spc.addProperty("deductedPoint", deducted);
+				scoresheet.add("inheritSuper", item_spc);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
 			
-			policy.deduct_point(deducted);
+			if (isInterface) 
+			{
+				JsonObject item_itf = new JsonObject();
+				
+				item_itf.addProperty("violation", itfViolation);
+				item_itf.addProperty("violationCount", itfViolationCount + policy.getIoriginClass().size());
+				
+				
+				double deducted = (double)(policy.getItf_deduct_point() * (double)(itfViolationCount + policy.getIoriginClass().size()));
+				if (deducted > policy.getItf_max_deduct()) 
+					deducted = (double)policy.getItf_max_deduct();
+				
+				item_itf.addProperty("deductedPoint", deducted);
+				scoresheet.add("inheritInterface", item_itf);
+				
+				
+				policy.deduct_point(deducted);
+			}
 		}
 		
 		return scoresheet;
@@ -299,7 +395,6 @@ public class OOPChecker extends ASTChecker
 	
 	private void testSuperclass(CompilationUnit unit)
 	{
-		
 		try 
 		{
 			unit.accept(new ASTVisitor() 

@@ -74,94 +74,162 @@ public class ImplementationChecker extends ASTChecker {
 	
 	public JsonObject run(JsonObject scoresheet)
 	{
-		collect();
-		
-		test();
-		
-		
-		if (policy.isCount()) 
+		if(source.isEmpty() || source == null)
 		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", countViolation);
+			if (policy.isCount()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				
+				item.addProperty("deductedPoint", policy.getCnt_deduct_point());
+				scoresheet.add("count", item);
+				
+				policy.deduct_point(policy.getCnt_deduct_point());
+			}
 			
-			if (!countViolation)
-				policy.setCnt_deduct_point(0);
 			
-			item.addProperty("deductedPoint", policy.getCnt_deduct_point());
-			scoresheet.add("count", item);
+			if (policy.isJavadoc()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				
+				item.addProperty("deductedPoint", policy.getJvd_deduct_point());
+				scoresheet.add("javadoc", item);
+				
+				policy.deduct_point(policy.getJvd_deduct_point());
+			}
 			
 			
-			policy.deduct_point(policy.getCnt_deduct_point());
+			if (policy.isThreads()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				
+				item.addProperty("deductedPoint", policy.getThr_deduct_point());
+				scoresheet.add("thread", item);
+				
+				policy.deduct_point(policy.getThr_deduct_point());
+			}
+			
+			
+			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				item.addProperty("violationCount", policy.getReqCustExc().size());
+
+				item.addProperty("deductedPoint", policy.getCustomExc_max_deduct());
+				scoresheet.add("customException", item);
+				
+				policy.deduct_point(policy.getCustomExc_max_deduct());
+			}
+			
+			
+			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				
+				item.addProperty("violation", true);
+				item.addProperty("violationCount", policy.getReqCusStruct().size());
+				
+				
+				item.addProperty("deductedPoint", policy.getCustomStr_max_deduct());
+				scoresheet.add("customStructure", item);
+			
+				policy.deduct_point(policy.getCustomStr_max_deduct());
+			}
 		}
-		
-		if (policy.isJavadoc()) 
+		else
 		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", jdocViolation);
+			collect();
 			
-			if (!jdocViolation)
-				policy.setJvd_deduct_point(0);
-			
-			item.addProperty("deductedPoint", policy.getJvd_deduct_point());
-			scoresheet.add("javadoc", item);
+			test();
 			
 			
-			policy.deduct_point(policy.getJvd_deduct_point());
-		}
-		
-		
-		if (policy.isThreads()) 
-		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", threadViolation);
+			if (policy.isCount()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", countViolation);
+				
+				if (!countViolation)
+					policy.setCnt_deduct_point(0);
+				
+				item.addProperty("deductedPoint", policy.getCnt_deduct_point());
+				scoresheet.add("count", item);
+				
+				
+				policy.deduct_point(policy.getCnt_deduct_point());
+			}
 			
-			if (!threadViolation)
-				policy.setThr_deduct_point(0);
-			
-			item.addProperty("deductedPoint", policy.getThr_deduct_point());
-			scoresheet.add("thread", item);
-			
-			
-			policy.deduct_point(policy.getThr_deduct_point());
-		}
-		
-		
-		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
-		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", customExcViolation);
-			item.addProperty("violationCount", customExcViolationCount);
-			
-			
-			double deducted = (double)(policy.getCustomExc_deduct_point() * (double)customExcViolationCount);
-			if (deducted > policy.getCustomExc_max_deduct())
-				deducted = (double)policy.getCustomExc_max_deduct();
-			
-			item.addProperty("deductedPoint", deducted);
-			scoresheet.add("customException", item);
+			if (policy.isJavadoc()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", jdocViolation);
+				
+				if (!jdocViolation)
+					policy.setJvd_deduct_point(0);
+				
+				item.addProperty("deductedPoint", policy.getJvd_deduct_point());
+				scoresheet.add("javadoc", item);
+				
+				
+				policy.deduct_point(policy.getJvd_deduct_point());
+			}
 			
 			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
-		{
-			JsonObject item = new JsonObject();
-			
-			item.addProperty("violation", customStructViolation);
-			item.addProperty("violationCount", customStructViolationCount);
-			
-			
-			double deducted = (double)(policy.getCustomStr_deduct_point() * (double)customStructViolationCount);
-			if (deducted > policy.getCustomStr_max_deduct())
-				deducted = (double)policy.getCustomStr_max_deduct();
-			
-			item.addProperty("deductedPoint", deducted);
-			scoresheet.add("customStructure", item);
+			if (policy.isThreads()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", threadViolation);
+				
+				if (!threadViolation)
+					policy.setThr_deduct_point(0);
+				
+				item.addProperty("deductedPoint", policy.getThr_deduct_point());
+				scoresheet.add("thread", item);
+				
+				
+				policy.deduct_point(policy.getThr_deduct_point());
+			}
 			
 			
-			policy.deduct_point(deducted);
+			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", customExcViolation);
+				item.addProperty("violationCount", customExcViolationCount);
+				
+				
+				double deducted = (double)(policy.getCustomExc_deduct_point() * (double)customExcViolationCount);
+				if (deducted > policy.getCustomExc_max_deduct())
+					deducted = (double)policy.getCustomExc_max_deduct();
+				
+				item.addProperty("deductedPoint", deducted);
+				scoresheet.add("customException", item);
+				
+				
+				policy.deduct_point(deducted);
+			}
+			
+			
+			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				
+				item.addProperty("violation", customStructViolation);
+				item.addProperty("violationCount", customStructViolationCount);
+				
+				
+				double deducted = (double)(policy.getCustomStr_deduct_point() * (double)customStructViolationCount);
+				if (deducted > policy.getCustomStr_max_deduct())
+					deducted = (double)policy.getCustomStr_max_deduct();
+				
+				item.addProperty("deductedPoint", deducted);
+				scoresheet.add("customStructure", item);
+				
+				
+				policy.deduct_point(deducted);
+			}
 		}
 		
 		return scoresheet;
