@@ -21,13 +21,13 @@ public class PolicyParser
 			policyTable.setInstructor(policy.get("instructor").getAsString());
 			policyTable.setPoint(policy.get("point").getAsDouble());
 			policyTable.setDirect(policy.get("feedback").getAsBoolean());
-			policyTable.setBTool(policy.get("BuildTool").getAsBoolean());
 			
 				
 			obj = new Gson().fromJson(policy.get("compiled"), JsonObject.class);
 			if (obj.get("state").getAsBoolean()) 
 			{
 				policyTable.setCompiled(true);
+				policyTable.setBTool(obj.get("buildTool").getAsBoolean());
 				policyTable.setCompiled_deduct_point(obj.get("deductPoint").getAsDouble());
 			}
 			
