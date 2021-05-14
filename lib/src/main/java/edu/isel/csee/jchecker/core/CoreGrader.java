@@ -1,7 +1,11 @@
 package edu.isel.csee.jchecker.core;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -26,8 +30,6 @@ public class CoreGrader {
 	
 	public String start(String workpath, String policy)
 	{
-		IGradeStage grader = preset(workpath);
-		
 		EvaluationSchemeMapper scheme = new EvaluationSchemeMapper();
 		JsonObject policyObject = new Gson().fromJson(policy, JsonObject.class);
 		JsonObject score = new JsonObject();
@@ -42,90 +44,90 @@ public class CoreGrader {
 		score.addProperty("instructor", scheme.getInstructor());
 		score.addProperty("point", scheme.getPoint());
 		
+		flag = scheme.isBTool() ? true : false;
+		IGradeStage grader = scheme.isBTool() ? new GradleStage() : new JavaStage();
+		
 		checkCompile = grader.compile(workpath);
 
 		srcList = source.getAllFiles(workpath);
-		
-		mainPath = isExistMainPath(scheme);
-		
-		if (mainPath == null || mainPath.equals(""))
+
+		/*
+		if(!scheme.isBTool())
 		{
-			mcd.setFilePath(workpath);
+			// mainPath = isExistMainPath(scheme);
 			
-			for (String src : srcList) 
+			if (mainPath == null || mainPath.equals(""))
 			{
-				if (!(mainPath = mcd.find(src)).isBlank()) 
+				mcd.setFilePath(workpath);
+				
+				for (String src : srcList) 
 				{
-					mainPath.trim();
-					break;
+					if (!(mainPath = mcd.find(src)).isBlank()) 
+					{
+						mainPath.trim();
+						break;
+					}
 				}
 			}
 		}
+		*/
+		
+		if(!scheme.isBTool()) mainPath = scheme.getReqClass().get(0);
 		
 		if (checkCompile == 0) 
 		{	
 			JsonObject item = new JsonObject();
 			item.addProperty("violation", false);
-			
-			if(scheme.isBTool() && flag)
-			{
-				item.addProperty("bViolation", false);
-				item.addProperty("deductedPoint", 0);
-			}
-			else if(scheme.isBTool() && !flag)
-			{
-				item.addProperty("bViolation", true);
-				item.addProperty("deductedPoint", scheme.getCompiled_deduct_point());
-			}
-			else item.addProperty("deductedPoint", 0);
+			item.addProperty("deductedPoint", 0);
 			
 			score.add("compile", item);
 			
-
-			for (int i = 0; i < scheme.getInputs().size(); i++) 
+			if (scheme.isTest()) // 테스트 케이스 있는 경우 
 			{
-				boolean result = false;
-				
-				if (!flag) 
+				for (int i = 0; i < scheme.getInputs().size(); i++) 
 				{
-					result = grader.build(
-							grader.getTest(mainPath, scheme.getInputs().get(i), scheme.isTest()),
-							scheme.getOutputs().get(i),
-							workpath);
-				} 
-				else 
-				{	
-					result = grader.build(
-							grader.getTest(scheme.getInputs().get(i), scheme.isTest()), 
-							scheme.getOutputs().get(i), 
-							workpath);
-				}
+					boolean result = false;
 					
-				if (!result) 
-				{
-					violations.add(String.valueOf(i + 1));
-					violationCount++;
+					if (!flag) 
+					{
+						result = grader.build(
+								grader.getTest(mainPath, scheme.getInputs().get(i), scheme.isTest()),
+								scheme.getOutputs().get(i),
+								workpath);
+					} 
+					else 
+					{	
+						result = grader.build(
+								grader.getTest(scheme.getInputs().get(i), scheme.isTest()), 
+								scheme.getOutputs().get(i), 
+								workpath);
+					}
+						
+					if (!result) 
+					{
+						violations.add(String.valueOf(i + 1));
+						violationCount++;
+					}
 				}
-			}
-			
-			JsonObject item_class = new JsonObject();
-			
-			if (violationCount > 0)
-				item_class.addProperty("violation", true);
-			else
-				item_class.addProperty("violation", false);
-			
-			item_class.add("violationNumber", new Gson().toJsonTree(violations));
-			item_class.addProperty("violationCount", violationCount);
-			
-			double deducted = (double)(scheme.getRuntime_deduct_point() * (double)violationCount);
-			if (deducted > scheme.getRuntime_max_deduct())
-				deducted = scheme.getRuntime_max_deduct();
-			
-			scheme.deduct_point(deducted);
-			item_class.addProperty("deductedPoint", deducted);
-			score.add("oracle", item_class);
-			
+				
+				JsonObject item_class = new JsonObject();
+				
+				if (violationCount > 0)
+					item_class.addProperty("violation", true);
+				else
+					item_class.addProperty("violation", false);
+				
+				item_class.add("violationNumber", new Gson().toJsonTree(violations));
+				item_class.addProperty("violationCount", violationCount);
+				
+				double deducted = (double)(scheme.getRuntime_deduct_point() * (double)violationCount);
+				if (deducted > scheme.getRuntime_max_deduct())
+					deducted = scheme.getRuntime_max_deduct();
+				
+				scheme.deduct_point(deducted);
+				item_class.addProperty("deductedPoint", deducted);
+				score.add("oracle", item_class);
+			}	
 		} 
 		else 
 		{
@@ -152,41 +154,55 @@ public class CoreGrader {
 
 			JsonObject item = new JsonObject();
 			item.addProperty("violation", true);
-			
-			if(scheme.isBTool() && flag) item.addProperty("bViolation", false);
-	
-			else if(scheme.isBTool() && !flag) item.addProperty("bViolation", true);
-			
 			item.addProperty("deductedPoint", scheme.getCompiled_deduct_point());
+			
 			score.add("compile", item);
+			
+			scheme.deduct_point(scheme.getCompiled_deduct_point());
 		}
 
-		new OOPChecker(scheme, srcList, "", workpath).run(score);
-		new ImplementationChecker(scheme, srcList, "", workpath).run(score);
+		new OOPChecker(scheme, srcList, "", workpath).run(score, scheme.isBTool());
+		new ImplementationChecker(scheme, srcList, "", workpath).run(score, scheme.isBTool());
 		
-		score.addProperty("result", (double)scheme.getResult_point());
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			Date dueDate = format.parse(scheme.getDueDate());
+			Date nowDate = new Date();
+			
+			int compare = nowDate.compareTo(dueDate);
+			double calDate = Math.abs(nowDate.getTime() - dueDate.getTime());
+			
+			double calDateDays = Math.ceil(calDate / (double)(24*60*60*1000)); 
+
+			if(compare > 0)
+			{
+				System.out.println("delay : "  + calDateDays);
+				
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				item.addProperty("deductedPoint", calDateDays);
+				score.add("delay", item);
+				
+				scheme.deduct_point(calDateDays);
+			}
+			else
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", false);
+				item.addProperty("deductedPoint", 0);
+				score.add("delay", item);
+			}
+		} catch (ParseException e) { e.printStackTrace(); }
+		
+		if((double)scheme.getResult_point() > 0)
+			score.addProperty("result", (double)scheme.getResult_point());
+		else
+			score.addProperty("result", 0);
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String sheet = gson.toJson(score);
 		
 		return sheet;
-	}
-	
-	private IGradeStage preset(String path)
-	{
-		if (new File(path + "/settings.gradle").exists()) {
-			flag = true;
-			return new GradleStage();
-		}
-		
-		return new JavaStage();
-	}
-	
-	private String isExistMainPath(EvaluationSchemeMapper scheme)
-	{
-		for(String eachClass : scheme.getReqClass())
-			if(eachClass.contains("/") || eachClass.contains(".")) return eachClass;
-		
-		return null;
 	}
 }

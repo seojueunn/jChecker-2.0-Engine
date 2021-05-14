@@ -12,13 +12,15 @@ public class ASTChecker
 	private ASTParser parser;
 	private String filePath ;
 	
-	public ASTParser parserSetProperties(String source, String unit, String filePath)
+	public ASTParser parserSetProperties(String source, String unit, String filePath, boolean isBuild)
 	{
 		char[] content = source.toCharArray();
+		String[] classpath;
+		
 		this.filePath = filePath;
 		
 		parser = ASTParser.newParser(AST.JLS15);
-		parser.setUnitName(unit);
+		parser.setUnitName("any_name");
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(content);
 		
@@ -28,9 +30,25 @@ public class ASTChecker
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 		
 		String[] sources = { this.filePath };
-		String[] classpath = { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" };
-		// String[] classpath = { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" };
 		
+		if(isBuild)
+		{
+			// classpath = new String[] { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" , filePath + "app/build/libs/app.jar" };
+			if(filePath.contains("app"))
+			{
+				System.out.println("Contain app in " + filePath);
+				classpath = new String[] { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" , filePath + "build/libs/app.jar" };
+			}
+			else
+			{
+				System.out.println("Not contain app in " + filePath);
+				classpath = new String[] { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" , filePath + "app/build/libs/app.jar" };
+			}
+		}
+		else
+			// classpath = new String[] { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar"  , filePath + "bin" };
+			classpath = new String[] { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar"  , filePath + "bin" };
+			
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8" }, true);
 		
 		
@@ -48,7 +66,7 @@ public class ASTChecker
 		char[] content = source.toCharArray();
 		
 		parser = ASTParser.newParser(AST.JLS15);
-		parser.setUnitName("source.java") ;
+		parser.setUnitName("any_name") ;
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(content);
 		
@@ -58,8 +76,8 @@ public class ASTChecker
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 		
 		String[] sources = { this.filePath };
-		String[] classpath = { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" };
-		// String[] classpath = { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" };
+		// String[] classpath = { "/usr/lib/jvm/java-14-openjdk-amd64/lib/jrt-fs.jar" };
+		String[] classpath = { "/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/lib/jrt-fs.jar" };
 		
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8" }, true);
 		

@@ -96,13 +96,11 @@ public class JavaStage implements IGradeStage
 	
 	public ArrayList<String> getTest(String packagePath, boolean isTest)
 	{
-		ArrayList<String> command = new ArrayList<>();
+		/*
+		 * Useless
+		 */
 		
-		command.add("bash");
-		command.add("-c");
-		command.add("java -cp bin " + packagePath);
-		
-		return command;
+		return null;
 	}
 	
 	private ArrayList<String> getCommand()

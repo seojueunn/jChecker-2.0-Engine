@@ -14,6 +14,7 @@ public class GradleStage implements IGradeStage
 		int state = -1;
 		ProcessBuilder builder = null;
 		Process process = null;
+		BufferedReader stdout = null;
 
 		listup(dpath);
 		
@@ -21,10 +22,26 @@ public class GradleStage implements IGradeStage
 		{
 			builder = new ProcessBuilder(getCommand());
 			builder.directory(new File(dpath));
-			builder.redirectOutput(Redirect.INHERIT);
 			
 			process = builder.start();
-			state = process.waitFor();
+			
+			stdout = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+
+			String line;
+			boolean flag = false;
+			
+			while((line = stdout.readLine()) != null)
+			{	
+				if (line.contains("No dependencies")) 
+				{
+					flag = true;
+					break;
+				}
+			}
+			
+			state = flag ? -1 : 0;
+			
+			process.waitFor();
 			process.destroy();
 			
 		} 
@@ -74,6 +91,9 @@ public class GradleStage implements IGradeStage
 			}
 			
 			String answer = sb.toString().trim();
+			
+			System.out.println("Program output : " + answer);
+			System.out.println("Expected output : " + output);
 
 			if (output.equals(answer.trim()))
 				result = true;

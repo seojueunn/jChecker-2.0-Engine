@@ -27,14 +27,16 @@ public class OOPChecker extends ASTChecker
 	private ArrayList<String> pkgViolations = new ArrayList<>();
 	private boolean isInterface = false;
 	private boolean isSuperclass = false;
+	private boolean isOverriding = false;
+	private boolean isOverloading = false;
+	private boolean isBuild = false;
 	
 	private boolean ecpViolation = false;
 	private boolean clasViolation = false;
 	private boolean pkgViolation = false;
 	private boolean itfViolation = false;
 	private boolean spcViolation = false;
-	private boolean ovlViolation = false;
-	private boolean ovrViolation = false;
+	
 	
 	private int classesViolationCount = 0;
 	private int pkgViolationCount = 0;
@@ -52,8 +54,10 @@ public class OOPChecker extends ASTChecker
 	}
 	
 	
-	public JsonObject run(JsonObject scoresheet)
+	public JsonObject run(JsonObject scoresheet, boolean isBuild)
 	{
+		this.isBuild = isBuild;
+		
 		if(source.isEmpty() || source == null)
 		{
 			if (policy.isEncaps()) 
@@ -177,12 +181,14 @@ public class OOPChecker extends ASTChecker
 			}
 			
 			
-			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) 
+			if (isOverloading) 
 			{
 				JsonObject item_ovl = new JsonObject();
 				
 				if(policy.getOverloading().size() > 0)
-					item_ovl.addProperty("violation", ovlViolation);
+					item_ovl.addProperty("violation", true);
+				else item_ovl.addProperty("violation", false);
+				
 				item_ovl.addProperty("violationCount", policy.getOverloading().size());
 				
 				
@@ -198,12 +204,14 @@ public class OOPChecker extends ASTChecker
 			}
 			
 			
-			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
+			if (isOverriding) 
 			{
 				JsonObject item_ovr = new JsonObject();
 				
 				if(policy.getOverriding().size() > 0)
-					item_ovr.addProperty("violation", ovrViolation);
+					item_ovr.addProperty("violation", true);
+				else item_ovr.addProperty("violation", false);
+				
 				item_ovr.addProperty("violationCount", policy.getOverriding().size());
 				
 				
@@ -308,7 +316,7 @@ public class OOPChecker extends ASTChecker
 	{
 		for (String each : source) 
 		{
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, isBuild).createAST(null);
 			
 			
 			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) getMethodDeclarations(unit);
@@ -327,16 +335,24 @@ public class OOPChecker extends ASTChecker
 	{
 		for (String each : source) 
 		{
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, isBuild).createAST(null);
 			
 			
 			if (policy.isEncaps()) testEncapsulation(unit);
 			
 			
-			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) testOverriding(unit);
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty())
+			{
+				isOverloading = true;
+				testOverloading(unit);
+			}
 			
 			
-			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) testOverriding(unit);
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
+			{
+				isOverriding = true;
+				testOverriding(unit);
+			}
 			
 			
 			if (policy.getSuperClass() != null && !policy.getSuperClass().isEmpty()) 
@@ -366,6 +382,8 @@ public class OOPChecker extends ASTChecker
 	{
 		for (String each : policy.getReqClass())
 		{
+			System.out.println(each);
+			
 			if (!classes.contains(each)) 
 			{
 				classesViolations.add(each);
@@ -432,8 +450,7 @@ public class OOPChecker extends ASTChecker
 	
 	
 	private void testInterface(CompilationUnit unit)
-	{
-		
+	{	
 		try 
 		{
 			unit.accept(new ASTVisitor() 
@@ -476,23 +493,40 @@ public class OOPChecker extends ASTChecker
 	
 	public void testOverriding(CompilationUnit unit)
 	{
-		
 		try 
 		{
 			unit.accept(new ASTVisitor() 
 			{
 				public boolean visit(MethodDeclaration node)
-				{
+				{	
 					if (policy.getOverriding().contains(node.getName().toString())) 
 					{
-						for (IMethodBinding each : methods)
-						{
-							if (node.resolveBinding().overrides(each)) 
-							{
-								policy.getOverriding().remove(node.getName().toString());
-								return false;
-							}
-						}
+						// e.g. subclass method()
+				        IMethodBinding methodBinding = node.resolveBinding();
+
+				        // e.g. subclass
+				        ITypeBinding classBinding = methodBinding.getDeclaringClass();
+
+				        // e.g. super class
+				        ITypeBinding superclassBinding = classBinding.getSuperclass();
+				        
+				        if (superclassBinding != null) 
+				        {
+				        	System.out.println("SuperClass Name : " + superclassBinding.getName());
+				        	System.out.println("SuperClass of SuperClass(Animal) : " + superclassBinding.getSuperclass());
+				        	
+				        	for (IMethodBinding parentBinding: superclassBinding.getDeclaredMethods()) 
+				        	{
+				        		System.out.println("Searching : " + parentBinding.getName());
+				        		
+				                if (methodBinding.overrides(parentBinding)) 
+				                {
+				                	System.out.println("Remove : " + node.getName().toString());
+									
+				                	policy.getOverriding().remove(node.getName().toString());
+				                }
+				            }
+				        }
 					}
 					
 					return super.visit(node);
@@ -585,7 +619,6 @@ public class OOPChecker extends ASTChecker
 				{
 					methods.add(node.resolveBinding().getMethodDeclaration());
 					
-					
 					return super.visit(node);
 				}
 			});
@@ -621,9 +654,8 @@ public class OOPChecker extends ASTChecker
 			{
 				public boolean visit(TypeDeclaration node)
 				{
-					classes.add(node.getName().toString());
-					
-					
+					classes.add(node.resolveBinding().getPackage().toString().replace("package ", "") + "." + node.getName().toString());
+	
 					return super.visit(node);
 				}
 			});

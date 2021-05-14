@@ -33,7 +33,7 @@ public class Extractor
 				
 				if (entry.isDirectory())
 				{
-					System.out.println("Directory : " + entry.getName());
+					// System.out.println("Directory : " + entry.getName());
 					continue;
 				}
 				else 

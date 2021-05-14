@@ -51,6 +51,7 @@ public class ImplementationChecker extends ASTChecker {
 	private boolean countViolation = false;
 	private boolean customExcViolation = false;
 	private boolean customStructViolation = false;
+	private boolean isBuild = false;
 	
 	private int customExcViolationCount = 0;
 	private int customStructViolationCount = 0;
@@ -72,8 +73,10 @@ public class ImplementationChecker extends ASTChecker {
 	
 	
 	
-	public JsonObject run(JsonObject scoresheet)
+	public JsonObject run(JsonObject scoresheet, boolean isBuild)
 	{
+		this.isBuild = isBuild;
+		
 		if(source.isEmpty() || source == null)
 		{
 			if (policy.isCount()) 
@@ -241,7 +244,7 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		for (String each : source) 
 		{
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, isBuild).createAST(null);
 			getClassNames(unit);
 			getInstances(unit);
 			getCountInfo(unit);
@@ -254,7 +257,7 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		for (String each : source) 
 		{
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, isBuild).createAST(null);
 			
 			if (policy.isJavadoc()) testJavadoc(unit);
 		}
@@ -445,6 +448,7 @@ public class ImplementationChecker extends ASTChecker {
 			{
 				public boolean visit(TypeDeclaration node)
 				{
+					
 					classes.add(node.getName().toString());
 					
 					if (node.getSuperclassType() != null)
@@ -584,7 +588,7 @@ public class ImplementationChecker extends ASTChecker {
 		{
 			if(!result.isEmpty()) break;
 			
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, isBuild).createAST(null);
 				
 			try 
 			{
@@ -613,7 +617,7 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		for (String each : source) 
 		{
-			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
+			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, isBuild).createAST(null);
 			
 			try 
 			{
