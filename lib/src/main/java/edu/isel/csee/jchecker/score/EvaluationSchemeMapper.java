@@ -9,7 +9,8 @@ public class EvaluationSchemeMapper {
 	private String itoken;
 	private String className;
 	private String instructor;
-	
+	private String dueDate;
+
 	private ArrayList<String> packageName = null;
 	private ArrayList<String> inputs = null;
 	private ArrayList<String> outputs = null;
@@ -69,6 +70,14 @@ public class EvaluationSchemeMapper {
 	private int fieldCount;
 	private int enForCount;
 	
+	
+	public String getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
 	
 	public String getToken()
 	{
