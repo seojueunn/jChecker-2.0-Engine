@@ -6,14 +6,14 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntireContentParser {
-
-	
+public class EntireContentParser 
+{	
 	public List<String> getAllFiles(String target)
 	{
 		List<String> source = new ArrayList<>();
 		
-		try {
+		try 
+		{
 			File srclist = new File(target + "//srclist.txt");
 			
 			BufferedReader br = new BufferedReader(new FileReader(srclist));
@@ -24,7 +24,7 @@ public class EntireContentParser {
 			StringBuffer sb = null;
 			
 			
-			while ( (line = br.readLine()) != null)
+			while ((line = br.readLine()) != null)
 			{
 				sb = new StringBuffer();	
 				File file = new File(target+"/"+line);
@@ -32,7 +32,7 @@ public class EntireContentParser {
 				
 				String content = "";
 				
-				while ( (content = piece.readLine()) != null)
+				while ((content = piece.readLine()) != null)
 				{
 					sb.append(content);
 					sb.append("\n");
@@ -44,9 +44,8 @@ public class EntireContentParser {
 			br.close();
 			piece.close();
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} 
+		catch (Exception e) { e.printStackTrace(); }
 		
 		
 		return source;

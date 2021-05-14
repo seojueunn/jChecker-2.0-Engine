@@ -11,7 +11,8 @@ import edu.isel.csee.jchecker.score.EvaluationSchemeMapper;
 
 
 
-public class OOPChecker extends ASTChecker {
+public class OOPChecker extends ASTChecker 
+{
 	private EvaluationSchemeMapper policy;
 	private List<String> source = null;
 	private String unitName;
@@ -24,6 +25,8 @@ public class OOPChecker extends ASTChecker {
 	private ArrayList<String> spcViolations = new ArrayList<>();
 	private ArrayList<String> itfViolations = new ArrayList<>();
 	private ArrayList<String> pkgViolations = new ArrayList<>();
+	private boolean isInterface = false;
+	private boolean isSuperclass = false;
 	
 	private boolean ecpViolation = false;
 	private boolean clasViolation = false;
@@ -51,146 +54,249 @@ public class OOPChecker extends ASTChecker {
 	
 	public JsonObject run(JsonObject scoresheet)
 	{
-		collect();
-		
-		test();
-		
+		if(source.isEmpty() || source == null)
+		{
+			if (policy.isEncaps()) 
+			{
+				JsonObject item_ecp = new JsonObject();
+				
+				item_ecp.addProperty("violation", true);
+				
+				item_ecp.addProperty("deductedPoint", policy.getEnc_deduct_point());
+				scoresheet.add("encapsulation", item_ecp);
+				
+				policy.deduct_point(policy.getEnc_deduct_point());
+			}
+			
+			
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) 
+			{
+				JsonObject item_ovl = new JsonObject();
+				
+				item_ovl.addProperty("violation", true);
+				item_ovl.addProperty("violationCount", policy.getOverloading().size());
+				
+				item_ovl.addProperty("deductedPoint", policy.getOvl_max_deduct());
+				scoresheet.add("overloading", item_ovl);
+				
+				policy.deduct_point(policy.getOvl_max_deduct());
+			}
+			
+			
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
+			{
+				JsonObject item_ovr = new JsonObject();
+				
+				item_ovr.addProperty("violation", true);
+				item_ovr.addProperty("violationCount", policy.getOverriding().size());
 
-		if (policy.isEncaps()) {
-			JsonObject item_ecp = new JsonObject();
-			
-			item_ecp.addProperty("violation", ecpViolation);
-			
-			if (!ecpViolation) 
-				policy.setEnc_deduct_point(0);
+				item_ovr.addProperty("deductedPoint", policy.getOvr_max_deduct());
+				scoresheet.add("overriding", item_ovr);
+				
+				policy.deduct_point(policy.getOvr_max_deduct());
+			}
 			
 			
-			item_ecp.addProperty("deductedPoint", policy.getEnc_deduct_point());
-			scoresheet.add("encapsulation", item_ecp);
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) 
+			{
+				JsonObject item_class = new JsonObject();
+				
+				item_class.addProperty("violation", true);
+				item_class.addProperty("violationCount", policy.getReqClass().size());
+				
+				item_class.addProperty("deductedPoint", policy.getClass_max_deduct());
+				scoresheet.add("classes", item_class);
+				
+				policy.deduct_point(policy.getClass_max_deduct());
+			}
 			
 			
-			policy.deduct_point(policy.getEnc_deduct_point());
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) 
+			{
+				JsonObject item_pkg = new JsonObject();
+				
+				item_pkg.addProperty("violation", true);
+				item_pkg.addProperty("violationCount", policy.getPackageName().size());
+		
+				item_pkg.addProperty("deductedPoint", policy.getPackage_max_deduct());
+				scoresheet.add("packages", item_pkg);
+				
+				policy.deduct_point(policy.getPackage_max_deduct());
+			}
+			
+			
+			if (isSuperclass) 
+			{
+				JsonObject item_spc = new JsonObject();
+				
+				item_spc.addProperty("violation", true);
+				item_spc.addProperty("violationCount", policy.getSoriginClass().size());
+				
+				item_spc.addProperty("deductedPoint", policy.getSpc_max_deduct());
+				scoresheet.add("inheritSuper", item_spc);
+				
+				policy.deduct_point(policy.getSpc_max_deduct());
+			}
+			
+			
+			if (isInterface) 
+			{
+				JsonObject item_itf = new JsonObject();
+				
+				item_itf.addProperty("violation", true);
+				item_itf.addProperty("violationCount", policy.getIoriginClass().size());
+				
+				item_itf.addProperty("deductedPoint", policy.getItf_max_deduct());
+				scoresheet.add("inheritInterface", item_itf);
+					
+				policy.deduct_point(policy.getItf_max_deduct());
+			}
 		}
-		
-		
-		
-		if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) {
-			JsonObject item_ovl = new JsonObject();
+		else
+		{
+			collect();
 			
-			if(policy.getOverloading().size() > 0)
-				item_ovl.addProperty("violation", ovlViolation);
-			item_ovl.addProperty("violationCount", policy.getOverloading().size());
+			test();
 			
-			
-			double deducted = policy.getOvl_deduct_point() * policy.getOverloading().size();
-			if (deducted > policy.getOvl_max_deduct())
-				deducted = policy.getOvl_max_deduct();
-			
-			item_ovl.addProperty("deductedPoint", deducted);
-			scoresheet.add("overloading", item_ovl);
-			
-			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		
-		if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
-			JsonObject item_ovr = new JsonObject();
-			
-			if(policy.getOverriding().size() > 0)
-				item_ovr.addProperty("violation", ovrViolation);
-			item_ovr.addProperty("violationCount", policy.getOverriding().size());
-			
-			
-			double deducted = policy.getOvr_deduct_point() * policy.getOverriding().size();
-			if (deducted > policy.getOvr_max_deduct())
-				deducted = policy.getOvr_max_deduct();
-			
-			item_ovr.addProperty("deductedPoint", deducted);
-			scoresheet.add("overriding", item_ovr);
-			
-			
-			policy.deduct_point(deducted);
-		}
 
-		
-		
-		if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
-			JsonObject item_class = new JsonObject();
-			
-			item_class.addProperty("violation", clasViolation);
-			item_class.addProperty("violationCount", classesViolationCount);
-			
-			
-			double deducted = policy.getClass_deduct_point() * classesViolationCount;
-			if (deducted > policy.getClass_max_deduct())
-				deducted = policy.getClass_max_deduct();
-			
-			item_class.addProperty("deductedPoint", deducted);
-			scoresheet.add("classes", item_class);
-			
-			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		
-		if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
-			JsonObject item_pkg = new JsonObject();
-			
-			item_pkg.addProperty("violation", pkgViolation);
-			item_pkg.addProperty("violationCount", pkgViolationCount);
+			if (policy.isEncaps()) 
+			{
+				JsonObject item_ecp = new JsonObject();
+				
+				item_ecp.addProperty("violation", ecpViolation);
+				
+				if (!ecpViolation) 
+					policy.setEnc_deduct_point(0);
+				
+				
+				item_ecp.addProperty("deductedPoint", policy.getEnc_deduct_point());
+				scoresheet.add("encapsulation", item_ecp);
+				
+				
+				policy.deduct_point(policy.getEnc_deduct_point());
+			}
 			
 			
-			double deducted = policy.getPackage_deduct_point() * pkgViolationCount;
-			if (deducted > policy.getPackage_max_deduct())
-				deducted = policy.getPackage_max_deduct();
-			
-			item_pkg.addProperty("deductedPoint", deducted);
-			scoresheet.add("packages", item_pkg);
-			
-			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		
-		if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
-			JsonObject item_spc = new JsonObject();
-			
-			item_spc.addProperty("violation", spcViolation);
-			item_spc.addProperty("violationCount", spcViolationCount);
-			
-			
-			double deducted = policy.getSpc_deduct_point() * spcViolationCount;
-			if (deducted > policy.getSpc_max_deduct())
-				deducted = policy.getSpc_max_deduct();
-			
-			item_spc.addProperty("deductedPoint", deducted);
-			scoresheet.add("inheritSuper", item_spc);
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) 
+			{
+				JsonObject item_ovl = new JsonObject();
+				
+				if(policy.getOverloading().size() > 0)
+					item_ovl.addProperty("violation", ovlViolation);
+				item_ovl.addProperty("violationCount", policy.getOverloading().size());
+				
+				
+				double deducted = (double)(policy.getOvl_deduct_point() * (double)policy.getOverloading().size());
+				if (deducted > policy.getOvl_max_deduct())
+					deducted = (double)policy.getOvl_max_deduct();
+				
+				item_ovl.addProperty("deductedPoint", deducted);
+				scoresheet.add("overloading", item_ovl);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
 			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
-			JsonObject item_itf = new JsonObject();
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) 
+			{
+				JsonObject item_ovr = new JsonObject();
+				
+				if(policy.getOverriding().size() > 0)
+					item_ovr.addProperty("violation", ovrViolation);
+				item_ovr.addProperty("violationCount", policy.getOverriding().size());
+				
+				
+				double deducted = (double)(policy.getOvr_deduct_point() * (double)policy.getOverriding().size());
+				if (deducted > policy.getOvr_max_deduct())
+					deducted = (double)policy.getOvr_max_deduct();
+				
+				item_ovr.addProperty("deductedPoint", deducted);
+				scoresheet.add("overriding", item_ovr);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
-			item_itf.addProperty("violation", itfViolation);
-			item_itf.addProperty("violationCount", itfViolationCount);
+			
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) 
+			{
+				JsonObject item_class = new JsonObject();
+				
+				item_class.addProperty("violation", clasViolation);
+				item_class.addProperty("violationCount", classesViolationCount);
+				
+				
+				double deducted = (double)(policy.getClass_deduct_point() * (double)classesViolationCount);
+				if (deducted > policy.getClass_max_deduct())
+					deducted = (double)policy.getClass_max_deduct();
+				
+				item_class.addProperty("deductedPoint", deducted);
+				scoresheet.add("classes", item_class);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
 			
-			double deducted = policy.getItf_deduct_point() * itfViolationCount;
-			if (deducted > policy.getItf_max_deduct())
-				deducted = policy.getItf_max_deduct();
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) 
+			{
+				JsonObject item_pkg = new JsonObject();
+				
+				item_pkg.addProperty("violation", pkgViolation);
+				item_pkg.addProperty("violationCount", pkgViolationCount);
+				
+				
+				double deducted = (double)(policy.getPackage_deduct_point() * (double)pkgViolationCount);
+				if (deducted > policy.getPackage_max_deduct())
+					deducted = (double)policy.getPackage_max_deduct();
+				
+				item_pkg.addProperty("deductedPoint", deducted);
+				scoresheet.add("packages", item_pkg);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
-			item_itf.addProperty("deductedPoint", deducted);
-			scoresheet.add("inheritInterface", item_itf);
+			
+			if (isSuperclass) 
+			{
+				JsonObject item_spc = new JsonObject();
+				
+				item_spc.addProperty("violation", spcViolation);
+				item_spc.addProperty("violationCount", spcViolationCount + policy.getSoriginClass().size());
+				
+				
+				double deducted = (double)(policy.getSpc_deduct_point() * (double)(spcViolationCount + policy.getSoriginClass().size()));
+				if (deducted > policy.getSpc_max_deduct())
+					deducted = (double)policy.getSpc_max_deduct();
+				
+				item_spc.addProperty("deductedPoint", deducted);
+				scoresheet.add("inheritSuper", item_spc);
+				
+				
+				policy.deduct_point(deducted);
+			}
 			
 			
-			policy.deduct_point(deducted);
+			if (isInterface) 
+			{
+				JsonObject item_itf = new JsonObject();
+				
+				item_itf.addProperty("violation", itfViolation);
+				item_itf.addProperty("violationCount", itfViolationCount + policy.getIoriginClass().size());
+				
+				
+				double deducted = (double)(policy.getItf_deduct_point() * (double)(itfViolationCount + policy.getIoriginClass().size()));
+				if (deducted > policy.getItf_max_deduct()) 
+					deducted = (double)policy.getItf_max_deduct();
+				
+				item_itf.addProperty("deductedPoint", deducted);
+				scoresheet.add("inheritInterface", item_itf);
+				
+				
+				policy.deduct_point(deducted);
+			}
 		}
 		
 		return scoresheet;
@@ -200,23 +306,18 @@ public class OOPChecker extends ASTChecker {
 	
 	private void collect()
 	{
-		for (String each : source) {
+		for (String each : source) 
+		{
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
 			
 			
-			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
-				getMethodDeclarations(unit);
-			}
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) getMethodDeclarations(unit);
 	
 			
-			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
-				getClassNames(unit);
-			}
+			if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) getClassNames(unit);
 			
 			
-			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
-				getPackageNames(unit);
-			}
+			if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) getPackageNames(unit);
 		}
 	}
 	
@@ -224,44 +325,38 @@ public class OOPChecker extends ASTChecker {
 	
 	private void test()
 	{
-		for (String each : source) {
+		for (String each : source) 
+		{
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath).createAST(null);
 			
 			
-			if (policy.isEncaps()) {
-				testEncapsulation(unit);
-			}
+			if (policy.isEncaps()) testEncapsulation(unit);
 			
 			
-			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) {
-				testOverriding(unit);
-			}
+			if (policy.getOverloading() != null && !policy.getOverloading().isEmpty()) testOverriding(unit);
 			
 			
-			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) {
-				testOverriding(unit);
-			}
+			if (policy.getOverriding() != null && !policy.getOverriding().isEmpty()) testOverriding(unit);
 			
 			
-			if (policy.getSuperclass_pair() != null && !policy.getSuperclass_pair().isEmpty()) {
+			if (policy.getSuperClass() != null && !policy.getSuperClass().isEmpty()) 
+			{
+				isSuperclass = true;
 				testSuperclass(unit);
 			}
 			
 			
-			if (policy.getInterface_pair() != null && !policy.getInterface_pair().isEmpty()) {
+			if (policy.getInterfaceClass() != null && !policy.getInterfaceClass().isEmpty()) 
+			{
+				isInterface = true;
 				testInterface(unit);
-			}
-			
+			}	
 		}
 		
-		if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) {
-			testRequiredClass();
-		}
+		if (policy.getReqClass() != null && !policy.getReqClass().isEmpty()) testRequiredClass();
 		
 		
-		if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) {
-			testRequiredPackage();
-		}
+		if (policy.getPackageName() != null && !policy.getPackageName().isEmpty()) testRequiredPackage();
 	}
 	
 	
@@ -271,7 +366,8 @@ public class OOPChecker extends ASTChecker {
 	{
 		for (String each : policy.getReqClass())
 		{
-			if (!classes.contains(each)) {
+			if (!classes.contains(each)) 
+			{
 				classesViolations.add(each);
 				classesViolationCount++;
 				clasViolation = true;
@@ -282,12 +378,12 @@ public class OOPChecker extends ASTChecker {
 	
 	
 	
-	
 	private void testRequiredPackage()
 	{
 		for (String each : policy.getPackageName())
 		{
-			if (!packages.contains(each)) {
+			if (!packages.contains(each)) 
+			{
 				pkgViolations.add(each);
 				pkgViolationCount++;
 				pkgViolation = true;
@@ -299,18 +395,29 @@ public class OOPChecker extends ASTChecker {
 	
 	private void testSuperclass(CompilationUnit unit)
 	{
-		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
-					if (!policy.getSuperclass_pair().containsKey(node.getName().toString()))
-						return super.visit(node);
+					int idx = -1;
 					
-					if (policy.getSuperclass_pair().get(node.getName().toString()).equals(node.getSuperclassType().toString())) {
-						spcViolations.add(policy.getSuperclass_pair().get(node.getName().toString()));
+					if (!policy.getSoriginClass().contains(node.getName().toString()))
+						return super.visit(node);
+					else 
+						idx = policy.getSoriginClass().indexOf(node.getName().toString());
+					
+					if (!policy.getSuperClass().get(idx).equals(node.getSuperclassType().toString())) 
+					{
+						spcViolations.add(node.getName().toString());
 						spcViolationCount++;
 						spcViolation = true;
+					}
+					else
+					{
+						policy.getSoriginClass().remove(idx);
+						policy.getSuperClass().remove(idx);
 					}
 					
 					
@@ -318,9 +425,7 @@ public class OOPChecker extends ASTChecker {
 				}
 			});
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
@@ -329,22 +434,34 @@ public class OOPChecker extends ASTChecker {
 	private void testInterface(CompilationUnit unit)
 	{
 		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					boolean flag = false;
-					if (!policy.getInterface_pair().containsKey(node.getName().toString()))
-						return super.visit(node);
+					int idx = -1;
 					
-					for (Object each : node.superInterfaceTypes()) {
-						if (policy.getInterface_pair().get(node.getName().toString()).equals(each.toString())) {
+					if (!policy.getIoriginClass().contains(node.getName().toString()))
+						return super.visit(node);
+					else 
+						idx = policy.getIoriginClass().indexOf(node.getName().toString());
+					
+					for (Object each : node.superInterfaceTypes()) 
+					{
+						if (policy.getInterfaceClass().get(idx).equals(each.toString())) 
+						{
 							flag = true;
+							policy.getIoriginClass().remove(idx);
+							policy.getInterfaceClass().remove(idx);
+							break;
 						}
 					}
 					
-					if (!flag) {
-						itfViolations.add(policy.getInterface_pair().get(node.getName().toString()));
+					if (!flag) 
+					{
+						itfViolations.add(node.getName().toString());
 						itfViolationCount++;
 						itfViolation = true;
 					}
@@ -352,9 +469,7 @@ public class OOPChecker extends ASTChecker {
 					return super.visit(node);
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
@@ -362,14 +477,18 @@ public class OOPChecker extends ASTChecker {
 	public void testOverriding(CompilationUnit unit)
 	{
 		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(MethodDeclaration node)
 				{
-					if (policy.getOverriding().contains(node.getName().toString())) {
+					if (policy.getOverriding().contains(node.getName().toString())) 
+					{
 						for (IMethodBinding each : methods)
 						{
-							if (node.resolveBinding().overrides(each)) {
+							if (node.resolveBinding().overrides(each)) 
+							{
 								policy.getOverriding().remove(node.getName().toString());
 								return false;
 							}
@@ -381,39 +500,34 @@ public class OOPChecker extends ASTChecker {
 			});
 			
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
-	
 	
 	
 	
 	public void testOverloading(CompilationUnit unit)
 	{
-		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					MethodDeclaration[] tmp = node.getMethods();
 					ArrayList<String> currentMethods = new ArrayList<>();
 					
-					for (MethodDeclaration each : tmp)
-						currentMethods.add(each.toString());
+					for (MethodDeclaration each : tmp) currentMethods.add(each.toString());
 					
 					
 					for (String ovl : policy.getOverloading()) 
 					{
 						for (String each : currentMethods)
 						{
-							if (each.equals(ovl)) {
+							if (each.equals(ovl)) 
+							{
 								currentMethods.remove(each);
 								
-								
-								if (currentMethods.contains(ovl))
-									policy.getOverloading().remove(ovl);
-								
+								if (currentMethods.contains(ovl)) policy.getOverloading().remove(ovl);	
 							}
 						}
 					}
@@ -422,110 +536,97 @@ public class OOPChecker extends ASTChecker {
 					return super.visit(node);
 				}
 			});
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) { e.printStackTrace(); }
 	}
-	
 	
 	
 	
 	private void testEncapsulation(CompilationUnit unit)
 	{
-		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit (TypeDeclaration node)
 				{
 					int public_count = 0;
 					
 					
-					if (!policy.getReqClass().contains(node.getName().toString()))
-						return false;
+					if (!policy.getReqClass().contains(node.getName().toString())) return false;
 					
 					
 					for (FieldDeclaration eachField : node.getFields())
-					{
-						if ((eachField.getModifiers() & Modifier.PRIVATE) <= 0)
-							ecpViolation = true;
-						
-					}
+						if ((eachField.getModifiers() & Modifier.PRIVATE) <= 0) ecpViolation = true;		
 					
 					
 					for (MethodDeclaration eachMethod : node.getMethods())
-					{
-						if ((eachMethod.getModifiers() & Modifier.PUBLIC) > 0)
-							public_count++;
-					}
+						if ((eachMethod.getModifiers() & Modifier.PUBLIC) > 0) public_count++;
 					
 					
-					if (public_count == 0)
-						ecpViolation = true;
+					if (public_count == 0) ecpViolation = true;
 					
-					
-					
+
 					return super.visit(node);
 				}
 			});
 		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
 	
 	private void getMethodDeclarations(CompilationUnit unit)
 	{
-		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(MethodDeclaration node)
 				{
 					methods.add(node.resolveBinding().getMethodDeclaration());
+					
+					
 					return super.visit(node);
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
 
 	private void getPackageNames(CompilationUnit unit)
 	{
-		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(PackageDeclaration node)
 				{
 					packages.add(node.getName().toString());
+					
+					
 					return super.visit(node);
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	
 	
 	private void getClassNames(CompilationUnit unit)
 	{
-		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					classes.add(node.getName().toString());
 					
+					
 					return super.visit(node);
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
-	
 }

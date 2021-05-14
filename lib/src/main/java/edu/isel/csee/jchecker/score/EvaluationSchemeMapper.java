@@ -19,9 +19,14 @@ public class EvaluationSchemeMapper {
 	private ArrayList<String> reqCusStruct = null;
 	private ArrayList<String> overriding = null;
 	private ArrayList<String> overloading = null;
-	private HashMap<String, String> superclass_pair = null;
-	private HashMap<String, String> interface_pair = null;
 	
+	private ArrayList<String> ioriginClass = null;
+	private ArrayList<String> superClass = null;
+	
+	private ArrayList<String> soriginClass = null;
+	private ArrayList<String> interfaceClass = null;
+	
+	private boolean isBTool = false;
 	private boolean isDirect = false;
 	private boolean thread = false;
 	private boolean javadoc = false;
@@ -106,6 +111,39 @@ public class EvaluationSchemeMapper {
 		this.instructor = instructor;
 	}
 	
+	
+	public ArrayList<String> getIoriginClass() {
+		return ioriginClass;
+	}
+
+	public void setIoriginClass(ArrayList<String> ioriginClass) {
+		this.ioriginClass = ioriginClass;
+	}
+
+	public ArrayList<String> getSuperClass() {
+		return superClass;
+	}
+
+	public void setSuperClass(ArrayList<String> superClass) {
+		this.superClass = superClass;
+	}
+
+	public ArrayList<String> getSoriginClass() {
+		return soriginClass;
+	}
+
+	public void setSoriginClass(ArrayList<String> soriginClass) {
+		this.soriginClass = soriginClass;
+	}
+
+	public ArrayList<String> getInterfaceClass() {
+		return interfaceClass;
+	}
+
+	public void setInterfaceClass(ArrayList<String> interfaceClass) {
+		this.interfaceClass = interfaceClass;
+	}
+
 	
 	public boolean isCompiled()
 	{
@@ -213,32 +251,6 @@ public class EvaluationSchemeMapper {
 	{
 		this.reqCusStruct = reqCusStruct;
 	}
-	
-	
-	
-	public HashMap<String, String> getSuperclass_pair()
-	{
-		return superclass_pair;
-	}
-
-
-	public void setSuperclass_pair(HashMap<String, String> superclass_pair)
-	{
-		this.superclass_pair = superclass_pair;
-	}
-
-
-	public HashMap<String, String> getInterface_pair()
-	{
-		return interface_pair;
-	}
-
-
-	public void setInterface_pair(HashMap<String, String> interface_pair)
-	{
-		this.interface_pair = interface_pair;
-	}
-
 	
 	public ArrayList<String> getOverriding()
 	{
@@ -629,5 +641,13 @@ public class EvaluationSchemeMapper {
 
 	public void setDirect(boolean isDirect) {
 		this.isDirect = isDirect;
+	}
+	
+	public boolean isBTool() {
+		return isBTool;
+	}
+
+	public void setBTool(boolean isBTool) {
+		this.isBTool = isBTool;
 	}
 }

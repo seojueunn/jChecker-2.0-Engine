@@ -21,6 +21,7 @@ public class CoreGrader {
 	private List<String> srcList = new ArrayList<>();
 	private int violationCount = 0;
 	private int checkCompile ;
+	private String mainPath = "";
 	
 	
 	public String start(String workpath, String policy)
@@ -30,6 +31,8 @@ public class CoreGrader {
 		EvaluationSchemeMapper scheme = new EvaluationSchemeMapper();
 		JsonObject policyObject = new Gson().fromJson(policy, JsonObject.class);
 		JsonObject score = new JsonObject();
+		EntireContentParser source = new EntireContentParser();
+		MainClassDetector mcd = new MainClassDetector();
 		
 		new PolicyParser().parse(scheme, policyObject);
 		
@@ -39,50 +42,67 @@ public class CoreGrader {
 		score.addProperty("instructor", scheme.getInstructor());
 		score.addProperty("point", scheme.getPoint());
 		
-		checkCompile = grader.compile(workpath) ;
-		
+		checkCompile = grader.compile(workpath);
 
-		EntireContentParser source = new EntireContentParser();
-		MainClassDetector mcd = new MainClassDetector();
-		
 		srcList = source.getAllFiles(workpath);
-		mcd.setFilePath(workpath);
-		String mainPath = "";
 		
-		for (String src : srcList) {
-
-			if (!(mainPath = mcd.find(src)).isBlank()) {
-				mainPath.trim();
-				break;
+		mainPath = isExistMainPath(scheme);
+		
+		if (mainPath == null || mainPath.equals(""))
+		{
+			mcd.setFilePath(workpath);
+			
+			for (String src : srcList) 
+			{
+				if (!(mainPath = mcd.find(src)).isBlank()) 
+				{
+					mainPath.trim();
+					break;
+				}
 			}
 		}
 		
-		
-		if (checkCompile == 0) {	
+		if (checkCompile == 0) 
+		{	
 			JsonObject item = new JsonObject();
 			item.addProperty("violation", false);
-			item.addProperty("deductedPoint", 0);
+			
+			if(scheme.isBTool() && flag)
+			{
+				item.addProperty("bViolation", false);
+				item.addProperty("deductedPoint", 0);
+			}
+			else if(scheme.isBTool() && !flag)
+			{
+				item.addProperty("bViolation", true);
+				item.addProperty("deductedPoint", scheme.getCompiled_deduct_point());
+			}
+			else item.addProperty("deductedPoint", 0);
+			
 			score.add("compile", item);
+			
 
-			for (int i = 0; i < scheme.getInputs().size(); i++) {
+			for (int i = 0; i < scheme.getInputs().size(); i++) 
+			{
 				boolean result = false;
-				if (!flag) {
-					// input, output이 없는 경우 에러가 발생할 수 있음 
-					// build method를 오버로딩해야 함 (output을 받지 않는 걸로)
-					result = grader.build(grader.getTest(mainPath, scheme.getInputs().get(i), scheme.isTest()),
+				
+				if (!flag) 
+				{
+					result = grader.build(
+							grader.getTest(mainPath, scheme.getInputs().get(i), scheme.isTest()),
 							scheme.getOutputs().get(i),
 							workpath);
-					
-				} else {
-					
-					result = grader.build(grader.getTest(scheme.getInputs().get(i), scheme.isTest()), 
+				} 
+				else 
+				{	
+					result = grader.build(
+							grader.getTest(scheme.getInputs().get(i), scheme.isTest()), 
 							scheme.getOutputs().get(i), 
 							workpath);
-					
 				}
-				
-				
-				if (!result) {
+					
+				if (!result) 
+				{
 					violations.add(String.valueOf(i + 1));
 					violationCount++;
 				}
@@ -90,7 +110,7 @@ public class CoreGrader {
 			
 			JsonObject item_class = new JsonObject();
 			
-			if(violationCount > 0)
+			if (violationCount > 0)
 				item_class.addProperty("violation", true);
 			else
 				item_class.addProperty("violation", false);
@@ -98,24 +118,28 @@ public class CoreGrader {
 			item_class.add("violationNumber", new Gson().toJsonTree(violations));
 			item_class.addProperty("violationCount", violationCount);
 			
-			double deducted = scheme.getRuntime_deduct_point() * violationCount;
+			double deducted = (double)(scheme.getRuntime_deduct_point() * (double)violationCount);
 			if (deducted > scheme.getRuntime_max_deduct())
 				deducted = scheme.getRuntime_max_deduct();
 			
 			scheme.deduct_point(deducted);
 			item_class.addProperty("deductedPoint", deducted);
-			score.add("runtimeCompare", item_class);
+			score.add("oracle", item_class);
 			
-		} else {
-			if(scheme.isTest())
+		} 
+		else 
+		{
+			if (scheme.isTest())
 			{
-				for(int i = 0; i < scheme.getInputs().size(); i++) violations.add(String.valueOf(i + 1));
+				for (int i = 0; i < scheme.getInputs().size(); i++) violations.add(String.valueOf(i + 1));
 				
 				JsonObject item_class = new JsonObject();
+				
 				if(scheme.getInputs().size() > 0)
 					item_class.addProperty("violation", true);
 				else
 					item_class.addProperty("violation", false);
+				
 				item_class.add("violationNumber", new Gson().toJsonTree(violations));
 				item_class.addProperty("violationCount", scheme.getInputs().size());
 				
@@ -123,22 +147,24 @@ public class CoreGrader {
 				
 				scheme.deduct_point(deducted);
 				item_class.addProperty("deductedPoint", deducted);
-				score.add("runtimeCompare", item_class);
+				score.add("oracle", item_class);
 			}	
-			
+
 			JsonObject item = new JsonObject();
 			item.addProperty("violation", true);
+			
+			if(scheme.isBTool() && flag) item.addProperty("bViolation", false);
+	
+			else if(scheme.isBTool() && !flag) item.addProperty("bViolation", true);
+			
 			item.addProperty("deductedPoint", scheme.getCompiled_deduct_point());
 			score.add("compile", item);
-			
-			scheme.deduct_point(scheme.getCompiled_deduct_point());
 		}
-				
 
 		new OOPChecker(scheme, srcList, "", workpath).run(score);
 		new ImplementationChecker(scheme, srcList, "", workpath).run(score);
-
-		score.addProperty("result", scheme.getResult_point());
+		
+		score.addProperty("result", (double)scheme.getResult_point());
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String sheet = gson.toJson(score);
@@ -146,8 +172,6 @@ public class CoreGrader {
 		return sheet;
 	}
 	
-	
-
 	private IGradeStage preset(String path)
 	{
 		if (new File(path + "/settings.gradle").exists()) {
@@ -158,5 +182,11 @@ public class CoreGrader {
 		return new JavaStage();
 	}
 	
-	
+	private String isExistMainPath(EvaluationSchemeMapper scheme)
+	{
+		for(String eachClass : scheme.getReqClass())
+			if(eachClass.contains("/") || eachClass.contains(".")) return eachClass;
+		
+		return null;
+	}
 }

@@ -9,7 +9,8 @@ import edu.isel.csee.jchecker.statics.ASTChecker;
 
 
 
-public class MainClassDetector extends ASTChecker {
+public class MainClassDetector extends ASTChecker 
+{
 	private String mainPath = "";
 	
 	public String find(String source)
@@ -18,25 +19,26 @@ public class MainClassDetector extends ASTChecker {
 		ASTParser parser = parserSetProperties(source);
 		CompilationUnit unit = (CompilationUnit) parser.createAST(null);
 		
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(MethodDeclaration node)
 				{
 					String qualified = node.resolveBinding().getMethodDeclaration().toString().trim();
 					
-					if (qualified.equals("public static void main(java.lang.String[])")) {
+					if (qualified.equals("public static void main(java.lang.String[])"))
 						mainPath = node.resolveBinding().getDeclaringClass().getQualifiedName();
-					}
 					
 					
 					return super.visit(node);
 				}
 			});
-			
-		
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{ 
+			System.out.println("MainNotFound Error: No main class in the source list");
+			e.printStackTrace(); 
 		}
 		
 		

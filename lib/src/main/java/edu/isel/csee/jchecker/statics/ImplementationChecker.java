@@ -74,94 +74,162 @@ public class ImplementationChecker extends ASTChecker {
 	
 	public JsonObject run(JsonObject scoresheet)
 	{
-		collect();
-		
-		test();
-		
-		
-		if (policy.isCount()) 
+		if(source.isEmpty() || source == null)
 		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", countViolation);
+			if (policy.isCount()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				
+				item.addProperty("deductedPoint", policy.getCnt_deduct_point());
+				scoresheet.add("count", item);
+				
+				policy.deduct_point(policy.getCnt_deduct_point());
+			}
 			
-			if (!countViolation)
-				policy.setCnt_deduct_point(0);
 			
-			item.addProperty("deductedPoint", policy.getCnt_deduct_point());
-			scoresheet.add("count", item);
+			if (policy.isJavadoc()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				
+				item.addProperty("deductedPoint", policy.getJvd_deduct_point());
+				scoresheet.add("javadoc", item);
+				
+				policy.deduct_point(policy.getJvd_deduct_point());
+			}
 			
 			
-			policy.deduct_point(policy.getCnt_deduct_point());
+			if (policy.isThreads()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				
+				item.addProperty("deductedPoint", policy.getThr_deduct_point());
+				scoresheet.add("thread", item);
+				
+				policy.deduct_point(policy.getThr_deduct_point());
+			}
+			
+			
+			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", true);
+				item.addProperty("violationCount", policy.getReqCustExc().size());
+
+				item.addProperty("deductedPoint", policy.getCustomExc_max_deduct());
+				scoresheet.add("customException", item);
+				
+				policy.deduct_point(policy.getCustomExc_max_deduct());
+			}
+			
+			
+			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				
+				item.addProperty("violation", true);
+				item.addProperty("violationCount", policy.getReqCusStruct().size());
+				
+				
+				item.addProperty("deductedPoint", policy.getCustomStr_max_deduct());
+				scoresheet.add("customStructure", item);
+			
+				policy.deduct_point(policy.getCustomStr_max_deduct());
+			}
 		}
-		
-		if (policy.isJavadoc()) 
+		else
 		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", jdocViolation);
+			collect();
 			
-			if (!jdocViolation)
-				policy.setJvd_deduct_point(0);
-			
-			item.addProperty("deductedPoint", policy.getJvd_deduct_point());
-			scoresheet.add("javadoc", item);
+			test();
 			
 			
-			policy.deduct_point(policy.getJvd_deduct_point());
-		}
-		
-		
-		if (policy.isThreads()) 
-		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", threadViolation);
+			if (policy.isCount()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", countViolation);
+				
+				if (!countViolation)
+					policy.setCnt_deduct_point(0);
+				
+				item.addProperty("deductedPoint", policy.getCnt_deduct_point());
+				scoresheet.add("count", item);
+				
+				
+				policy.deduct_point(policy.getCnt_deduct_point());
+			}
 			
-			if (!threadViolation)
-				policy.setThr_deduct_point(0);
-			
-			item.addProperty("deductedPoint", policy.getThr_deduct_point());
-			scoresheet.add("thread", item);
-			
-			
-			policy.deduct_point(policy.getThr_deduct_point());
-		}
-		
-		
-		if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
-		{
-			JsonObject item = new JsonObject();
-			item.addProperty("violation", customExcViolation);
-			item.addProperty("violationCount", customExcViolationCount);
-			
-			
-			double deducted = policy.getCustomExc_deduct_point() * customExcViolationCount;
-			if (deducted > policy.getCustomExc_max_deduct())
-				deducted = policy.getCustomExc_max_deduct();
-			
-			item.addProperty("deductedPoint", deducted);
-			scoresheet.add("customException", item);
+			if (policy.isJavadoc()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", jdocViolation);
+				
+				if (!jdocViolation)
+					policy.setJvd_deduct_point(0);
+				
+				item.addProperty("deductedPoint", policy.getJvd_deduct_point());
+				scoresheet.add("javadoc", item);
+				
+				
+				policy.deduct_point(policy.getJvd_deduct_point());
+			}
 			
 			
-			policy.deduct_point(deducted);
-		}
-		
-		
-		if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
-		{
-			JsonObject item = new JsonObject();
-			
-			item.addProperty("violation", customStructViolation);
-			item.addProperty("violationCount", customStructViolationCount);
-			
-			
-			double deducted = policy.getCustomStr_deduct_point() * customStructViolationCount;
-			if (deducted > policy.getCustomStr_max_deduct())
-				deducted = policy.getCustomStr_max_deduct();
-			
-			item.addProperty("deductedPoint", deducted);
-			scoresheet.add("customStructure", item);
+			if (policy.isThreads()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", threadViolation);
+				
+				if (!threadViolation)
+					policy.setThr_deduct_point(0);
+				
+				item.addProperty("deductedPoint", policy.getThr_deduct_point());
+				scoresheet.add("thread", item);
+				
+				
+				policy.deduct_point(policy.getThr_deduct_point());
+			}
 			
 			
-			policy.deduct_point(deducted);
+			if (policy.getReqCustExc() != null && !policy.getReqCustExc().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				item.addProperty("violation", customExcViolation);
+				item.addProperty("violationCount", customExcViolationCount);
+				
+				
+				double deducted = (double)(policy.getCustomExc_deduct_point() * (double)customExcViolationCount);
+				if (deducted > policy.getCustomExc_max_deduct())
+					deducted = (double)policy.getCustomExc_max_deduct();
+				
+				item.addProperty("deductedPoint", deducted);
+				scoresheet.add("customException", item);
+				
+				
+				policy.deduct_point(deducted);
+			}
+			
+			
+			if (policy.getReqCusStruct() != null && !policy.getReqCusStruct().isEmpty()) 
+			{
+				JsonObject item = new JsonObject();
+				
+				item.addProperty("violation", customStructViolation);
+				item.addProperty("violationCount", customStructViolationCount);
+				
+				
+				double deducted = (double)(policy.getCustomStr_deduct_point() * (double)customStructViolationCount);
+				if (deducted > policy.getCustomStr_max_deduct())
+					deducted = (double)policy.getCustomStr_max_deduct();
+				
+				item.addProperty("deductedPoint", deducted);
+				scoresheet.add("customStructure", item);
+				
+				
+				policy.deduct_point(deducted);
+			}
 		}
 		
 		return scoresheet;
@@ -205,11 +273,9 @@ public class ImplementationChecker extends ASTChecker {
 	
 	private void testCount()
 	{
-		if(policy.getMethodCount() > numOfMethods) countViolation = false;
-		if(policy.getFieldCount() > numOfFields) countViolation = false;
-		if(policy.getEnForCount() > numOfEnhancedForStatement) countViolation = false;
-		
-		System.out.println(numOfMethods + " "  + numOfFields + " "  + numOfEnhancedForStatement);
+		if(policy.getMethodCount() > numOfMethods) countViolation = true;
+		if(policy.getFieldCount() > numOfFields) countViolation = true;
+		if(policy.getEnForCount() > numOfEnhancedForStatement) countViolation = true;
 	}
 	
 	
@@ -217,7 +283,8 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		try 
 		{
-			unit.accept(new ASTVisitor() {
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					if (policy.getReqClass().contains(node.getName().toString()))
@@ -250,7 +317,6 @@ public class ImplementationChecker extends ASTChecker {
 				if(!instances.contains("Thread")) threadViolation = true;
 
 		}
-		
 		else { if(!instances.contains("Thread")) threadViolation = true; }
 	}
 	
@@ -269,7 +335,6 @@ public class ImplementationChecker extends ASTChecker {
 					customStructViolation = true;
 				}
 			}		
-			
 			else 
 			{
 				customStructViolations.add(each);
@@ -293,7 +358,6 @@ public class ImplementationChecker extends ASTChecker {
 					customExcViolationCount++;
 					customExcViolation = true;
 				}
-				
 				else 
 				{
 					if (instances.contains(each)) 
@@ -312,7 +376,6 @@ public class ImplementationChecker extends ASTChecker {
 									customExcViolationCount++;
 									customExcViolation = true;
 								}
-								
 								else
 								{
 									boolean checkExpression = false;
@@ -337,7 +400,6 @@ public class ImplementationChecker extends ASTChecker {
 						}
 						
 					}
-					
 					else
 					{
 						customExcViolations.add(each);
@@ -346,7 +408,6 @@ public class ImplementationChecker extends ASTChecker {
 					}
 				}
 			}
-			
 			else 
 			{
 				customExcViolations.add(each);
@@ -362,7 +423,8 @@ public class ImplementationChecker extends ASTChecker {
 	{
 		try 
 		{
-			unit.accept(new ASTVisitor() {
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(ClassInstanceCreation node)
 				{
 					instances.add(node.getType().toString());
@@ -379,7 +441,8 @@ public class ImplementationChecker extends ASTChecker {
 	{	
 		try 
 		{
-			unit.accept(new ASTVisitor() {
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(TypeDeclaration node)
 				{
 					classes.add(node.getName().toString());
@@ -400,10 +463,13 @@ public class ImplementationChecker extends ASTChecker {
 	}
 	
 	
+	
 	private void getCountInfo(CompilationUnit unit)
 	{
-		try {
-			unit.accept(new ASTVisitor() {
+		try 
+		{
+			unit.accept(new ASTVisitor() 
+			{
 				public boolean visit(EnhancedForStatement node)
 				{
 					if(policy.getEnForCount() < 0) return false;
@@ -509,9 +575,7 @@ public class ImplementationChecker extends ASTChecker {
 				}
 				*/		
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	public String getStatement(String name)
@@ -524,12 +588,15 @@ public class ImplementationChecker extends ASTChecker {
 				
 			try 
 			{
-				unit.accept(new ASTVisitor() {
+				unit.accept(new ASTVisitor() 
+				{
 					public boolean visit(ClassInstanceCreation node)
 					{
 						if(node.getType().toString().equals(name))
 						{
 							result = node.getParent().toString();
+							
+							
 							return false ;
 						}
 			
@@ -550,10 +617,12 @@ public class ImplementationChecker extends ASTChecker {
 			
 			try 
 			{
-				unit.accept(new ASTVisitor() {
+				unit.accept(new ASTVisitor() 
+				{
 					public boolean visit(ThrowStatement node)
 					{
 						expressions.add(node.getExpression().toString());
+						
 						
 						return super.visit(node);
 					}
