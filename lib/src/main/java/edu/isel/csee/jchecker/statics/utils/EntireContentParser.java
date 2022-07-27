@@ -6,48 +6,42 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntireContentParser 
-{	
-	public List<String> getAllFiles(String target)
-	{
+public class EntireContentParser {
+	public List<String> getAllFiles(String target) {
 		List<String> source = new ArrayList<>();
-		
-		try 
-		{
+
+		try {
 			File srclist = new File(target + "//srclist.txt");
-			
+
 			BufferedReader br = new BufferedReader(new FileReader(srclist));
 			BufferedReader piece = null;
-			
+
 			String line = "";
-			
+
 			StringBuffer sb = null;
-			
-			
-			while ((line = br.readLine()) != null)
-			{
-				sb = new StringBuffer();	
-				File file = new File(target+"/"+line);
+
+			while((line = br.readLine()) != null) {
+				sb = new StringBuffer();
+				File file = new File(target + "/" + line);
 				piece = new BufferedReader(new FileReader(file));
-				
+
 				String content = "";
-				
-				while ((content = piece.readLine()) != null)
-				{
+
+				while((content = piece.readLine()) != null) {
 					sb.append(content);
 					sb.append("\n");
 				}
-				
+
 				source.add(sb.toString());
 			}
-			
+
 			br.close();
 			piece.close();
-			
-		} 
-		catch (Exception e) { e.printStackTrace(); }
-		
-		
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return source;
 	}
 }

@@ -1,0 +1,786 @@
+2021-1 JC's Java class with KakaoTalk Chats
+Date Saved : 2021-05-12 10:11:16
+
+--------------- Monday, March 1, 2021 ---------------
+JC joined this chatroom.You may temporarily be banned from using KakaoTalk if other members report you for violating our Operation Policy. 
+김형진 joined this chatroom.
+홍석찬 joined this chatroom.
+[홍석찬] [9:39 AM] 안녕하세요!! 20학번 컴공심화 홍석찬입니다 :)
+김민기 joined this chatroom.
+유정섭 joined this chatroom.
+전혜선 joined this chatroom.
+[유정섭] [9:42 AM] 안녕하세요!! 반갑습니다~~ 한학기 잘 부탁 드리겠습니다~!
+[JC] [9:44 AM] Hi all. good morning! Thanks for reponsing to the announcement ;)
+[JC] [9:44 AM] please say hello if you didn't.
+[JC] [9:45 AM] you can use 익명 profile to freely ask questions here
+[김형진] [9:46 AM] 안녕하세요 여러분!
+한학기 동안 잘 부탁드립니다!
+전 소 명 joined this chatroom.
+임정현 joined this chatroom.
+Peter joined this chatroom.
+[Peter] [9:53 AM] Emoticons
+[JC] [9:56 AM] hey guys welcome!
+[JC] [9:56 AM] see this
+Candle joined this chatroom.
+[전 소 명] [10:06 AM] i can't see that because that message was sent before i enter.
+[JC] [10:07 AM] it said you can use 익명 profile to freely ask questions here.
+[JC] [10:07 AM] but it's up to you.
+[JC] [10:07 AM] welcome Candle
+[JC] [10:07 AM] please say hello ;)
+[김민기] [10:08 AM] 안녕하세요 여러분!
+한학기 동안 잘 부탁드립니다!!
+[Candle] [10:11 AM] Hello everyone!
+박서휘 joined this chatroom.
+[박서휘] [10:12 AM] 안녕하세요 교수님!
+20학번 박서휘입니다. 이번 한 학기 잘부탁드립니다!!
+Candle left.
+김재혁 joined this chatroom.
+[JC] [10:27 AM] candel revealed his identity? ;)
+J joined this chatroom.
+항 joined this chatroom.
+dodo joined this chatroom.
+Esther 수현 joined this chatroom.
+[Esther 수현] [10:51 AM] 안녕하세요!!
+서주은 joined this chatroom.
+[서주은] [10:52 AM] 안녕하세요:D
+[김재혁] [10:55 AM] 안녕하세요!!
+MJ joined this chatroom.
+[JC] [11:02 AM] hye guys 1/3 students joined until now :)
+. joined this chatroom.
+[dodo] [11:04 AM] Is this the chatroom for Software Engineering class? Cos the room name doesn't seem so
+[.] [11:07 AM] Goodmorning professor!
+[.] [11:08 AM] This is Java programming's class
+[dodo] [11:10 AM] Ah, then I guess the link address should be changed for the class notification on SE class
+[dodo] [11:10 AM] Thanks!
+dodo left.
+[항] [11:11 AM] I also thought this is chat for soft engineering class....
+[항] [11:11 AM] can I leave?
+김강현 joined this chatroom.
+gndpd joined this chatroom.
+gndpd left.
+[JC] [11:14 AM] yeap please leave. it seems interl link was wrong. updated the announcement. please join se room
+MJ left.
+[JC] [11:15 AM] this is java chat room. if you are se students, please leave and check the updated link.
+항 left.
+임정현 left.
+박기홍 joined this chatroom.
+Gabriel Davin joined this chatroom.
+[박기홍] [11:25 AM] 안녕하세요
+[Gabriel Davin] [11:26 AM] Hello! My name is Gabriel and I'm an international student! Nice to meet you all..
+임정현 joined this chatroom.
+[JC] [11:31 AM] hi Gabi,기홍, 정현 nice to see you here!
+[JC] [11:33 AM] Gabi, can you read Korean chracters?
+[Gabriel Davin] [11:34 AM] I can read them but I might not be able to understand all the words used because of my limited vocabulary, Professor.
+[JC] [11:39 AM] ok got it. that means for names written in Korean, you are fine, aren't you? as sound of names is important ;)
+[JC] [11:40 AM] and everybody, just call me JC. Type 'professor' might be annoying ;)
+[JC] [11:41 AM] im jc and want to be your friend....
+[Gabriel Davin] [11:41 AM] It should be fine
+[Gabriel Davin] [11:41 AM] Alright, noted. :)
+정윤석 joined this chatroom.
+[JC] [11:43 AM] hey korean students, we have an intenation student. please warmly welcome him and say something!! don't be shy. (but you know im also very shy guy;;;)
+훈성(patcha) joined this chatroom.
+[JC] [11:44 AM] 윤석, Patcha welcome. please say hello.
+[전 소 명] [11:44 AM] hi Gabi
+혜림 joined this chatroom.
+이우성 joined this chatroom.
+[.] [11:45 AM] hi Gabriel :)
+[혜림] [11:45 AM] Hello!
+오한길 joined this chatroom.
+[정윤석] [11:46 AM] Hello!
+[오한길] [11:46 AM] Hello~
+[훈성(patcha)] [11:46 AM] Hello everyone! Glad to be here!
+[임정현] [11:47 AM] Hi, happy to see you guys
+[JC] [11:48 AM] i also hope you are happy although homewok is super challenging ;)
+[Gabriel Davin] [11:50 AM] Hello
+[Gabriel Davin] [11:50 AM] Hi
+TA 전여훈 joined this chatroom.
+ShyGirl joined this chatroom.
+[ShyGirl] [12:05 PM] Hi~!!!😊
+[JC] [12:08 PM] hey shygirl. good to see you. im shyguy but i can anwser all your questions. please actively ask questions in the class :)
+[JC] [12:14 PM] 전여훈 is one of your TAs. He is an ISELer and working on one of the most difficult problems in ISEL, i.e. he is an ace. Please say hello, 여훈.
+[ShyGirl] [12:20 PM] Thank you! I will actively ask what I wonder..!!😁
+최윤성 joined this chatroom.
+[TA 전여훈] [12:41 PM] Hello! It feels great to be a TA of JC and class of Java Programming Language, which is one my favorite language! I hope you all enjoy this class and I will try my best to support you!
+Java joined this chatroom.
+[Java] [1:50 PM] 안녕하세요~
+최혜란 joined this chatroom.
+최혜란 left.
+[JC] [1:51 PM] hi 자바자바 bye smile.
+[JC] [1:52 PM] you can use 익명 profile to freely ask questions here
+[JC] [1:52 PM] 익명=anonymized
+[.] [1:53 PM] hahaha
+[JC] [1:54 PM] thanks for catching my joke ;)
+[JC] [1:55 PM] 자바자바 changed its name into Java. it seems profile name can be updated.
+[.] [1:55 PM] Looking forward to see you in class 😊
+[Java] [1:55 PM] Yes everybody can!😄
+[JC] [1:56 PM] yeap. looking forward to meeting you soon.
+. joined this chatroom.
+[JC] [1:57 PM] 나임 looks like a fighter.
+[.] [1:57 PM] hahaha nono it's my club's poster 
+[JC] [1:58 PM] if your clamates are not studying, encourage them with what you leaned in the club.
+[.] [1:58 PM] (신나)(신나)
+[.] [1:58 PM] sure I will hahahaha 
+. joined this chatroom.
+TA김민우 joined this chatroom.
+최소미 joined this chatroom.
+박동건 joined this chatroom.
+[박동건] [3:27 PM] Hello Professor!
+[JC] [3:31 PM] Hi, you can call me JC ;)
+하세영 joined this chatroom.
+한승화 joined this chatroom.
+최혜란 joined this chatroom.
+한창민 joined this chatroom.
+badgers joined this chatroom.
+이동규 joined this chatroom.
+[이동규] [8:02 PM] 안녕하세요, 교수님. 이번에 Java 수업을 듣게 된 18학번 이동규입니다. 잘 부탁드립니다 :)
+[JC] [8:03 PM] hi all who join in this chat room!
+[.] [8:03 PM] 안녕하세요 교수님 저는 이번에 Java Programming 을 수강하게 된 정이주 입니다!! 잘부탁드립니다😊
+[JC] [8:04 PM] in case you are shy guys, you may use anonymized profile to freely ask questions here.
+[JC] [8:04 PM] hope to see you soon in the class.
+[JC] [8:06 PM] We have interational students, please use English. pracrice English in this chatroom as well.
+.. joined this chatroom.
+j joined this chatroom.
+자바 1분반 자바써 joined this chatroom.
+[JC] [11:55 PM] Announcement in Boards: Will you attend offline class in the first class?
+[JC] [11:56 PM] Our classroom, NTH413, can accept only 18 students. So, please take the survey. Only the students who check 'yes' in the survey will be allowed to come to offline classes.
+However, If you have any Covid-19 issue, never attend the offline class but the online Zoom class.
+
+The Zoom link is already in the LMS system. Note that the Thursday link and the Monday link (for QnA class) are different.
+--------------- Tuesday, March 2, 2021 ---------------
+전예빈 joined this chatroom.
+Mugesh joined this chatroom.
+wrong joined this chatroom.
+[JC] [7:01 AM] Poll Closed in Boards: Will you attend offline class in the first class?
+홍성헌 joined this chatroom.
+Joshua 정욱 joined this chatroom.
+--------------- Wednesday, March 3, 2021 ---------------
+CG Zack Lee joined this chatroom.
+[CG Zack Lee] [10:32 AM] Hey guys, i was lil late joining this chatroom. 
+So is the thursday class offline just for those 19 people who surveyed they would?
+[JC] [10:33 AM] yeap. actually 18
+[CG Zack Lee] [10:33 AM] aite thanks~
+--------------- Thursday, March 4, 2021 ---------------
+김현욱 joined this chatroom.
+[JC] [12:50 PM] in Covid Phase 1.5, 2/3 students can attend offline class. it means additional 5 students can attend offline class today. if you want to be one of the 5. Leave measage here.
+[홍성헌] [12:50 PM] I want to attend prof!
+[JC] [12:51 PM] sure.
+[CG Zack Lee] [12:51 PM] I would like to attend as well professor
+[JC] [12:51 PM] now 2
+[이동규] [12:51 PM] I would like to attend offline class, prof
+[Joshua 정욱] [12:51 PM] I would like to attend offline!
+[Gabriel Davin] [12:51 PM] I would like to attend the offline if possible
+[JC] [12:51 PM] 5! done
+[JC] [12:52 PM] See you soon all ;
+[CG Zack Lee] [12:53 PM] Thank you!
+[김현욱] [12:53 PM] Oh im late..
+[Peter] [4:33 PM] Is the relationship between class and instance different from superclass and subclass? or are they similar concept with different names?
+고혜리 joined this chatroom.
+[Peter] [4:37 PM] From what I understand, subclass is class inside a Superclass and instance is a specific type of class is that right?
+[김재혁] [4:41 PM] Class is a general concept, and instance is a special concept.
+If there is a class called human, there is an instance called JC and an instance called Peter.
+
+But superclass and subclass are different concepts.
+Subperclass is also called parentclass, and subclass is also called childclass.
+A subclass has its own attributes, while having the attributes of a superclass.
+[Peter] [4:44 PM] so do you think it's safe to say that a child class is a class inside a parent class?
+[김재혁] [4:44 PM] To summarize, superclass and subclass are both class. And it is instance that made class into a particular object.
+[김재혁] [4:45 PM] Yes, I think so.
+[Peter] [4:46 PM] Got it, thanks a lot :)
+고혜리 left.
+[유정섭] [4:51 PM] We can also create an instance from just from parent class right?
+[.] [4:54 PM] quick question , where would the car brand names go? super class or subclass or is there another class we still didn't learn
+[.] [4:56 PM] yes thank you
+[badgers] [4:56 PM] So Do I have to send my note to JC's email? 
+[wrong] [4:59 PM] Can I switch to a Korean class now?Taking today's class, it seems difficult to follow in English……
+[JC] [5:07 PM] Sure!
+[JC] [5:20 PM] Volounteer the editor first by sending email as in the announcement. Then I will assign a lecture.
+[badgers] [5:22 PM] thx prof
+[CG Zack Lee] [5:25 PM] So we don't have homework right? We are making class diagram next lab class
+[Joshua 정욱] [5:27 PM] Yes
+[JC] [5:28 PM] no homework yet. we do a lab on Monday.
+[이동규] [5:46 PM] Prof, I have a question about Lecture note edit. One person will be assigned to one lecture or three?
+[JC] [6:00 PM] one only.
+[JC] [6:01 PM] in case another student got assigned your prefered one, then the second/third ones can be the candidate for you.
+[이동규] [6:06 PM] Thank you, prof :)
+[자바 1분반 자바써] [7:48 PM] 죄송한데 JC하면 자꾸 예수님 생각이 나요 ㅠ
+[JC] [7:55 PM] that is good. you now have good motivation to study Java well as it is his class ;)
+[자바 1분반 자바써] [8:09 PM] Emoticons
+--------------- Friday, March 5, 2021 ---------------
+[JC] [12:13 AM] Today's lecture is uploading in LMS. Use it for reflection.
+[김민기] [12:14 AM] thank you!! prof!!
+[전 소 명] [12:22 AM] Thank you, JC :)
+[Gabriel Davin] [12:28 AM] Thank you JC!
+[홍석찬] [12:44 AM] Thank you :)
+--------------- Sunday, March 7, 2021 ---------------
+[badgers] [9:54 PM] Is there a vote for 2nd week offline class?
+[JC] [10:35 PM] nope. it is just same as the last class. Rotation will be applied from Week03. i will announce later about it.
+[김현욱] [10:37 PM] So if I took the offline class in 1st week, I have to take the offline class this week also?
+[badgers] [10:51 PM] 현욱 if you cant take offline tmw, can I get it for only tmw?
+[김현욱] [10:54 PM] Oops my mistake,, not offline I took the online class 1st week..! Sorry for misunderstanding..! I want to take the offline class also too..
+[JC] [11:07 PM] you guys can trade here (offline <==> online)
+[JC] [11:07 PM] must be matched.
+[임정현] [11:11 PM] Who wants to take offline class tmr, i might need to take online class for personal reason
+[badgers] [11:11 PM] i wanna get it
+[badgers] [11:11 PM] can I get it?!
+[임정현] [11:12 PM] Sure i can take my seat
+[임정현] [11:12 PM] *u
+[badgers] [11:12 PM] thanks
+[임정현] [11:14 PM] Its a pleasure:)
+--------------- Monday, March 8, 2021 ---------------
+[Gabriel Davin] [7:12 AM] Sorry for the late call, but does anyone want to trade with my spot to go offline since I need to go online? It's a personal reason as well.
+[김재혁] [7:18 AM] I want to go to offline class!!
+[Gabriel Davin] [9:26 AM] Alright, you can take my place!
+[김재혁] [9:27 AM] Thank you!!
+[최혜란] [10:13 AM] Is there anyone who wants to change the online to offline? For my personal reason, i want to take offline class
+[최혜란] [10:14 AM] *Sorry i need online class
+[자바 1분반 자바써] [10:31 AM] I would like to take the offline lecture
+[.] [10:57 AM] This message was deleted.
+[.] [11:00 AM] I'm sorry to interrupt. I made the mistake of sending a message to my friend here. Sorry…
+[최혜란] [11:00 AM] Fine, take my place! Thx
+[badgers] [2:43 PM] guys, whats TA's email??
+[유정섭] [2:43 PM] https://docs.google.com/presentation/d/1JWqU0IpOuD3wsnYXIesx75s3AY7Oi_nzbB4KesWf4Vg/edit#slide=id.p6
+[유정섭] [2:43 PM] Check here
+[박동건] [2:44 PM] Minwoo Kim (21600065@handong.edu)
+Yeohun Jeon (21500630@handong.edu)
+[박동건] [2:44 PM] Eng. TAs
+[badgers] [2:44 PM] Thanks!
+[유정섭] [2:45 PM] Umm. Professor, I accidently put class ID instead of my student Id for original folder
+[JC] [2:46 PM] you can modify it
+[유정섭] [2:47 PM] I've tried but since I already transfered the ownership to you, I can't modify the original name of the folder
+[JC] [2:48 PM] did you delete your edit right?
+[유정섭] [2:49 PM] um… should I create a new folder with correct name?
+[유정섭] [2:50 PM] and maybe you can remove/ignore the misnamed one
+[JC] [2:50 PM] nope im giving you the edit right
+[Gabriel Davin] [2:50 PM] Professor is it possible to see a sample of the task no.2 for the lab? I currently don't have access to the notes that I made for last week's examples
+[유정섭] [2:51 PM] Wait, I think I've changed the original folder name! Thanks :)
+[JC] [2:53 PM] ok good
+[JC] [2:54 PM] why cant access?
+[Gabriel Davin] [2:58 PM] An accident happened to my laptop. But I think I remember how to do it now. Is it possible to ask the TA to check my submission later just to confirm if how I did the assignment was correct?
+[JC] [3:00 PM] You must complete it on time. otherwise, there will be point deduction.
+[wrong] [3:05 PM] I would appreciate it if you check the email.
+[JC] [3:06 PM] i got too many emails. let me know your name
+[badgers] [3:06 PM] I am sorry but what class do we make??? 
+[badgers] [3:07 PM] just Dog? 
+[JC] [3:07 PM] nope read the slides carwfully
+[박동건] [3:13 PM] Can we only create up to two objects?
+[오한길] [3:20 PM] as many as possible (>=2)
+[박동건] [3:22 PM] oki thanks
+[.] [3:43 PM] umm is the Zoom supposed to end?
+[.] [3:43 PM] or is it just me
+[JC] [3:43 PM] yeap. any question?
+[badgers] [3:43 PM] I dont know how to put my name in directory name
+[badgers] [3:44 PM] what is that..
+[.] [3:44 PM] nono I thought my zoom just turned off thank you
+[JC] [3:44 PM] use mouse right button on the directory name.
+[JC] [3:45 PM] Well done guys today. Later labs works in this way.
+[JC] [3:46 PM] to do lab, you have to have clear understanding about lectures.
+[JC] [3:47 PM] plase read materials carefully before asking questions. most things are in lab deaceiptions.
+[최혜란] [3:47 PM] JC, i didn't got any email from you. What kind of email that i have to request? Is my lab is okay?
+[JC] [3:47 PM] You need to be trained including reading English descriptions.
+[Peter] [3:47 PM] So monday's class will be mainly doing labs and thursday will be lecture?
+[JC] [3:48 PM] that is also in lab slide. find a link to check your marking.
+[JC] [3:48 PM] Nope it depends.
+daniel joined this chatroom.
+[ShyGirl] [3:50 PM] If when I finished my lab after zoom finished, I will be marked as late?
+[JC] [3:51 PM] today 15:45
+[이우성] [3:52 PM] I can't understand the meaning of no space in the classname? How can I change it?
+[JC] [3:53 PM] marking takes time. you can check the final mark before the next lecture. but we can check the last time stamp you edit the lab file in the google drive.
+[JC] [3:53 PM] you cant edit LabMarking file but LabSubmit file.
+[TA김민우] [3:54 PM] If you need to space in case of naming class, then use the camel case, not space.
+[최혜란] [3:55 PM] Ta 민우 said that my diagram is pass but that i need to check my email, what should i do?
+[TA김민우] [3:55 PM] any underscore or dash are not allowed
+[TA김민우] [3:57 PM] i cannot access your scoresheet. try to make the scoresheet copy again
+[wrong] [4:04 PM] Professor, I reply to one more e-mail. I would appreciate it if you check it out.(서하령)
+[badgers] [4:18 PM] when could you check lab1 again?
+[TA김민우] [5:10 PM] If you haven't complete the lab01 yet, please revise it by today and send an email to TAs! We'll check and mark.
+[TA김민우] [5:10 PM] you'll be late after today.
+[daniel] [6:25 PM] I uploaded it. Can u check it? 21800828
+[TA 전여훈] [6:42 PM] I just checked!
+[badgers] [6:44 PM] could you check mine ? i emailed you
+[TA 전여훈] [6:48 PM] I just replied all the emails I recieved. If haven't get any reply email, please send the email with your student ID to 21500630@handong.edu
+[badgers] [9:39 PM] If I get O before 12, can I get full grade of lab1 ?
+[TA김민우] [9:41 PM] Yes
+--------------- Tuesday, March 9, 2021 ---------------
+[TA김민우] [12:04 AM] sorry for being late at night. I've marked all the lab modified by 12:00. If you fail, please complete and send me an email before the next class and I'll be marked late.
+--------------- Thursday, March 11, 2021 ---------------
+고혜리 joined this chatroom.
+[김현욱] [3:31 PM] Professor what program are we gonna use in this java class..? eclipse.?
+[ShyGirl] [3:32 PM] is Packages like header files in c?
+[정윤석] [4:04 PM] Professor, I'm sorry. I entered the class about 6 minutes late. Can I checked by tardy?
+[JC] [4:05 PM] yeap marked as tardy
+[정윤석] [4:06 PM] Thank you, Professor.
+[badgers] [4:07 PM] can I use arrows named 'extends' for express inheritance?
+[JC] [4:07 PM] yes
+[badgers] [4:10 PM] one more thing prof.... so do I have to use Camel thing    right?? 
+[JC] [4:10 PM] yeap
+[JC] [4:10 PM] follow the naming conventions
+[badgers] [4:11 PM] thanks
+[최혜란] [4:14 PM] JC i cannot make a lab02 at draw.io because of 400 error
+[TA 전여훈] [4:16 PM] Please submit your link after you have completed your work!
+[유정섭] [4:25 PM] TA, thanks for checking my work. I've updated my submission. Can you check mine again? Thanks. 22000462 Ryoo, Jungsub
+wrong left.
+[badgers] [4:28 PM] TA, could you check mine? 21300798
+Thanks!
+[daniel] [4:31 PM] Ta could you check mine please? 21800828
+[JC] [4:33 PM] solved?
+[최혜란] [4:34 PM] not yet, but im doing lab02
+[JC] [4:34 PM] Get some help TA in Zoom
+[.] [5:06 PM] JC! I accidentally got off the main zoom session too
+[.] [5:06 PM] should I sign in again or is it okay
+[한창민] [5:18 PM] am i late? i changed diagram, so check my diagram plz
+[JC] [5:31 PM] it is ok
+[김현욱] [5:46 PM] I submitted lately,, please check it later..!
+[Java] [6:05 PM] Im sorry but did I understand right that everyone has to attend offline class once a week starting at week 03?
+[JC] [6:10 PM] https://docs.google.com/spreadsheets/d/1fhJir4kWZf1ul-Q5o8ZYUVghludoqDGGBzPaKECZ8rA/edit#gid=0  in this sheet, when you have online mark, then you attend online classes. otherwise, offlines classes. This table will be finalized this weekend.
+[Java] [6:14 PM] okay thankyou!
+[JC] [6:18 PM] it seems many students are like to have offline classes. in this case, it could be better to randomly rotate. im going to fix the schedule this weekend.
+[badgers] [6:20 PM] I think so ..!
+--------------- Friday, March 12, 2021 ---------------
+[CG Zack Lee] [8:13 PM] About the HW1, do we have to types for every methods and behaviors?
+[이동규] [8:16 PM] Professor said that we don't have to define the type part
+[CG Zack Lee] [8:16 PM] I remember so but just not quite sure. Thank you tho
+[이동규] [8:16 PM] But if you want, you can define them
+--------------- Sunday, March 14, 2021 ---------------
+[자바 1분반 자바써] [9:53 AM] Question: what is the correct way to write acronyms for states/behaviors? For example AILevel or aiLevel?
+[JC] [9:55 AM] i think why asked this is that we usually use AI, don't you? i prefer aiLevel as AILevel looks a class name.
+김현욱 left.
+[자바 1분반 자바써] [10:12 AM] thank you, JC
+[JC] [2:03 PM] This is the on/off rotation table. If there is no additional students who drop the course, you can follow this version. https://docs.google.com/spreadsheets/d/1fhJir4kWZf1ul-Q5o8ZYUVghludoqDGGBzPaKECZ8rA/edit#gid=0
+--------------- Monday, March 15, 2021 ---------------
+[.] [1:01 PM] JC! I have a question, are we able to swap with each other on offline classes?
+[.] [1:01 PM] Or is it a must to follow the rotation table
+[CG Zack Lee] [1:01 PM] He said we cant trade it
+[.] [1:01 PM] ohhh okay thank you
+[Peter] [2:19 PM] I'm sorry but this is my first time participating through zoom, does anyone know the link?
+[최소미] [2:21 PM] In lms, there is a'zoom' button!
+[Peter] [2:26 PM] oh thank you!
+[ShyGirl] [3:20 PM] then, is it right that they(windows, Linux, Mac) have different JVM?
+[김재혁] [3:21 PM] This message was deleted.
+[김재혁] [3:22 PM] Professor, if using a virtual machine is preffered, why doesn't C language have a virtual machine?
+[CG Zack Lee] [3:22 PM] its outdated I guess
+[김재혁] [3:23 PM] Thank you, Professor!!
+[badgers] [3:23 PM] so If I wnat to use java in windows for example,, Do I have to do compiling two times?
+[Java] [3:23 PM] if we share the code itself it will be always compilable in every machine? why do we share the information after compiling?
+[이동규] [3:38 PM] I think it depends on the type of the code we share. Like, if we share the Java Code, maybe we can't use that code on other computers. But, if we share the byte code, we can use that code regardless of the OS type by using the JVM for certain OS. And compiling is the process of changing Java code to byte code in Java. That's why we share the information after compiling. It's just my opinion.
+[Java] [3:48 PM] So you mean that some machines are not able to compile c or java code into the machine code, but the byte code is always able to compile into machine code?
+[이동규] [3:55 PM] yes, i think so. Through the vertual machine. But it’s also hard for me to clearly understand that mechanism. 😂
+[이동규] [3:56 PM] *virtual
+[Java] [3:57 PM] Yes me too ㅠㅠthanks for your answer though!
+[이동규] [3:57 PM] No prob
+--------------- Wednesday, March 17, 2021 ---------------
+[JC] [1:39 PM] Tomorrow, We do L05 and Lab03. If you can install JDK and VSCode in advance. You save time in the lab. Install JDK first: https://drive.google.com/drive/u/0/folders/1ztzLBKYaKKOQEOUsndfr0H54KPdTK0zh 
+Install VSCode: https://code.visualstudio.com/#alt-downloads 
+--------------- Thursday, March 18, 2021 ---------------
+[JC] [12:51 PM] On/offline rotation is weekly basis. if you were online last Monday, today is also online. do not be confused.
+[badgers] [4:14 PM] I am sorry but where is the code prof did in class? I cant find it 
+[김형진] [4:14 PM] in the lecture notes
+[김형진] [4:14 PM] https://docs.google.com/document/d/1kxMm5At-YmjWxOPRkzZ-ZfUlUjXVcfsTIDefK3CfrHQ/edit#
+[badgers] [4:14 PM] thanks
+[김형진] [4:15 PM] no problem!
+[badgers] [4:18 PM] one more... is there a file name for lab3? task2-studentID?
+[JC] [4:26 PM] why dont you check the lab slide?
+[Java] [4:28 PM] umm what should i do if the error says that "The term 'javac' is not recognized as the name of ..."
+[Java] [4:37 PM] oops solved! Sorry
+[김재혁] [4:44 PM] What should I submit??
+[Peter] [4:47 PM] the link to your shared google folder
+[badgers] [4:47 PM] sorry I solved it 
+[김재혁] [4:49 PM] Thanks!!
+[TA김민우] [5:21 PM] If you want a trouble shooting, please send email to us with result, path and commands you used!
+[TA김민우] [5:21 PM] We'll check until tonight :)
+[daniel] [6:07 PM] I have a problem in my code. It keeps saying that cannot find symbol for value answer and operator
+[daniel] [6:25 PM] But my code runs fie
+[Java] [6:33 PM] I had the same problem but it fixed when i moved the edu file to c:users:myname file and opened it there maybe this can help
+[daniel] [6:50 PM] Yeah it helped thanks
+[daniel] [6:50 PM] @TA김민우 i have upload the lab could ypu check it please?
+[daniel] [6:51 PM] 21800828
+[TA김민우] [7:17 PM] @daniel  Could you add your lab03 URL to LabSubmit?
+https://docs.google.com/spreadsheets/d/1yhLfX2Aj0b3A9mf98VHA0v_mIYKCAk4rN3ZpWKX7fT8/edit#gid=881803682
+[daniel] [7:46 PM] Ok can you check it?
+[정윤석] [7:49 PM] Ta, Can you check my lab03?
+[TA김민우] [7:56 PM] I've checked all the links that have been posted so far!
+[daniel] [7:57 PM] Thank you
+[TA김민우] [7:57 PM] If you didn't pass, please check the comments and try again :)
+[정윤석] [7:57 PM] Thank you so much!
+[박기홍] [8:32 PM] Ta, Can you check my lab03?
+[TA김민우] [8:41 PM] I marked all the links so far😃
+[홍성헌] [8:58 PM] Ta, what time is due for lab03???? is it 12:00??
+[TA김민우] [9:04 PM] yes. until 11:59pm
+[홍성헌] [9:07 PM] thank you!
+[TA김민우] [11:12 PM] there are 50mins left until the deadline. please check the comments one more time and get passed!
+[daniel] [11:23 PM] I think now is ok. Can you check it please?
+[TA김민우] [11:23 PM] good. I checked it!
+[daniel] [11:24 PM] Ok thank you
+--------------- Friday, March 19, 2021 ---------------
+[임정현] [12:09 AM] Ta, sorry for sending message too late. I uploaded my file as following comments at 7 pm and  I just checked that my mark wasn't changed yet. Could you check my it please?
+[TA김민우] [12:22 AM] sorry for late, but you had to check guideline and upload root folder including package path. I think there are no package folders and no capture of checking java version.
+[임정현] [12:45 AM] Could you check it please? thank you so much:)
+[홍성헌] [12:48 AM] Ta, i uploaded my lab3 at 11:50!
+Could you check it later?? Sorry for asking so late
+[TA김민우] [1:22 AM] you did well but i'm sorry for marking late
+[TA김민우] [1:22 AM] i checked it but as you can see the comments, the position is wrong
+[임정현] [1:23 AM] This message was deleted.
+[임정현] [1:24 AM] thank you:)
+[홍성헌] [1:24 AM] you mean the file location of the file is wrong?
+[TA김민우] [1:26 AM] The guideline of lab03 specified the location. Calculator and other classes must be in separate paths.  
+[홍성헌] [1:47 AM] Thank you..ㅜㅜㅜ I'll upload it in a moment
+[홍성헌] [1:50 AM] uploaded!
+[유정섭] [7:57 PM] Do we just upload my drawio file to the directory we created and changed ownership to Prof. Nam? Thanks :)
+[JC] [8:14 PM] yeap and name it correctly.
+[최소미] [8:15 PM] Then we don't need to email our HW1?
+[JC] [8:18 PM] putting the file in your shared directory means the submisson of hw1. google drive keeps your submission and editing time. any edit after due is considered as late submisson.
+[홍성헌] [8:18 PM] Are all objects(classes) have to have subclasses??
+[최소미] [8:19 PM] Thanks!! :)
+[JC] [8:20 PM] i said it as announcement before.
+[홍성헌] [8:21 PM] Oh sorry i missed it
+[홍성헌] [8:21 PM] Thank you!
+--------------- Monday, March 22, 2021 ---------------
+[훈성(patcha)] [2:04 PM] This message was deleted.
+[훈성(patcha)] [2:08 PM] professor im a student, who need to attend offline class this week. But today I'm feeling bad so if i can I want to take the online class . I sent message at the morning but you didn't check it so im asking it again by kakao.
+[JC] [2:26 PM] I got it. Did you take some medicine and visit 보건소? If you can get some proof of your sickness, you may miss the class and look at the LMS lecture when you get well. (You can send me an email with the proof doc.)
+[CG Zack Lee] [4:50 PM] professor, can we code like you did in class on window's cle too?
+[CG Zack Lee] [4:51 PM] instead of using Visual Studio Code?
+[오한길] [4:55 PM] I did try it, and it works, however you need to download vim editor (or similar applications) for editing the file. 
+and some commands are different (such as: clear is cls, ls is dir (since ls is a unix command)), and maybe some more commands are different.
+[CG Zack Lee] [4:58 PM] ah thank you
+[CG Zack Lee] [4:59 PM] because for me, (i am not sure if it is just me) I found really difficult to catch up the class since everything is run on cle based in class. 
+When I try to do it by myself it is quite confusing.
+[CG Zack Lee] [4:59 PM] I guess I should put more time into it
+--------------- Wednesday, March 24, 2021 ---------------
+[JC] [8:49 PM] Coding hour is going on now.
+[JC] [8:50 PM] You may participate in the zoom session. Hi there, 
+
+You are invited to a Zoom meeting. 
+When: Mar 24, 2021 08:30 PM Seoul 
+
+Register in advance for this meeting:
+https://handong.zoom.us/meeting/register/tZApcOCurDotE9wqrxvipcu9ljM7jxp8UG_H 
+
+After registering, you will receive a confirmation email containing information about joining the meeting.
+[CG Zack Lee] [8:52 PM] Thank you!
+[홍성헌] [9:21 PM] Thank you!
+--------------- Thursday, March 25, 2021 ---------------
+[ShyGirl] [3:38 PM] Is it possible to calculate with Integer?
+[ShyGirl] [3:39 PM] like int?
+[JC] [3:42 PM] yes
+[박서휘] [3:42 PM] so is 'new' we use in java and 'new'/'delete' in c++ the same…..?
+[CG Zack Lee] [3:43 PM] That new is basically a* = new class classname in c++ except
+[CG Zack Lee] [3:43 PM] There is no pointer I think
+[박서휘] [3:44 PM] since we don't use pointer in java
+[박서휘] [3:44 PM] they're different?
+[JC] [3:45 PM] it seems macahnically same as they are allocating a memory. but in java there no ponter concept so you dont need to worry to free your memory.
+[박서휘] [3:45 PM] ahh got it. Thank you!
+[CG Zack Lee] [3:45 PM] So the question I asked JC is that in java if its not primitive variable you can use just like pointer which is not pointer. If I am understanding correctly
+[JC] [3:49 PM] Zoom students.i heard that you can't listend to questions from offline questions. in that case, ask me to repeat the questions
+[박서휘] [3:50 PM] Emoticons
+[최윤성] [3:52 PM] Professor, can you explain the offline question about primitive data type and class data type once more?
+--------------- Monday, March 29, 2021 ---------------
+[badgers] [2:48 PM] question.. So my main class name will be my hw1 subject or just main? 
+public class main{}  or public class game{} ..? 
+[JC] [2:49 PM] just Main + your 3 classes from hw1
+[JC] [2:49 PM] Main.java must be created seperately.
+[Gabriel Davin] [2:49 PM] Can we define new methods which were not there before in our HW? Maybe to show some interaction between classes
+[JC] [2:50 PM] yes but in the same class from hw1
+[badgers] [2:50 PM] okay thanks prof! 
+[Gabriel Davin] [2:51 PM] Yes, same class as in HW1 but new methods which were not there in that HW1 class
+[JC] [2:51 PM] yes, you can do
+[Gabriel Davin] [2:51 PM] Alright, thank you JC!
+[Peter] [3:29 PM] what do you mean by Add Javadoc comments in source code files you created from Task1?
+[JC] [3:30 PM] check L06
+[badgers] [4:34 PM] 21300798 just submitted task1.. could you check it? thanks! 
+[김재혁] [4:45 PM] 21400174 submitted both task1 and 2. Please check it and comment if I have something to modify!!
+[J] [4:47 PM] 21300717 submitted both task1, 2. Could u check it? Thanks!
+[daniel] [4:58 PM] 21800828 submitted task 1 and two. Can u ckeck it please? Thank you
+[Gabriel Davin] [5:13 PM] Should we generate javadoc comments for all variables and methods of every class that we have implemented today?
+[CG Zack Lee] [5:14 PM] 21701042 I submitted both 1 and 2 check please
+[daniel] [5:20 PM] I think it was only for public classes and methods
+[CG Zack Lee] [5:21 PM] I just put everywhere
+[CG Zack Lee] [5:21 PM] lol
+[badgers] [5:23 PM] actually I wrote javadoc comments...how to make it html..? Javac -d bin /src/edu/handong/csee/java/Calculator.java I did like this in lecture6 
+[CG Zack Lee] [5:24 PM] the command is javadoc
+[CG Zack Lee] [5:24 PM] not javac
+[CG Zack Lee] [5:24 PM] and you might want to create new directory which I made it as javadoc as JC did it last time
+[CG Zack Lee] [5:25 PM] so that you can find it easily
+[badgers] [5:25 PM] okay I will try it ..thanks! 
+[CG Zack Lee] [5:25 PM] no prob
+[홍성헌] [5:44 PM] Photo
+[홍성헌] [5:44 PM] Anyone know what kind of prob is this....
+[badgers] [5:45 PM] This message was deleted.
+[CG Zack Lee] [5:58 PM] How about trying adding the path for subclasses. I am not 100% sure. But that means its not finding the location
+[김재혁] [6:26 PM] When I meet that problem, I created the folder which had the same name and copied the files in it!
+[CG Zack Lee] [6:43 PM] 21701042 could you please check my result for both task 1 and 2. I would like to know if I need correction
+[전 소 명] [7:32 PM] 22000646
+I just submitted my Lab04. Please check.
+[하세영] [7:34 PM] 22000776 
+please check mine too thankyou
+[CG Zack Lee] [8:00 PM] has anyone got your file confirmed since class was over? I finished it as soon as class was over and didnt get it checked yet
+[JC] [8:04 PM] Marking will be done before the next hw due officially. My kind TAs did earlier than the official due. Please wait until the due. If you want to be cheked earlier, the best way is to finish in the class.
+[홍석찬] [8:06 PM] This message was deleted.
+[Gabriel Davin] [8:14 PM] @JC could you kindly confirm where we have to put the javadoc comments at in the program? Is it only in the public classes and methods? Thank you
+[JC] [8:16 PM] all public things actully.
+[Gabriel Davin] [8:17 PM] Alright, so everything with a "public" access modifier right? Thank you
+[JC] [8:17 PM] yeap
+[오한길] [8:31 PM] professor, i think I just did something wrong in the LabSubmit, maybe overwritten others line?
+[JC] [8:31 PM] ctrl+z
+[오한길] [8:32 PM] an empty line appears below my line
+[오한길] [8:32 PM] it does not work (ctrl + z)
+[JC] [8:32 PM] ok let me recover
+[오한길] [8:33 PM] thank you JC
+[JC] [8:34 PM] i can recover the version of 6:39pm. please update if yours are removed.
+[Joshua 정욱] [9:31 PM] 22000168
+I finished my both task 1 and task 2. Please check mine. Thank you!:)
+[훈성(patcha)] [9:36 PM] Photo
+[훈성(patcha)] [9:36 PM] @JC  I have no idea about this error. 
+[이동규] [9:41 PM] Would you like to try it without the $ sign?
+[JC] [9:42 PM] thanks 동규
+[훈성(patcha)] [9:42 PM] Photo
+[훈성(patcha)] [9:42 PM] it occurs same thing
+[훈성(patcha)] [9:43 PM] thank you for your help 동규
+[JC] [9:43 PM] can you use cmd? or you need to set classpath correctly.
+[훈성(patcha)] [9:44 PM] okay i will check the classpath.
+[JC] [9:44 PM] https://hyoje420.tistory.com/7
+[JC] [9:44 PM] actually JAVA_HOME issue.
+[Gabriel Davin] [10:32 PM] 22000240 finished both task1 and task2. Please check and notify if there are any mistakes. Thank you.
+[훈성(patcha)] [10:39 PM] it woked thank you so much JC
+[Peter] [10:40 PM] I tried changing the path but I'm still getting the error :(
+[훈성(patcha)] [10:41 PM] 21800333 is finished task1 and task2. check it and notity the mistakes. Thank you.
+[훈성(patcha)] [10:45 PM] Reboot the computer and set path again then try javadoc on cmd. it is what I did.
+[Peter] [10:45 PM] alright thank you!
+[훈성(patcha)] [10:55 PM] Photo
+[Peter] [10:56 PM] it worekd!
+[Peter] [10:56 PM] thank you
+[Peter] [10:56 PM] please check 21800199~
+[최소미] [11:09 PM] Please check 21900745. I submitted.
+[박기홍] [11:10 PM] Please check 21800264.
+[..] [11:24 PM] Please check 21700634.
+[TA김민우] [11:24 PM] We're checking now! please check your status and correct them who needs to do it😀
+[박기홍] [11:37 PM] check 21800264 please
+[홍성헌] [11:55 PM] Could you check 21800791 please
+--------------- Tuesday, March 30, 2021 ---------------
+[TA김민우] [12:01 AM] From now on, all submission is late!
+[Peter] [12:03 AM] thank you for your work!
+[.] [12:07 AM] Is it also late to submit after seeing the TA's marking and fix the code?
+[TA김민우] [12:23 AM] unfortunately, all modifications after the deadline is late
+[CG Zack Lee] [1:46 PM] I have a question! 
+I am not sure if Java has constructor, but I am trying to understand the language by comparing it to C++
+
+Does clsses in Java automatically have default constructor? when we use "new" operatior to assign new instance it seems like it is calling a default constructor. In this case, to use parametrized constructor, do we have to specify the constructor in method definition? I am not sure if I am understanding this right because my first language was C.
+[JC] [2:24 PM] yes java also does. We will learn them in L10.
+[CG Zack Lee] [2:26 PM] Ah! Okay thank you JC!
+--------------- Wednesday, March 31, 2021 ---------------
+[JC] [8:37 PM] Since the last lab was difficult, the tomorrow lab will have only one task, but study MultiDimArrayDemo from L07 in advance. it would help.
+--------------- Thursday, April 1, 2021 ---------------
+[Java] [3:25 PM] where can i find the lab05 ppt?
+[Peter] [3:25 PM] https://docs.google.com/presentation/d/1872FhM_wYpR3jaS39eR7hINHPma3h2KxHzTARYX0L6A/edit#slide=id.g992fab7e64_1_68
+[Java] [3:26 PM] thanks!
+[badgers] [3:27 PM] This message was deleted.
+[badgers] [3:30 PM] multi dim array means using [][] like this??
+[JC] [3:30 PM] yeap like demo
+[badgers] [3:31 PM] thanks!
+[TA김민우] [4:04 PM] If you failed or late the lab04, please tell to TA for your lab04 details after you finished lab05. we'll make it pass.
+[daniel] [4:24 PM] 21800828. Can you check mine pls?
+[TA 전여훈] [4:25 PM] i've just checked yours!
+[daniel] [4:25 PM] Thank yoy
+[김재혁] [4:27 PM] Is the class over?
+[Peter] [4:29 PM] I guess so
+[JC] [4:29 PM] you can leave if you passed
+[김재혁] [4:29 PM] Thank you, JC and Peter!!
+[JC] [4:35 PM] if you leave earlier without passing the lab, your attendance will be absent.
+[김민기] [4:44 PM] 22000072. Can you check mine pls?
+[JC] [4:46 PM] still has an error?
+[CG Zack Lee] [4:53 PM] I divided it
+[CG Zack Lee] [4:53 PM] TA 21701042 please check!!
+[CG Zack Lee] [4:55 PM] So if I don't get confirmation in time is mine going to be late submitted? :(
+[CG Zack Lee] [4:55 PM] corrected in 5 mins tho
+[박기홍] [5:02 PM] Check 21800264 please
+[TA 전여훈] [5:17 PM] I marked your score as Late few minutes ago, but I checked your submission time and changed the marking to Pass. Sorry for confusing you.
+[박기홍] [5:24 PM] Check again please
+[CG Zack Lee] [5:26 PM] Thank you
+--------------- Tuesday, April 6, 2021 ---------------
+[CG Zack Lee] [12:39 AM] So since I did not touch classes JC told me not to, but error occurs saying 
+[CG Zack Lee] [12:39 AM] Photo
+[CG Zack Lee] [12:39 AM] its illegal? I am not sure but I guess its something to do with the classes that I have made?
+[CG Zack Lee] [12:40 AM] I appologize texting in late night
+[JC] [7:13 AM] that is weird. please check if you accidently added a character. you may download the file again.
+[CG Zack Lee] [10:06 AM] Thank you for making sure because my VSCode always had this kind of problem from before.
+[JC] [10:23 AM]  what kind of terminal do you use? Using CMD may solve the issue. you may stop by my office.
+[CG Zack Lee] [10:30 AM] Thank you so much for your concern! What time would you be most comfortable for me to visit?
+[JC] [10:34 AM] http://lifove.github.io/calendar you can find my available slots (day time) and make an appointment by email.
+[CG Zack Lee] [12:35 PM] Since I cannot make up to the available time slots until tomorrow's TA session, I will first go to TA session then make an appointment! Thank you
+[CG Zack Lee] [12:36 PM] is Histutor thing still not working?
+[JC] [12:37 PM] you can attend histutor via a Zoom link. links are in the coding hour time table.
+--------------- Wednesday, April 7, 2021 ---------------
+[badgers] [4:53 PM] Hi guys,, I have some problem so when I compile my java file,,(javac ~) wiht giving -d option, there is error (.\IntegratedConverter.java:24: error: cannot find symbol 
+Is there anyone knows how to solve it? 
+[JC] [5:05 PM] compile them in your project root folder with the full packge path and compile all classes together using ..../*.java ....../converters/*.java
+[JC] [5:05 PM] since there is no converter classes so you had those errors.
+[badgers] [5:09 PM] thanks! I will try this ~ 
+have nice day prof🤗
+[JC] [8:08 PM] If you want to test your source code by using jChecker (http://isel.lifove.net/jchecker), use this authentication token, 62g2bo9wax5. Upload a zip file of your souce code.
+[badgers] [8:16 PM] actually I wanna copy and paste some of given code like integratedconvert.java.. can I do this?
+[JC] [8:18 PM] i have no idea what you want to do. for what, do you want to copy&paste?
+[badgers] [8:19 PM] can I use some code from given code??
+[JC] [8:21 PM] for what?
+[badgers] [8:22 PM] try catch things... for allconverter .. If I cant, I dont use it
+[JC] [8:23 PM] why do you need try-catch in allconverter?
+[badgers] [8:24 PM] dont we have to handle input error?
+[JC] [8:33 PM] no need for hw2. just use if statement as we didn't learn how to handle exceptions yet. input error will happen in IntegratedConverter.
+[badgers] [8:34 PM] i got it! sorry for interrupting your evening. Thanks alot!
+[JC] [8:37 PM] no problem. ask any time when you have issues.
+[JC] [8:38 PM] coding hour just started. you may get some help there.
+[badgers] [8:40 PM] yes sir!💪
+--------------- Thursday, April 8, 2021 ---------------
+[JC] [8:40 AM] Photo
+[JC] [8:40 AM] Don't miss today's sky!!
+[김재혁] [8:42 AM] Thank you, JC!!
+[임정현] [9:00 AM] Emoticons
+[박서휘] [9:31 AM] Emoticons
+[badgers] [3:27 PM] so instance is simillar as reference variable?? 
+[badgers] [3:27 PM] It sounds like address ...
+[ShyGirl] [3:27 PM] Then what should I do if I want to use the missing instance again?
+[TA김민우] [4:56 PM] Some students are enterig HW2 classroom and submitting it. Make sure the Lab06 task1, task2 token is correct!
+[CG Zack Lee] [5:45 PM] JC would these kind of big number in short form would cause error on JChecker?
+[CG Zack Lee] [5:45 PM] Photo
+[CG Zack Lee] [5:45 PM] 1.02E7 G
+[daniel] [6:06 PM] @TA 전여훈 21800828. I have completed task 2
+[JC] [6:23 PM] if you passed in the system, that is done. do not need to ask a ta to confirm.
+[daniel] [6:23 PM] Oh ok sorry
+[JC] [6:23 PM] i think no errors
+--------------- Saturday, April 10, 2021 ---------------
+[Joshua 정욱] [4:27 PM] Professor, I got a question about creating javadoc file. I generated javadoc in javadoc folder inside the directory of the source folder, and commented every single fields and methods except the file that you told us not to modify. However, when I try to score zip file using JCHECKER, it deducted 0.5 point. It says because Javadoc is insufficient or may not have been created.
+[JC] [4:32 PM] do not put generated javadocs in the zip file but only .java files. check if you missed any public ones.
+[Joshua 정욱] [4:38 PM] So, do you mean that I don't need to put javadoc file in the zip file that I need to submit on JCHECKER?
+[JC] [4:38 PM] yeap, no need as jChecker check if there is javadoc comment in the .java files.
+[이동규] [4:40 PM] Professor, then do I not have to make javadocs on the files you told us not to modify? I did make javadocs on those files since the homework description said 'write Javadoc for all public classes/interface/methods'. And when I submitted my hw2, JCHECKER showed me that I'm passed anyway.
+[JC] [4:43 PM] you can check if your javadoc comments can genertae javadoc files in your local machine. but upload a zip file that contains only .java files that contains both comments and code.
+[JC] [4:44 PM] you put javadoc comments in your code files right? that made you passed as I think.
+[Joshua 정욱] [4:45 PM] I think he meant that he put javadoc comments on three files that you told us not to modify and it passed.
+[JC] [4:46 PM] comments are not code.
+[JC] [4:47 PM] Did I understand your concern correctly?
+[이동규] [4:48 PM] So, making javadoc on those files is not considered as modification. Is it right?
+[Joshua 정욱] [4:48 PM] Yes, I got it. Thank you professor!:)
+[JC] [4:55 PM] Yeap, it is right as adding comments are not modofying code.
+[이동규] [4:55 PM] I got it. Thank you, professor!
+[.] [8:48 PM] Professor, if I got deducted in test case, does it mean that there is an issue on the output?
+[JC] [9:26 PM] yeap
+--------------- Sunday, April 11, 2021 ---------------
+[Peter] [8:49 PM] I have a question! I'm working on my HW2 and some of the java files do not compile 
+I compiled my files using this command
+javac -d classes .\edu\handong\csee\java\hw2\*.java
+Only the converter java files do not compile. Allconverter.java and Convertible.java compiles without problem which are in the same directory
+[김형진] [8:52 PM] Try compiling files in the converters directory seperately
+[Peter] [8:54 PM] if I do I get Exception in thread "main" java.lang.NoClassDefFoundError this error
+[JC] [8:55 PM] your command does not compiler java files in the converters directory. please fine how to compile all java files in the different directories. I'v shows this in lectures several times. do not move Conveetible.java in its parent directory.
+[JC] [8:56 PM] fine>>find
+[Peter] [9:03 PM] the thing is some of the files in converters directory is compiled and some are not.
+I thought adding *.java at the end would compile every java file under the directory, is there other ways to do it?
+[JC] [9:05 PM] no, it does not. *.java works only for one directory. you sholud try *.java for all directories.
+[Peter] [9:20 PM] alright thank you prof!
+--------------- Monday, April 12, 2021 ---------------
+[.] [3:49 PM] JC! I sent you an email today in the morning, so I couldn't go to the offline class. I had to take the online class but entered right after you called the attendence 😥 so I am late
+[홍성헌] [6:11 PM] I have a question!
+From the hw2 doc, there is a next line(\n) after execution as you can see in the photo. However, we are not suppose to fix IntegratedConverter.java so i'm stuck in this part... 
+Do we have to have exactly same result as shown in the hw2 execution example??
+[홍성헌] [6:11 PM] Photo
+[오한길] [7:12 PM] it does not affect the score
+[오한길] [7:12 PM] even if you add (\n) or not
+[홍성헌] [7:28 PM] Thank you
+--------------- Tuesday, April 13, 2021 ---------------
+[유정섭] [5:09 PM] I have a question about JChecker grading issue, which TA should I send the email to? Thanks!
+[TA김민우] [5:22 PM] please send 21600065@handong.edu !
+[유정섭] [5:29 PM] I just sent you an email! Thanks :)
+[김형진] [9:15 PM] Hi TA I sent you an email. Can you check it please? Thank you
+[JC] [9:18 PM] please not ask TA now.
+--------------- Wednesday, April 14, 2021 ---------------
+[JC] [1:35 PM] From now on, when you send emails to TA, please CC me (jcnam@handong.edu). So, I can also answer for your emails and know what are frequently asked questions. If same qeustions are repeated, I can deal with those questions in the class. So, please understand TAs have no obiligation to answer your emails if you do not CC me from now on. If you need any helps, you can use Coding Hour and ask this chat room even right before HW dues. (앞으로 TA에게 메일을 보낼 때 나에게 참조로 같이 보내주세요. 티에이가 바쁠 때 내가 답을 줄 수도 있고, 나도 학생들이 뭘 궁금해 하는지 파악할 수 있고, 반복되는 문의는 수업시간에 한 번 더 다룰 수도 있고요. 나를 참조 안한 메일은 TA가 답할 의무가 없다고 생각하면 됩니다. 숙제 관련 도움은 코딩아워를 통해 받도록 하고, 마감일 당일에 보내는 메일은 너무 늦어서 답을 적시에 받기 어려우니 톡방을 이용하기 바랍니다.)
+[JC] [6:18 PM] Could it be better if we could have LMS lectures and online Lab in Week08 as all have midterm exams? As we have jchecker now, I think online lab is also possible. What do you think?
+[Peter] [6:39 PM] I think its good!
+--------------- Saturday, April 17, 2021 ---------------
+[JC] [11:45 AM] Hi all. L14 and L15 are uploading in Lecture Contents (강의 콘텐츠) in LMS. Lab07 is also ready and you can do tasks after wathing L14 and L15. Authentication toknes for Lab07 are in lecture note.
+[JC] [11:46 AM] Whatch them in your convinient time. Good luck for your midterm exams.
+[CG Zack Lee] [11:51 AM] Thats was so thoughtful of you releasing then on the weekend! thank you!
+[JC] [12:37 PM] Thanks! Weekends are good to prepare for next week lectures and to reply to piled emails from students ;) I have tons of emails to reply.
+[Gabriel Davin] [12:42 PM] Thank you JC!!
+--------------- Sunday, April 18, 2021 ---------------
+[CG Zack Lee] [5:20 PM] I am little confused, so the lecture 14 and 15 are replacing the week 8th's classes right? 
+[JC] [5:22 PM] yes. so no offline classes in Week08.
+[CG Zack Lee] [5:24 PM] Thank you!
+. left.
+. joined this chatroom.
+--------------- Tuesday, April 20, 2021 ---------------
+[CG Zack Lee] [9:47 PM] Do we have to use commandline for second part of lab7?
+[CG Zack Lee] [9:48 PM] the 새내기 name thing
+[JC] [9:48 PM] yeap
+[CG Zack Lee] [9:50 PM] So the commandline input will be like Jack Lee John Kim James Park
+[CG Zack Lee] [9:50 PM] ahhhh I see
+[CG Zack Lee] [9:50 PM] Thank you
+[CG Zack Lee] [9:50 PM] I hope what I understood is right
+[JC] [9:51 PM] jChecker will let you know if you have issues.
+[CG Zack Lee] [9:56 PM] does this mean that input should be order of "JC Nam, Zack Lee, John Kim"?
+[CG Zack Lee] [9:56 PM] Photo
+[CG Zack Lee] [9:58 PM] ah I understood
+[CG Zack Lee] [9:58 PM] thank you
+--------------- Sunday, April 25, 2021 ---------------
+[JC] [3:18 PM] Hi All. please check the online/offline cycle. https://docs.google.com/spreadsheets/d/1fhJir4kWZf1ul-Q5o8ZYUVghludoqDGGBzPaKECZ8rA/edit#gid=0
+[홍성헌] [3:52 PM] Ta님, I just sent a question email. Could you check it when you are available. Thank you!
+[JC] [3:54 PM] i replied.
+[홍성헌] [4:22 PM] Thank you!
+--------------- Monday, April 26, 2021 ---------------
+[.] [4:19 PM] I'm taking classes online this week.Then, do I took a midterm on onlline?
+[JC] [4:40 PM] yeap
+[.] [4:41 PM] thank you:-)
+--------------- Tuesday, April 27, 2021 ---------------
+[JC] [11:10 AM] For lecture note editing, I review them by the email request. If you didn't let me know, please send me emails. (Please read the instructions) https://docs.google.com/spreadsheets/d/1eLqTyrd4LkZhWq8lE52t3VjCI5v2Jtwltkh-IKB9XpA/edit#gid=0
+[CG Zack Lee] [3:54 PM] After finishing editing we must send you email you mean?
+[CG Zack Lee] [3:54 PM] Oh I havent
+[.] [4:00 PM] ohhh I haven't also
+[.] [4:01 PM] 😮😮
+--------------- Wednesday, April 28, 2021 ---------------
+[JC] [8:16 PM] Hi All. To take the midterm exam, you need a laptop. Please, do not forget to bring it. You may use a PC in the classroom. Coding hour starts at 8:30pm. If you need any help, try coding hour. Cheers! 
+[CG Zack Lee] [8:22 PM] For those who are online this week, we just have to be in zoom by the class time right?
+[JC] [8:34 PM] yeap
+[전 소 명] [8:46 PM] JC, should we bring hard copies of cheating paper?
+[JC] [8:53 PM] anything is fine.
+--------------- Thursday, April 29, 2021 ---------------
+[JC] [9:57 AM] I've shared how to take exam here. You may read this guideline first and ask questions. Anyway, I'm going to explain this when the exam starts. https://drive.google.com/drive/folders/1nKJT_pOj0ClU_VKx2Lf8yS_7T8-5KITA
+[JC] [10:28 AM] Please, do not copy the midterm sheet. It will be updated. Copy it when the exam starts.
+[.] [1:47 PM] jc could you check your email??
+[badgers] [2:32 PM] So do I have to make midterm folder in my google drive?
+[Java] [2:33 PM] Is it okay if I use the internet dictionary while the exam?
+[CG Zack Lee] [2:41 PM] I have question!!!
+[CG Zack Lee] [2:41 PM] can you not hear zoom?
+[badgers] [2:41 PM] so just choose one of open source in tha site??
+[JC] [2:45 PM] nope any one in your page
+[JC] [2:46 PM] what is your question?
+[CG Zack Lee] [2:46 PM] JC can we explain things that we did not learn in the class?
+[JC] [2:46 PM] put that in the last tab and identify the topic.
+[CG Zack Lee] [2:47 PM] Okay thank you!
+[badgers] [2:47 PM] there are so many java file in one open source,,, so just explain one of them???
+[JC] [2:47 PM] any one is fine.
+[JC] [2:47 PM] one file may not have all topics so you navigate files.
+[JC] [4:25 PM] 5min left. please wrap it up.
+--------------- Thursday, May 6, 2021 ---------------
+[CG Zack Lee] [10:58 AM] JC, I am reviewing stuffs and when I move github repository to my laptop via CMD, git clone cammand will not finish loading forever :( could you recognize what is causing this problem?
+[CG Zack Lee] [10:58 AM] Photo
+[CG Zack Lee] [10:58 AM] it is stuck like this forever
+[JC] [11:39 AM] I have no idea. turn off and on your wifi and try again. Also check you can access the Github.com at the same time.
+[CG Zack Lee] [12:16 PM] I goggled it about it and I think it was because I needed to log in to github it works now! thank you
+[JC] [1:09 PM] ok great!
+[daniel] [6:09 PM] Until what time can we submit the lab?
+[JC] [6:15 PM] 11:59pm
+[daniel] [6:16 PM] Ok Thank you professor.
+김강현 left.
+--------------- Friday, May 7, 2021 ---------------
+[ShyGirl] [8:06 AM] Professor! Could you check our LAB8 again? There is no update marking after the yesterday’s class.
+[JC] [10:36 AM] they will be checked before or at the next homework deadline.
+[ShyGirl] [10:42 AM] I see!☺️ Thank you professor!!
+[JC] [1:00 PM] For the last question in the class yeserday, I
+[JC] [1:00 PM] I've added one senetence in the slide: https://docs.google.com/presentation/d/1Anaj1hzO8lD8MnN6eXmSRccPOyNRLogUcastJxWm2Ww/edit#slide=id.g58c9ca1930_0_142
+[JC] [1:03 PM] "To organize helper methods in your libraries; you can keep static methods specific to an interface in the same interface rather than in a separate class." Here helper methods means a static method that is frequently used in many code (for example, the static method in Utils.java in HW2.) If some static methods are directly related to an interface, defining it in the interface could be better to define them in a seperate class. This is just a tip from original java creators. Hope this make more clearer about the question.
+[JC] [1:04 PM] If you have additional questions regarding this, ask here again. Have a great weekend!
+--------------- Monday, May 10, 2021 ---------------
+[전 소 명] [3:48 PM] JC, I attended the zoom at 2:40. Is it treated as late?
+[JC] [4:39 PM] it depends. When you joined what i was talking?
+[전 소 명] [4:41 PM] yeah.
+I came in while you were writing lecture notes.
+[JC] [4:43 PM] yeap, then it is late.
+[전 소 명] [5:04 PM] thanks

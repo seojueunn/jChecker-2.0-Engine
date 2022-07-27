@@ -1,0 +1,84 @@
+{
+    "_id" : ObjectId("626b3ca727e3857e9a3b25e3"),
+    "token" : "9dqa9blbpu",
+    "itoken" : "0truwc",
+    "className" : "jChecker",
+    "instructor" : "jchecker",
+    "feedback" : true,
+    "createDate" : "2022-04-29 10:17:27",
+    "dueDate" : "2022-07-30 10:16:59",
+    "point" : 9.0,
+    "compiled" : {
+        "state" : true,
+        "buildTool" : false,
+        "deductPoint" : 1.0
+    },
+    "oracle" : {
+        "state" : false
+    },
+    "packages" : {
+        "state" : false
+    },
+    "classes" : {
+        "state" : true,
+        "required" : [ 
+            "edu.handong.csee.java.inheritance.Cat", 
+            "edu.handong.csee.java.inheritance.Dog", 
+            "edu.handong.csee.java.inheritance.Animal", 
+            "edu.handong.csee.java.inheritance.Monkey"
+        ],
+        "deductPoint" : 1.0,
+        "maxDeduct" : 4.0
+    },
+    "customException" : {
+        "state" : false
+    },
+    "customStructure" : {
+        "state" : false
+    },
+    "overriding" : {
+        "state" : true,
+        "required" : [ 
+            "testInstanceMethod"
+        ],
+        "deductPoint" : 1.0,
+        "maxDeduct" : 1.0
+    },
+    "overloading" : {
+        "state" : false
+    },
+    "thread" : {
+        "state" : false
+    },
+    "javadoc" : {
+        "state" : false
+    },
+    "encapsulation" : {
+        "state" : false
+    },
+    "inheritSuper" : {
+        "state" : true,
+        "origins" : [ 
+            "Dog", 
+            "Cat", 
+            "Monkey"
+        ],
+        "inherit" : [ 
+            "Animal", 
+            "Animal", 
+            "Animal"
+        ],
+        "deductPoint" : 1.0,
+        "maxDeduct" : 3.0
+    },
+    "inheritInterface" : {
+        "state" : false
+    },
+    "count" : {
+        "state" : false,
+        "methodCount" : 0,
+        "fieldCount" : 0,
+        "enForCount" : 0
+    },
+    "_class" : "edu.handong.csee.isel.dpminer.form.document.Token"
+}

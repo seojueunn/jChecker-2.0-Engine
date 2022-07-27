@@ -1,0 +1,13 @@
+﻿Date,User,Message
+2018-04-17 09:52:48,"HW","Clear"
+2018-04-17 09:52:57,"YI","yes"
+2018-04-17 09:53:02,"WSD","yes"
+2018-04-17 09:53:19,"JH","yes"
+2018-04-17 09:58:49,"HW","If you override, then you cannot use the original(overrided) method anymore. Is it right?"
+2018-04-17 09:59:39,"JS","Can you still access to superclass's method even after overriding?"
+2018-04-17 09:59:56,"JS","From the subclass"
+2018-04-17 10:00:35,"YI","constant"
+2018-04-17 10:07:40,"HW","Can you define methods in child class as final? In order to prevent the children classes of the child class from overriding"
+2018-04-17 10:10:55,"YI","no"
+2018-04-17 10:18:09,"JS","When we call super.methodname() from subclass even after overriding that method we can still call the superclass's method right?"
+2018-04-17 10:24:30,"JS","Yes"

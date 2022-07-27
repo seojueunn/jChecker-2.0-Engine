@@ -1,0 +1,68 @@
+{
+    "_id" : ObjectId("626b635227e3857e9a3b25e9"),
+    "token" : "5exm27q8xec",
+    "itoken" : "ryj1l1",
+    "className" : "Encapsulation",
+    "instructor" : "jchecker",
+    "feedback" : true,
+    "createDate" : "2022-04-29 13:02:26",
+    "dueDate" : "2023-07-30 10:16:59",
+    "point" : 10.0,
+    "compiled" : {
+        "state" : true,
+        "buildTool" : false,
+        "deductPoint" : 1.0
+    },
+    "oracle" : {
+        "state" : false
+    },
+    "packages" : {
+        "state" : false
+    },
+    "classes" : {
+        "state" : true,
+        "required" : [ 
+            "edu.handong.csee.java.lab04.EveryTime", 
+            "edu.handong.csee.java.lab04.elements.Nick", 
+            "edu.handong.csee.java.lab04.elements.Anonymous"
+        ],
+        "deductPoint" : 0.0,
+        "maxDeduct" : 0.0
+    },
+    "customException" : {
+        "state" : false
+    },
+    "customStructure" : {
+        "state" : false
+    },
+    "overriding" : {
+        "state" : false
+    },
+    "overloading" : {
+        "state" : false
+    },
+    "thread" : {
+        "state" : false
+    },
+    "javadoc" : {
+        "state" : false
+    },
+    "encapsulation" : {
+        "state" : true,
+        "deductPoint" : 5.0
+    },
+    "inheritSuper" : {
+        "state" : false
+    },
+    "inheritInterface" : {
+        "state" : false
+    },
+    "count" : {
+        "state" : false,
+        "deductPoint" : 0.0,
+        "methodCount" : 0,
+        "fieldCount" : 0,
+        "enForCount" : 0
+    },
+    "_class" : "edu.handong.csee.isel.dpminer.form.document.Token"
+}

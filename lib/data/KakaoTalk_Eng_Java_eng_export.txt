@@ -1,0 +1,38 @@
+2021-1 JC's Java class with KakaoTalk Chats
+Date Saved : 2021-06-06 09:49:04
+
+--------------- Saturday, June 5, 2021 ---------------
+[Gabriel Davin] [10:45 AM] This message was deleted.
+[Gabriel Davin] [10:49 AM] Professor, for HW6, you mentioned that it will be about data structures..will it be connected to HW5 like how HW5 was connected to HW4?
+[JC] [10:49 AM] yes all are connected.
+[Gabriel Davin] [10:51 AM] Alright,thanks JC!
+[Peter] [10:53 AM] Hw6 is out last hw right?
+[JC] [10:54 AM] you mean due for hw6?
+[JC] [10:55 AM] ah, that is the last hw
+[전혜선] [10:56 AM] So there is no homework after 16week?
+[JC] [10:58 AM] hw6 will be released week15 and will be the last one.
+[전혜선] [10:58 AM] thank you!!!!!
+[CG Zack Lee] [9:27 PM] JC for date format, time like past midnight 12:50PM, does it have to be 00:50 or 24:50?
+[자바 1분반 자바써] [9:28 PM] U mean 1250 am?
+[CG Zack Lee] [9:28 PM] It is supposed to be 12:50 but in KakaoTalk it shows 12:50PM instead
+[CG Zack Lee] [9:29 PM] it turns 1 then it becomes 1:00 AM
+[자바 1분반 자바써] [9:29 PM] 12 pm is noon
+[CG Zack Lee] [9:30 PM] ah lol I see what I have mistaken
+[CG Zack Lee] [9:30 PM] Thanks for clearifying
+[전혜선] [10:25 PM] I'm so sorry, this question was already asked in class, but I can't remember the answer,,,
+For the same date but different writer, 
+Is it correct to write in this way?
+Parsing Message 2 
+...
+Parsing Message 2
+...
+not 
+Parsing Message 2
+... 
+Parsing Message 3
+[JC] [10:47 PM] nope. different messages have different ids.
+[JC] [10:48 PM] i think there is typos in the example in faq. ive fixed it.
+[JC] [10:52 PM] thanks for finding and asking it.
+[최윤성] [10:59 PM] In sorting message by the date, time, and writer, should we sort all of output regardless filtering?
+[JC] [11:02 PM] yes.
+[전혜선] [11:36 PM] Thank you!

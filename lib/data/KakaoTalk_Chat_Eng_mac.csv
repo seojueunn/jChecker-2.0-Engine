@@ -1,0 +1,35 @@
+﻿Date,User,Message
+2021-06-05 10:45:28,"Gabriel Davin","This message was deleted."
+2021-06-05 10:49:04,"Gabriel Davin","Professor, for HW6, you mentioned that it will be about data structures..will it be connected to HW5 like how HW5 was connected to HW4?"
+2021-06-05 10:49:32,"JC","yes all are connected."
+2021-06-05 10:51:00,"Gabriel Davin","Alright,thanks JC!"
+2021-06-05 10:53:56,"Peter","Hw6 is out last hw right?"
+2021-06-05 10:54:37,"JC","you mean due for hw6?"
+2021-06-05 10:55:06,"JC","ah, that is the last hw"
+2021-06-05 10:56:50,"전혜선","So there is no homework after 16week?"
+2021-06-05 10:58:21,"JC","hw6 will be released week15 and will be the last one."
+2021-06-05 10:58:57,"전혜선","thank you!!!!!"
+2021-06-05 21:27:28,"CG Zack Lee","JC for date format, time like past midnight 12:50PM, does it have to be 00:50 or 24:50?"
+2021-06-05 21:28:27,"자바 1분반 자바써","U mean 1250 am?"
+2021-06-05 21:28:53,"CG Zack Lee","It is supposed to be 12:50 but in KakaoTalk it shows 12:50PM instead"
+2021-06-05 21:29:04,"CG Zack Lee","it turns 1 then it becomes 1:00 AM"
+2021-06-05 21:29:34,"자바 1분반 자바써","12 pm is noon"
+2021-06-05 21:30:09,"CG Zack Lee","ah lol I see what I have mistaken"
+2021-06-05 21:30:15,"CG Zack Lee","Thanks for clearifying"
+2021-06-05 22:25:43,"전혜선","I'm so sorry, this question was already asked in class, but I can't remember the answer,,,
+For the same date but different writer, 
+Is it correct to write in this way?
+Parsing Message 2 
+...
+Parsing Message 2
+...
+not 
+Parsing Message 2
+... 
+Parsing Message 3"
+2021-06-05 22:47:13,"JC","nope. different messages have different ids."
+2021-06-05 22:48:30,"JC","i think there is typos in the example in faq. ive fixed it."
+2021-06-05 22:52:36,"JC","thanks for finding and asking it."
+2021-06-05 22:59:40,"최윤성","In sorting message by the date, time, and writer, should we sort all of output regardless filtering?"
+2021-06-05 23:02:14,"JC","yes."
+2021-06-05 23:36:30,"전혜선","Thank you!"
