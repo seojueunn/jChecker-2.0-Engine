@@ -191,6 +191,7 @@ public class ImplementationChecker extends ASTChecker {
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
 			getClassNames(unit);
 			getInstances(unit);
+			getCountInfo(unit);
 		}
 	}
 
