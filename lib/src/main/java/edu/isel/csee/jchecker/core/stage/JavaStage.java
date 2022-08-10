@@ -119,7 +119,7 @@ public class JavaStage implements IGradeStage {
 
 		command.add("bash");
 		command.add("-c");
-		command.add("find . -name *.java > srclist.txt");
+		command.add("find . -name '*.java' > srclist.txt");
 
 		ProcessBuilder builder = null;
 		Process process = null;
