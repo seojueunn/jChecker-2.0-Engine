@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class PolicyValidator {
-    public void validator(JsonObject policy){
+    public void validator(JsonObject policy) {
         // validation for classes deduct point
         JsonObject obj = new Gson().fromJson(policy.get("classes"), JsonObject.class);
         if (!obj.has("deductPoint")) {
