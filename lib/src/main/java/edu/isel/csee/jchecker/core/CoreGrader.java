@@ -89,7 +89,7 @@ public class CoreGrader {
 			if (scheme.isTest()) {
 				for (int i = 0; i < scheme.getInputs().size(); i ++) {
 					boolean iResult = false;
-					boolean cResult = true;
+					boolean cResult = !isChecksum;
 
 					if (!flag) {
 						iResult = grader.build(grader.getTest(mainPath, scheme.getInputs().get(i), scheme.isTest()), scheme.getOutputs().get(i), workpath);
