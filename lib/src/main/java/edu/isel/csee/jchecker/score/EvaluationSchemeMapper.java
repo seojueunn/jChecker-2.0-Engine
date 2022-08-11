@@ -148,6 +148,13 @@ public class EvaluationSchemeMapper {
 		this.checksums = checksums;
 	}
 
+	public boolean isChecksum() {
+		if ((this.checksums.size() == 1) && this.checksums.get(0).isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
 	public boolean isCompiled() {
 		return compiled;
 	}
