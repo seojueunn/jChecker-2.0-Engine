@@ -28,6 +28,7 @@ public class CoreGrader {
 	private int cViolationCount = 0;
 	private int totalViolationCount = 0;
 	private int checkCompile;
+	private boolean isChecksum = false;
 	private String mainPath = "";
 	private String libPath = "";
 	private String workpath = "";
@@ -40,6 +41,9 @@ public class CoreGrader {
 		JsonObject policyObject = (JsonObject)(new Gson()).fromJson(policy, JsonObject.class);
 		JsonObject score = new JsonObject();
 		EntireContentParser source = new EntireContentParser();
+
+		// validate the policy JSON file before parsing policy data
+		new PolicyValidator().validator(policyObject);
 
 		new PolicyParser().parse(scheme, policyObject);
 
@@ -62,6 +66,8 @@ public class CoreGrader {
 			System.out.println(workpath);
 		}
 
+		isChecksum = scheme.isChecksum();
+
 		checkCompile = grader.compile(workpath);
 
 		libPath = findFilePath(workpath, "build/libs", "*.jar");
@@ -83,7 +89,7 @@ public class CoreGrader {
 			if (scheme.isTest()) {
 				for (int i = 0; i < scheme.getInputs().size(); i ++) {
 					boolean iResult = false;
-					boolean cResult = false;
+					boolean cResult = true;
 
 					if (!flag) {
 						iResult = grader.build(grader.getTest(mainPath, scheme.getInputs().get(i), scheme.isTest()), scheme.getOutputs().get(i), workpath);
@@ -96,20 +102,22 @@ public class CoreGrader {
 						iViolationCount ++;
 					}
 
-					try {
-						if (scheme.getChecksums().get(i).isEmpty()) {
-							cResult = true;
-						} else {
-							cResult = FileGenerationChecker.compareChecksum(scheme.getChecksums().get(i), scheme.getReqFilePath().get(i), workpath);
+					if (isChecksum) {
+						try {
+							if (scheme.getChecksums().get(i).isEmpty()) {
+								cResult = true;
+							} else {
+								cResult = FileGenerationChecker.compareChecksum(scheme.getChecksums().get(i), scheme.getReqFilePath().get(i), workpath);
+							}
+						} catch (Exception e) {
+							System.out.println("Error part : checksum");
+							e.printStackTrace();
 						}
-					} catch (Exception e) {
-						System.out.println("Error part : checksum");
-						e.printStackTrace();
-					}
 
-					if (!cResult) {
-						checksumViolations.add(String.valueOf(i + 1));
-						cViolationCount ++;
+						if (!cResult) {
+							checksumViolations.add(String.valueOf(i + 1));
+							cViolationCount++;
+						}
 					}
 
 					if (!cResult || !iResult) {
