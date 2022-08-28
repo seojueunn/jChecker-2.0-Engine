@@ -172,9 +172,11 @@ public class CoreGrader {
 					item_oracle.addProperty("violation", false);
 				}
 
-				if (scheme.getChecksums().size() > 0) {
+				if (scheme.getChecksums().size() > 0 && isChecksum) {
+					System.out.println("isChecksum(O)");
 					item_oracle.addProperty("checksum", true);
 				} else {
+					System.out.println("isChecksum(X)");
 					item_oracle.addProperty("checksum", false);
 				}
 
