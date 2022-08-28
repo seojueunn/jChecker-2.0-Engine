@@ -162,8 +162,10 @@ public class CoreGrader {
 					inputViolations.add(String.valueOf(i + 1));
 				}
 
-				for (int i = 0; i < scheme.getChecksums().size(); i ++) {
-					checksumViolations.add(String.valueOf(i + 1));
+				if (isChecksum) {
+					for (int i = 0; i < scheme.getChecksums().size(); i++) {
+						checksumViolations.add(String.valueOf(i + 1));
+					}
 				}
 
 				if (scheme.getInputs().size() > 0) {
@@ -173,10 +175,8 @@ public class CoreGrader {
 				}
 
 				if (scheme.getChecksums().size() > 0 && isChecksum) {
-					System.out.println("isChecksum(O)");
 					item_oracle.addProperty("checksum", true);
 				} else {
-					System.out.println("isChecksum(X)");
 					item_oracle.addProperty("checksum", false);
 				}
 
