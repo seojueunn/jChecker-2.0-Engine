@@ -150,6 +150,8 @@ public class EvaluationSchemeMapper {
 
 	// if we use checksum data, this method returns true
 	public boolean isChecksum() {
+		// when we set the grading policy, jChecker front-end fills the checksum part with one empty string
+		// if we do not use checksum data in the homework, the number of checksum data is one and data is an empty string
 		if ((this.checksums.size() == 1) && this.checksums.get(0).isEmpty()) {
 			return false;
 		}
