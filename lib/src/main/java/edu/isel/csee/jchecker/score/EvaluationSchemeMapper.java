@@ -148,6 +148,7 @@ public class EvaluationSchemeMapper {
 		this.checksums = checksums;
 	}
 
+	// if we use checksum data, this method returns true
 	public boolean isChecksum() {
 		if ((this.checksums.size() == 1) && this.checksums.get(0).isEmpty()) {
 			return false;
