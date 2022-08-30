@@ -276,6 +276,7 @@ public class CoreGrader {
 			}
 
 			process.waitFor();
+			stdout.close();
 			process.destroy();
 
 		} catch (Exception e) {
