@@ -61,6 +61,7 @@ public class PolicyValidator {
                 }
             }
 
+            // #8 - input size > checksum size -> add some empty string in checksum data
             if (inputs.size() > checksums.size()) {
                 while (inputs.size() != checksums.size()) {
                     checksums.add("");
