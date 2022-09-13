@@ -43,7 +43,8 @@ public class CoreGrader {
 		EntireContentParser source = new EntireContentParser();
 
 		// validate the policy JSON file before parsing policy data
-		new PolicyValidator().validator(policyObject);
+		PolicyValidator validator = new PolicyValidator();
+		validator.validator(policyObject);
 
 		new PolicyParser().parse(scheme, policyObject);
 
@@ -66,7 +67,7 @@ public class CoreGrader {
 			System.out.println(workpath);
 		}
 
-		isChecksum = scheme.isChecksum();
+		isChecksum = validator.getHasChecksum();
 
 		checkCompile = grader.compile(workpath);
 
