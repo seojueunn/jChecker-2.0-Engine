@@ -27,6 +27,7 @@ public class PolicyValidator {
         this.hasChecksum = true;
     }
 
+    // get hasChecksum data (if we use checksum data -> hasChecksum is true)
     public boolean getHasChecksum() {
         return this.hasChecksum;
     }
@@ -54,8 +55,9 @@ public class PolicyValidator {
         // if we use checksum, the number of checksum data is equal to input data size
         if (getHasChecksum()) {
             for (int i = 0; i < checksums.size(); i ++) {
+                // replace null data to empty string
                 if (checksums.get(i) == null) {
-                    checksums.set(i, ""); // replace null data to empty string
+                    checksums.set(i, "");
                 }
             }
 
