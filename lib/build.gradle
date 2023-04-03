@@ -45,6 +45,8 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
 
+    // https://mvnrepository.com/artifact/com.github.javaparser/javaparser-symbol-solver-core
+    implementation group: 'com.github.javaparser', name: 'javaparser-symbol-solver-core', version: '3.24.2'
 }
 
 task fatJar(type: Jar) {
