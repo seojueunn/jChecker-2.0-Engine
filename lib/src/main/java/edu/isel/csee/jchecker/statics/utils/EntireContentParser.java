@@ -44,4 +44,26 @@ public class EntireContentParser {
 
 		return source;
 	}
+
+	public List<String> getAllFilePaths(String target) {
+		List<String> filePathList = new ArrayList<>();
+
+		try {
+			File srclist = new File(target + "//srclist.txt");
+
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(srclist));
+			String line = "";
+
+			while((line = bufferedReader.readLine()) != null) {
+				filePathList.add(target + "/" + line);
+			}
+
+			bufferedReader.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return filePathList;
+	}
 }
