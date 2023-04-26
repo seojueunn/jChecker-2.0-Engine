@@ -88,9 +88,9 @@ public class ClassBox extends Box {
         this.setWidth(width);
     }
 
-    public void setSubClassCoordinate(int index, int totalWidth, int maxHeight) {
+    public void setSubClassCoordinate(int index, int totalWidth, int startY, int maxHeight) {
         this.setX(70 + totalWidth + ((index % 5) * 20));
-        this.setY(80 + maxHeight + ((index / 5) * 70));
+        this.setY(startY + maxHeight + 70);
 
         nameBoxInfo.setX(this.getX());
         nameBoxInfo.setY(this.getY());

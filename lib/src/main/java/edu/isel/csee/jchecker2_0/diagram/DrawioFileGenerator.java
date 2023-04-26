@@ -252,11 +252,13 @@ public class DrawioFileGenerator {
 
     public void setClassBoxPosition(HashMap<String, List<ClassBox>> classBoxMap) {
         int centerX;
-        int startY;
+        int startYForSuper;
+        int startYForSub = 80;
+        int startYTemp = 80;
         int index = 0;
         int totalWidth = 0;
         int maxHeight = 0;
-        int maxTemp = 0;
+        int maxHeightTemp = 0;
         int count = 0;
         List<ClassBox> classBoxList;
 
@@ -266,32 +268,41 @@ public class DrawioFileGenerator {
                 for (int i = 0; i < classBoxList.size(); i++) {
                     if ((index % 5) == 0) {
                         totalWidth = 0;
-                        maxHeight = maxTemp;
-                        maxTemp = 0;
+                        maxHeight = maxHeightTemp;
+                        startYForSub = startYTemp;
+                        maxHeightTemp = 0;
                     }
-                    maxTemp = Math.max(maxTemp, classBoxList.get(i).getHeight());
-                    classBoxList.get(i).setSubClassCoordinate(index, totalWidth, maxHeight);
+
+                    maxHeightTemp = Math.max(maxHeightTemp, classBoxList.get(i).getHeight());
+                    classBoxList.get(i).setSubClassCoordinate(index, totalWidth, startYForSub, maxHeight);
+                    if (maxHeightTemp == classBoxList.get(i).getHeight()) { startYTemp = classBoxList.get(i).getY(); }
                     totalWidth += classBoxList.get(i).getWidth();
                     index ++;
                 }
 
                 if ((count != classBoxMap.keySet().size() - 2) && ((index % 5) != 0)) { index += (5 - (index % 5)); }
-                if (classBoxList.size() % 2 == 0) {
-                    ClassBox firstSubClass = classBoxList.get(0);
-                    ClassBox lastSubClass = classBoxList.get(classBoxList.size() - 1);
-                    centerX = (firstSubClass.getX() + lastSubClass.getX() + lastSubClass.getWidth()) / 2;
+
+                if (classBoxList.size() <= 5) {
+                    if (classBoxList.size() % 2 == 0) {
+                        ClassBox firstSubClass = classBoxList.get(0);
+                        ClassBox lastSubClass = classBoxList.get(classBoxList.size() - 1);
+                        centerX = (firstSubClass.getX() + lastSubClass.getX() + lastSubClass.getWidth()) / 2;
+                    } else {
+                        ClassBox middleSubClass = classBoxList.get(classBoxList.size() / 2);
+                        centerX = middleSubClass.getX() + (middleSubClass.getWidth() / 2);
+                    }
                 } else {
-                    ClassBox middleSubClass = classBoxList.get(classBoxList.size() / 2);
+                    ClassBox middleSubClass = classBoxList.get(2);
                     centerX = middleSubClass.getX() + (middleSubClass.getWidth() / 2);
                 }
 
-                startY = classBoxList.get(0).getY();
+                startYForSuper = classBoxList.get(0).getY();
 
                 for (ClassBox superClass : javaClassBoxList) {
                     if (superClass.getClassName().contains("." + superClassName)) {
                         int width = superClass.getWidth();
                         int height = superClass.getHeight();
-                        superClass.setSuperClassCoordinate(centerX, startY, width, height);
+                        superClass.setSuperClassCoordinate(centerX, startYForSuper, width, height);
                     }
                 }
             }
@@ -303,12 +314,14 @@ public class DrawioFileGenerator {
             for (int i = 0; i < classBoxList.size(); i ++) {
                 if ((index % 5) == 0) {
                     totalWidth = 0;
-                    maxHeight = maxTemp;
-                    maxTemp = 0;
+                    maxHeight = maxHeightTemp;
+                    startYForSub = startYTemp;
+                    maxHeightTemp = 0;
                 }
 
-                maxTemp = Math.max(maxTemp, classBoxList.get(i).getHeight());
-                classBoxList.get(i).setSubClassCoordinate(index, totalWidth, maxHeight);
+                maxHeightTemp = Math.max(maxHeightTemp, classBoxList.get(i).getHeight());
+                classBoxList.get(i).setSubClassCoordinate(index, totalWidth, startYForSub, maxHeight);
+                if (maxHeightTemp == classBoxList.get(i).getHeight()) { startYTemp = classBoxList.get(i).getY(); }
                 totalWidth += classBoxList.get(i).getWidth();
                 index ++;
             }
