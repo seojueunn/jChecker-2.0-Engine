@@ -1,6 +1,7 @@
 package edu.isel.csee.jchecker2_0.statics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.eclipse.jdt.core.dom.*;
 import com.google.gson.JsonObject;
@@ -15,6 +16,8 @@ public class OOPChecker extends ASTChecker {
 	private List<IMethodBinding> methods = new ArrayList<>();
 	private List<String> packages = new ArrayList<>();
 	private List<String> classes = new ArrayList<>();
+	private HashMap<String, List<ReturnStatement>> methodReturnGroupMap = new HashMap<>();
+	private HashMap<String, List<Assignment>> methodAssignmentGroupMap = new HashMap<>();
 
 	private ArrayList<String> classesViolations = new ArrayList<>();
 	private ArrayList<String> spcViolations = new ArrayList<>();
@@ -297,6 +300,8 @@ public class OOPChecker extends ASTChecker {
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
 
 			if (policy.isEncaps()){
+				getReturnStatements(unit);
+				getAssignments(unit);
 				testEncapsulation(unit);
 			}
 
@@ -489,132 +494,43 @@ public class OOPChecker extends ASTChecker {
 					}
 
 					for (FieldDeclaration eachField : node.getFields()){
+						// Get field name
 						VariableDeclarationFragment fieldFragment = (VariableDeclarationFragment) eachField.fragments().get(0);
 						String fieldName = fieldFragment.getName().getIdentifier();
 
-						// Public field
-						if ((eachField.getModifiers() & Modifier.PUBLIC) > 0){
-							// Check the method (getter & setter)
-							for (MethodDeclaration eachMethod : node.getMethods()) {
-								String methodName = eachMethod.getName().getIdentifier();
-
-								if (eachMethod.parameters().size() == 0) {
-									// Getter method
-									if (methodName.startsWith("get") && (methodName.length() > 3)) {
-										// Check the name of getter method
-										if (methodName.toLowerCase().endsWith(fieldName.toLowerCase())) {
-											ecpViolation = true;
-										}
-
-										// Check the return value of getter method
-										for (Object statement : eachMethod.getBody().statements()) {
-											if (statement instanceof ReturnStatement) {
-												ReturnStatement returnStatement = (ReturnStatement) statement;
-												Expression expression = returnStatement.getExpression();
-
-												if (expression instanceof SimpleName && ((SimpleName) expression).getIdentifier().equals(fieldName)
-														|| expression instanceof FieldAccess && ((FieldAccess) expression).getName().getIdentifier().equals(fieldName)
-														|| expression instanceof QualifiedName && ((QualifiedName) expression).getName().getIdentifier().equals(fieldName)) {
-													ecpViolation = true;
-												}
-											}
-										}
-									}
-								} else if (eachMethod.parameters().size() == 1) {
-									// Setter method
-									if (methodName.startsWith("set") && (methodName.length() > 3)) {
-										// Check the name of setter method
-										if (methodName.toLowerCase().endsWith(fieldName.toLowerCase())) {
-											ecpViolation = true;
-										}
-
-										// Check the body of setter method
-										for (Object statement : eachMethod.getBody().statements()) {
-											if (statement instanceof ExpressionStatement) {
-												ExpressionStatement expressionStatement = (ExpressionStatement) statement;
-												Expression expression = expressionStatement.getExpression();
-												if (expression instanceof Assignment) {
-													Assignment assignment = (Assignment) expression;
-													Expression leftHandSide = assignment.getLeftHandSide();
-
-													if (leftHandSide.toString().equals(fieldName) || leftHandSide.toString().equals("this." + fieldName)) {
-														ecpViolation = true;
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
 						// Private field
-						else if ((eachField.getModifiers() & Modifier.PRIVATE) > 0) {
+						if ((eachField.getModifiers() & Modifier.PRIVATE) > 0) {
 							boolean hasGetter = false;
 							boolean hasSetter = false;
 
 							// Check the method (getter & setter)
 							for (MethodDeclaration eachMethod : node.getMethods()) {
-								String methodName = eachMethod.getName().getIdentifier();
+								// Check the public method
+								if ((eachMethod.getModifiers() & Modifier.PUBLIC) > 0) {
+									String methodName = eachMethod.getName().getIdentifier();
 
-								if (eachMethod.parameters().size() == 0) {
-									// Getter method
-									if (methodName.startsWith("get") && (methodName.length() > 3)) {
-										// Check the name of getter method
-										if (methodName.toLowerCase().endsWith(fieldName.toLowerCase())) {
-											hasGetter = true;
-										}
+									// Check the return statement (for the getter method)
+									if (methodReturnGroupMap.containsKey(methodName)) {
+										for (ReturnStatement returnStatement : methodReturnGroupMap.get(methodName)) {
+											Expression expression = returnStatement.getExpression();
 
-										// Check the return value of getter method
-										for (Object statement : eachMethod.getBody().statements()) {
-											if (statement instanceof ReturnStatement) {
-												ReturnStatement returnStatement = (ReturnStatement) statement;
-												Expression expression = returnStatement.getExpression();
-
-												if (expression instanceof SimpleName && ((SimpleName) expression).getIdentifier().equals(fieldName)
-														|| expression instanceof FieldAccess && ((FieldAccess) expression).getName().getIdentifier().equals(fieldName)
-														|| expression instanceof QualifiedName && ((QualifiedName) expression).getName().getIdentifier().equals(fieldName)) {
-													hasGetter = true;
-												}
+											if (expression instanceof SimpleName && ((SimpleName) expression).getIdentifier().equals(fieldName)
+													|| expression instanceof FieldAccess && ((FieldAccess) expression).getName().getIdentifier().equals(fieldName)
+													|| expression instanceof QualifiedName && ((QualifiedName) expression).getName().getIdentifier().equals(fieldName)) {
+												hasGetter = true;
 											}
 										}
 									}
-								} else if (eachMethod.parameters().size() == 1) {
-									// Setter method
-									if (methodName.startsWith("set") && (methodName.length() > 3)) {
-										// Check the name of setter method
-										if (methodName.toLowerCase().endsWith(fieldName.toLowerCase())) {
-											hasSetter = true;
-										}
 
-										// Check the body of setter method
-										for (Object statement : eachMethod.getBody().statements()) {
-											if (statement instanceof ExpressionStatement) {
-												ExpressionStatement expressionStatement = (ExpressionStatement) statement;
-												Expression expression = expressionStatement.getExpression();
-												if (expression instanceof Assignment) {
-													Assignment assignment = (Assignment) expression;
-													Expression leftHandSide = assignment.getLeftHandSide();
+									// Check the assignment statement (for the setter method & constructor)
+									if (methodAssignmentGroupMap.containsKey(methodName)) {
+										for (Assignment assignment : methodAssignmentGroupMap.get(methodName)) {
+											Expression leftHandSide = assignment.getLeftHandSide();
 
-													if (leftHandSide.toString().equals(fieldName) || leftHandSide.toString().equals("this." + fieldName)) {
-														hasSetter = true;
-													}
-												}
-											}
-										}
-									}
-								}
-
-								// !hasSetter -> Checker the constructor
-								if (!hasSetter && eachMethod.isConstructor()) {
-									for (Object statement : eachMethod.getBody().statements()) {
-										if (statement instanceof ExpressionStatement) {
-											ExpressionStatement expressionStatement = (ExpressionStatement) statement;
-											Expression expression = expressionStatement.getExpression();
-											if (expression instanceof Assignment) {
-												Assignment assignment = (Assignment) expression;
-												Expression leftHandSide = assignment.getLeftHandSide();
-
-												if (leftHandSide.toString().equals(fieldName) || leftHandSide.toString().equals("this." + fieldName)) {
+											if (leftHandSide.toString().equals(fieldName) || leftHandSide.toString().equals("this." + fieldName)) {
+												if (eachMethod.isConstructor()) {
+													hasSetter = true;
+												} else {
 													hasSetter = true;
 												}
 											}
@@ -623,15 +539,16 @@ public class OOPChecker extends ASTChecker {
 								}
 							}
 
-							// !hasSetter -> Check the initialization
-							for (Object obj : eachField.fragments()) {
-								VariableDeclarationFragment fragment = (VariableDeclarationFragment) obj;
-								if (fragment.getInitializer() != null) {
-									hasSetter = true;
-								}
+							if (!hasGetter || !hasSetter ) {
+								ecpViolation = true;
 							}
 
-							if (!hasGetter || !hasSetter) {
+						} else if ((eachField.getModifiers() & Modifier.PUBLIC) > 0) {
+							if ((eachField.getModifiers() & Modifier.STATIC) <= 0) {
+								ecpViolation = true;
+							}
+						} else {
+							if ((eachField.getModifiers() & Modifier.PROTECTED) <= 0) {
 								ecpViolation = true;
 							}
 						}
@@ -643,6 +560,76 @@ public class OOPChecker extends ASTChecker {
 
 
 		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	private void getReturnStatements(CompilationUnit unit) {
+		try {
+			unit.accept(new ASTVisitor() {
+				@Override
+				public boolean visit(ReturnStatement node) {
+					List<ReturnStatement> returnStatements;
+
+					ASTNode parent = node.getParent();
+					while (parent != null) {
+						if (parent.getNodeType() == ASTNode.METHOD_DECLARATION) {
+							MethodDeclaration method = (MethodDeclaration) parent;
+							String methodName = method.getName().getIdentifier();
+
+							if (!methodReturnGroupMap.containsKey(methodName)) {
+								returnStatements = new ArrayList<>();
+							} else {
+								returnStatements = methodReturnGroupMap.get(methodName);
+							}
+
+							returnStatements.add(node);
+							methodReturnGroupMap.put(methodName, returnStatements);
+
+							break;
+						}
+						parent = parent.getParent();
+					}
+
+					return super.visit(node);
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getAssignments(CompilationUnit unit) {
+		try {
+			unit.accept(new ASTVisitor() {
+				@Override
+				public boolean visit(Assignment node) {
+					List<Assignment> assignments;
+
+					ASTNode parent = node.getParent();
+					while (parent != null) {
+						if (parent.getNodeType() == ASTNode.METHOD_DECLARATION) {
+							MethodDeclaration method = (MethodDeclaration) parent;
+							String methodName = method.getName().getIdentifier();
+
+							if (!methodAssignmentGroupMap.containsKey(methodName)) {
+								assignments = new ArrayList<>();
+							} else {
+								assignments = methodAssignmentGroupMap.get(methodName);
+							}
+
+							assignments.add(node);
+							methodAssignmentGroupMap.put(methodName, assignments);
+
+							break;
+						}
+						parent = parent.getParent();
+					}
+
+					return super.visit(node);
+				}
+			});
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
