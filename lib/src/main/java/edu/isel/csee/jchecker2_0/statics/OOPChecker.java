@@ -53,7 +53,6 @@ public class OOPChecker extends ASTChecker {
 
 		if (!source.isEmpty() && source != null) {
 			collect();
-
 			test();
 
 			if (policy.isEncaps()) {
@@ -494,6 +493,10 @@ public class OOPChecker extends ASTChecker {
 					}
 
 					for (FieldDeclaration eachField : node.getFields()){
+						if ((eachField.getModifiers() & Modifier.FINAL) > 0) {
+							continue;
+						}
+
 						// Get field name
 						VariableDeclarationFragment fieldFragment = (VariableDeclarationFragment) eachField.fragments().get(0);
 						String fieldName = fieldFragment.getName().getIdentifier();
