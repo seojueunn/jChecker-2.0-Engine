@@ -57,6 +57,18 @@ public class PolicyParser {
 				policyTable.setClass_max_deduct(obj.get("maxDeduct").getAsDouble());
 			}
 
+			obj = new Gson().fromJson(policy.get("methods"), JsonObject.class);
+			if (obj.get("state").getAsBoolean()) {
+				policyTable.setReqMethod(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {
+				}.getType()));
+				policyTable.setReqMethodCount(new Gson().fromJson(obj.get("count"), new TypeToken<ArrayList<Integer>>() {
+				}.getType()));
+				policyTable.setReqMethodClass(new Gson().fromJson(obj.get("classes"), new TypeToken<ArrayList<String>>() {
+				}.getType()));
+				policyTable.setMethod_deduct_point(obj.get("deductPoint").getAsDouble());
+				policyTable.setMethod_max_deduct(obj.get("maxDeduct").getAsDouble());
+			}
+
 			obj = new Gson().fromJson(policy.get("customException"), JsonObject.class);
 			if (obj.get("state").getAsBoolean()) {
 				policyTable.setReqCustExc(new Gson().fromJson(obj.get("required"), new TypeToken<ArrayList<String>>() {
