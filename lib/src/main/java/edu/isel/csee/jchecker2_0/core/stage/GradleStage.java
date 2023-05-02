@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class GradleStage implements IGradeStage {
 	@Override
@@ -65,6 +66,15 @@ public class GradleStage implements IGradeStage {
 			builder = new ProcessBuilder(cases);
 			builder.directory(new File(dpath));
 			process = builder.start();
+
+			// Wait for the process to complete for 10 seconds
+			if (!process.waitFor(20, TimeUnit.SECONDS)) {
+				// Timeout - destroy the process.
+				process.destroy();
+
+				// test case violation
+				return false;
+			}
 
 			stdout = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
 
