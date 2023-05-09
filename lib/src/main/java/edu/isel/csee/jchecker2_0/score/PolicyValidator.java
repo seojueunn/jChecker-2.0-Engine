@@ -1,4 +1,4 @@
-package edu.isel.csee.jchecker.score;
+package edu.isel.csee.jchecker2_0.score;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
