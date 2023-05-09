@@ -117,7 +117,7 @@ public class DrawioFileGenerator {
                 ClassBox superClassBox = null;
                 for (ClassBox cb : javaClassBoxList) {
                     if (classBox.getClassId() == cb.getClassId()) { continue; }
-                    if (classBox.getExtends().equals(cb.getClassName())) {
+                    if ((cb.getClassName()).contains("." + classBox.getExtends())) {
                         superClassBox = cb;
                         break;
                     }
