@@ -10,6 +10,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for collecting class information
+ */
 public class ClassCollector extends VoidVisitorAdapter<List<String>> {
     private String className;
     private List<String> classNameList = new ArrayList<>();
@@ -24,6 +27,11 @@ public class ClassCollector extends VoidVisitorAdapter<List<String>> {
     private boolean isExtended = false;
     private boolean isImplemented = false;
 
+    /**
+     * Visit method for searching and collecting class information
+     * @param declaration ClassOrInterfaceDeclaration
+     * @param collector collector list
+     */
     @Override
     public void visit(ClassOrInterfaceDeclaration declaration, List<String> collector) {
         super.visit(declaration, collector);
@@ -65,22 +73,63 @@ public class ClassCollector extends VoidVisitorAdapter<List<String>> {
         collector.add(this.className);
     }
 
+    /**
+     * Method for setting class name list
+     * @param classNameList classNameList
+     */
     public void setClassNameList(List<String> classNameList) { this.classNameList = classNameList; }
+
+    /**
+     * Method for return class name list
+     * @return classNameList
+     */
     public List<String> getClassNameList() { return this.classNameList; }
 
+    /**
+     * Method for checking class type (class or interface)
+     * @return isClassType
+     */
     public boolean isClassType() { return this.isClassType; }
 
+    /**
+     * Method for checking extension
+     * @return isExtended
+     */
     public boolean isExtended() { return this.isExtended; }
 
+    /**
+     * Method for checking implementation
+     * @return isImplemented
+     */
     public boolean isImplemented() { return this.isImplemented; }
 
+    /**
+     * Method for return super class name list
+     * @return superClassNameList
+     */
     public List<String> getSuperClassNameList() { return this.superClassNameList; }
 
+    /**
+     * Method for return interface name list
+     * @return interfaceNameList
+     */
     public List<String> getInterfaceNameList() { return this.interfaceNameList; }
 
+    /**
+     * Method for return FieldDeclaration list
+     * @return fieldDeclarationList
+     */
     public List<FieldDeclaration> getFieldDeclarationList() { return this.fieldDeclarationList; }
 
+    /**
+     * Method for return ConstructorDeclaration list
+     * @return constructorDeclarationList
+     */
     public List<ConstructorDeclaration> getConstructorDeclarationList() { return this.constructorDeclarationList; }
 
+    /**
+     * Method for return MethodDeclaration list
+     * @return methodDeclarationList
+     */
     public List<MethodDeclaration> getMethodDeclarationList() { return this.methodDeclarationList; }
 }

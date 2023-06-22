@@ -19,6 +19,9 @@ import edu.isel.csee.jchecker2_0.statics.*;
 import edu.isel.csee.jchecker2_0.statics.utils.EntireContentParser;
 import edu.isel.csee.jchecker2_0.statics.utils.FileGenerationChecker;
 
+/**
+ * Classes for the entire automated scoring process
+ */
 public class CoreGrader {
 	private boolean flag = false;
 	private ArrayList<String> inputViolations = new ArrayList();
@@ -35,6 +38,12 @@ public class CoreGrader {
 	private String workpath = "";
 	private String gradlePath = "";
 
+	/**
+	 * Method for automated scoring (test case and AST)
+	 * @param path source codes path
+	 * @param policy grading policy
+	 * @return sheet
+	 */
 	public String start(String path, String policy) {
 		workpath = path;
 
@@ -248,6 +257,13 @@ public class CoreGrader {
 		return sheet;
 	}
 
+	/**
+	 * Method for setting build.gradle file
+	 * @param dpath main path
+	 * @param findPath path to find
+	 * @param fileName file name
+	 * @return
+	 */
 	private String findFilePath(String dpath, String findPath, String fileName) {
 		ArrayList<String> command = new ArrayList();
 
@@ -289,6 +305,10 @@ public class CoreGrader {
 		return path;
 	}
 
+	/**
+	 * Method for return source code path list
+	 * @return srcPathList
+	 */
 	public List<String> getSrcPathList() {
 		return srcPathList;
 	}

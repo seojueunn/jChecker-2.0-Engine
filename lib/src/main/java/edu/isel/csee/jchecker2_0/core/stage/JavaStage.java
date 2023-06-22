@@ -6,7 +6,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class for compile without Build Tool
+ */
 public class JavaStage implements IGradeStage {
+	/**
+	 * Method for compile
+	 * @param dpath source codes path
+	 * @return state
+	 */
 	@Override
 	public int compile(String dpath) {
 		int state = -1;
@@ -34,6 +42,13 @@ public class JavaStage implements IGradeStage {
 		return state;
 	}
 
+	/**
+	 * Method for execution
+	 * @param cases result of testing with oracle input
+	 * @param output oracle output
+	 * @param dpath source code path
+	 * @return result
+	 */
 	@Override
 	public boolean build(ArrayList<String> cases, String output, String dpath) {
 		boolean result = false;
@@ -95,6 +110,13 @@ public class JavaStage implements IGradeStage {
 		return result;
 	}
 
+	/**
+	 * Method for testing
+	 * @param packagePath path
+	 * @param input oracle input
+	 * @param isTest isTest
+	 * @return command
+	 */
 	public ArrayList<String> getTest(String packagePath, String input, boolean isTest) {
 		ArrayList<String> command = new ArrayList();
 
@@ -110,20 +132,34 @@ public class JavaStage implements IGradeStage {
 		return command;
 	}
 
+	/**
+	 * Method for testing
+	 * @param packagePath path
+	 * @param isTest isTest
+	 * @return result
+	 */
 	public ArrayList<String> getTest(String packagePath, boolean isTest) {
 		return null;
 	}
 
+	/**
+	 * Method for command setting
+	 * @return command
+	 */
 	private ArrayList<String> getCommand() {
 		ArrayList<String> command = new ArrayList<>();
 
 		command.add("bash");
 		command.add("-c");
-		command.add("javac -encoding UTF-8 -Xlint:deprecation -g:none -d bin @srclist.txt");
+		command.add("javac -encoding UTF-8 -Xlint:deprecation -d bin @srclist.txt");
 
 		return command;
 	}
 
+	/**
+	 * Method for listing all files names
+	 * @param dpath main path
+	 */
 	private void listup(String dpath) {
 		ArrayList<String> command = new ArrayList<>();
 

@@ -6,6 +6,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for collecting method information
+ */
 public class MethodCollector extends VoidVisitorAdapter<List<String>> {
     private List<String> methodNameList = new ArrayList<>();
     private String methodName;
@@ -14,12 +17,14 @@ public class MethodCollector extends VoidVisitorAdapter<List<String>> {
     private String methodParamType;
     private String methodInfo;
 
+    /**
+     * Visit method for searching and collecting method information
+     * @param declaration MethodDeclaration
+     * @param collector collector list
+     */
     @Override
     public void visit(MethodDeclaration declaration, List<String> collector) {
         super.visit(declaration, collector);
-
-        // Add a method name in the collector
-        //collector.add(declaration.getNameAsString());
 
         // + name(paramType, paramType, ...): methodType
         this.methodName = declaration.getNameAsString();
@@ -50,6 +55,15 @@ public class MethodCollector extends VoidVisitorAdapter<List<String>> {
         collector.add(this.methodInfo);
     }
 
+    /**
+     * Method for setting method name list
+     * @param methodNameList method name list
+     */
     public void setMethodNameList(List<String> methodNameList) { this.methodNameList = methodNameList; }
+
+    /**
+     * Method for return method name list
+     * @return methodNameList
+     */
     public List<String> getMethodNameList() { return this.methodNameList; }
 }

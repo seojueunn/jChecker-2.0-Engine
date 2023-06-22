@@ -6,16 +6,25 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
+/**
+ * Class for validating the grading policy
+ */
 public class PolicyValidator {
     private ArrayList<String> inputs = null;
     private ArrayList<String> checksums = null;
     private boolean hasChecksum = false;
 
+    /**
+     * Constructor for PolicyValidator class
+     */
     public PolicyValidator() {
 
     }
 
-    // if we use checksum data, this method returns true
+    /**
+     * Method for setting whether to use checksum data
+     * @param checksumArray checksum data
+     */
     public void setHasChecksum(ArrayList<String> checksumArray) {
         // when we set the grading policy, jChecker front-end fills the checksum part with one empty string
         // if we do not use checksum data in the homework, the number of checksum data is one and data is an empty string
@@ -25,11 +34,18 @@ public class PolicyValidator {
         this.hasChecksum = true;
     }
 
-    // get hasChecksum data (if we use checksum data -> hasChecksum is true)
+    /**
+     * Method for return whether to use checksum data
+     * @return hasChecksum
+     */
     public boolean getHasChecksum() {
         return this.hasChecksum;
     }
 
+    /**
+     * Method for checking classes deduct point, checksum data
+     * @param policy JSON data (grading policy)
+     */
     public void validator(JsonObject policy) {
         // validation for classes deduct point
         JsonObject obj = new Gson().fromJson(policy.get("classes"), JsonObject.class);

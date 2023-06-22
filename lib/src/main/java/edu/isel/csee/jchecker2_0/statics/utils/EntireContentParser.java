@@ -6,7 +6,15 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for collecting all path and source codes
+ */
 public class EntireContentParser {
+	/**
+	 * Method for getting all source codes
+	 * @param target main path
+	 * @return source
+	 */
 	public List<String> getAllFiles(String target) {
 		List<String> source = new ArrayList<>();
 
@@ -45,6 +53,11 @@ public class EntireContentParser {
 		return source;
 	}
 
+	/**
+	 * Method for getting all path of source codes
+	 * @param target main path
+	 * @return filePathList
+	 */
 	public List<String> getAllFilePaths(String target) {
 		List<String> filePathList = new ArrayList<>();
 

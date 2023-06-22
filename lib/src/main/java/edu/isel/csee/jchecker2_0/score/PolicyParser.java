@@ -5,7 +5,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
+/**
+ * Class for getting grading policy
+ */
 public class PolicyParser {
+	/**
+	 * Method for parsing JSON data (grading policy)
+	 * @param policyTable EvaluationSchemeMapper
+	 * @param policy JSON data (grading policy)
+	 */
 	public void parse(EvaluationSchemeMapper policyTable, JsonObject policy) {
 		try {
 			JsonObject obj = null;

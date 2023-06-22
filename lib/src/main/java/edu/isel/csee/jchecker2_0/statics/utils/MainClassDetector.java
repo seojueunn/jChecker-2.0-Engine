@@ -6,9 +6,17 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+/**
+ * Class for detecting main class
+ */
 public class MainClassDetector extends ASTChecker {
 	private String mainPath = "";
 
+	/**
+	 * Method for finding main class path
+	 * @param source source code
+	 * @return mainPath
+	 */
 	public String find(String source) {
 		ASTParser parser = this.parserSetProperties(source);
 		CompilationUnit unit = (CompilationUnit)parser.createAST(null);

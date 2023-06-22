@@ -1,0 +1,10 @@
+edu.isel.csee.jchecker2_0.core
+edu.isel.csee.jchecker2_0.core.stage
+edu.isel.csee.jchecker2_0.diagram
+edu.isel.csee.jchecker2_0.diagram.parser
+edu.isel.csee.jchecker2_0.diagram.parser.collector
+edu.isel.csee.jchecker2_0.diagram.utils
+edu.isel.csee.jchecker2_0.score
+edu.isel.csee.jchecker2_0.statics
+edu.isel.csee.jchecker2_0.statics.utils
+edu.isel.csee.jchecker2_0.submit

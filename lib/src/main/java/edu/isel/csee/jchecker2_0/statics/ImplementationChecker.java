@@ -9,6 +9,9 @@ import org.eclipse.jdt.core.dom.*;
 
 import edu.isel.csee.jchecker2_0.score.EvaluationSchemeMapper;
 
+/**
+ * Class for checking implementation
+ */
 public class ImplementationChecker extends ASTChecker {
 	EvaluationSchemeMapper policy;
 	private List<String> source = null;
@@ -43,6 +46,14 @@ public class ImplementationChecker extends ASTChecker {
 	private int numOfMethods = 0;
 	private int numOfFields = 0;
 
+	/**
+	 * Constructor for ImplementationChecker class
+	 * @param policy EvaluationSchemeMapper
+	 * @param source source code
+	 * @param unitName unit information
+	 * @param filePath file path
+	 * @param libPath library path
+	 */
 	public ImplementationChecker(EvaluationSchemeMapper policy, List<String> source, String unitName, String filePath, String libPath) {
 		this.policy = policy;
 		this.source = source;
@@ -51,6 +62,12 @@ public class ImplementationChecker extends ASTChecker {
 		this.libPath = libPath;
 	}
 
+	/**
+	 * Method for scoring implementation and setting result
+	 * @param scoresheet JSON data (result)
+	 * @param isBuild isBuild
+	 * @return scoresheet
+	 */
 	public JsonObject run(JsonObject scoresheet, boolean isBuild) {
 		this.isBuild = isBuild;
 
@@ -218,6 +235,9 @@ public class ImplementationChecker extends ASTChecker {
 		return scoresheet;
 	}
 
+	/**
+	 * Method for collecting data of source codes
+	 */
 	private void collect() {
 		for (String each: source){
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
@@ -228,6 +248,9 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking implementation
+	 */
 	private void test() {
 		for (String each : source){
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
@@ -257,6 +280,9 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking count
+	 */
 	private void testCount() {
 		if (policy.getMethodCount() > numOfMethods) {
 			countViolation = true;
@@ -271,6 +297,10 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking javadoc
+	 * @param unit CompilationUnit
+	 */
 	private void testJavadoc(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -296,6 +326,9 @@ public class ImplementationChecker extends ASTChecker {
 
 	}
 
+	/**
+	 * Method for checking thread
+	 */
 	private void testThread() {
 		boolean checkThread = false;
 
@@ -315,6 +348,9 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking custom data structure
+	 */
 	private void testCustomStructure() {
 		for (String each : policy.getReqCusStruct()){
 			if (classes.contains(each)){
@@ -332,6 +368,9 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking custom exception
+	 */
 	private void testCustomException() {
 
 		for (String each : policy.getReqCustExc()){
@@ -390,6 +429,9 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking method usage
+	 */
 	private void testMethods() {
 		int index = 0;
 
@@ -410,6 +452,10 @@ public class ImplementationChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for getting instances
+	 * @param unit CompilationUnit
+	 */
 	private void getInstances(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -425,6 +471,10 @@ public class ImplementationChecker extends ASTChecker {
 
 	}
 
+	/**
+	 * Method for getting class names
+	 * @param unit CompilationUnit
+	 */
 	private void getClassNames(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -456,6 +506,10 @@ public class ImplementationChecker extends ASTChecker {
 
 	}
 
+	/**
+	 * Method for getting count information
+	 * @param unit CompilationUnit
+	 */
 	private void getCountInfo(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -486,6 +540,11 @@ public class ImplementationChecker extends ASTChecker {
 
 	}
 
+	/**
+	 * Method for return statement information
+	 * @param name target name information
+	 * @return result
+	 */
 	public String getStatement(final String name) {
 		for (String each : source){
 			if (!result.isEmpty()) break;
@@ -512,6 +571,10 @@ public class ImplementationChecker extends ASTChecker {
 		return result;
 	}
 
+	/**
+	 * Method for return expression information
+	 * @return expressions
+	 */
 	public List<String> getExpression() {
 		for (String each : source){
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
@@ -533,20 +596,26 @@ public class ImplementationChecker extends ASTChecker {
 		return expressions;
 	}
 
+	/**
+	 * Method for getting method invocation
+	 * @param unit CompilationUnit
+	 */
 	public void getMethodInvocation(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
 				@Override
 				public boolean visit(MethodInvocation node) {
 					IMethodBinding methodBinding = node.resolveMethodBinding();
-					String className = methodBinding.getDeclaringClass().getQualifiedName();
 
-					String methodName = node.getName().getIdentifier();
+					if (methodBinding != null) {
+						String className = methodBinding.getDeclaringClass().getQualifiedName();
 
-					String fullyQualifiedName = className + "." + methodName;
+						String methodName = node.getName().getIdentifier();
 
-					methodInvocations.add(fullyQualifiedName);
-					System.out.println("\t-> " + fullyQualifiedName);
+						String fullyQualifiedName = className + "." + methodName;
+
+						methodInvocations.add(fullyQualifiedName);
+					}
 
 					return super.visit(node);
 				}

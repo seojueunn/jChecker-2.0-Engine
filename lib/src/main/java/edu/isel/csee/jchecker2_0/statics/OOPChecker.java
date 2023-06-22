@@ -7,6 +7,9 @@ import org.eclipse.jdt.core.dom.*;
 import com.google.gson.JsonObject;
 import edu.isel.csee.jchecker2_0.score.EvaluationSchemeMapper;
 
+/**
+ * Class for checking OOP concepts
+ */
 public class OOPChecker extends ASTChecker {
 	private EvaluationSchemeMapper policy;
 	private List<String> source = null;
@@ -40,6 +43,14 @@ public class OOPChecker extends ASTChecker {
 	private int spcViolationCount = 0;
 	private int itfViolationCount = 0;
 
+	/**
+	 * Constructor for OOPChecker class
+	 * @param policy EvaluationSchemeMapper
+	 * @param source source code
+	 * @param unitName unit information
+	 * @param filePath file path
+	 * @param libPath library path
+	 */
 	public OOPChecker(EvaluationSchemeMapper policy, List<String> source, String unitName, String filePath, String libPath) {
 		this.policy = policy;
 		this.source = source;
@@ -48,6 +59,12 @@ public class OOPChecker extends ASTChecker {
 		this.libPath = libPath;
 	}
 
+	/**
+	 * Method for scoring OOP concepts and setting result
+	 * @param scoresheet JSON data (result)
+	 * @param isBuild isBuild
+	 * @return scoresheet
+	 */
 	public JsonObject run(JsonObject scoresheet, boolean isBuild) {
 		this.isBuild = isBuild;
 
@@ -276,6 +293,9 @@ public class OOPChecker extends ASTChecker {
 		return scoresheet;
 	}
 
+	/**
+	 * Method for collecting data of source codes
+	 */
 	private void collect() {
 		for (String each : source){
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
@@ -294,6 +314,9 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking OOP concepts
+	 */
 	private void test() {
 		for (String each : source){
 			CompilationUnit unit = (CompilationUnit) parserSetProperties(each, unitName, filePath, libPath, isBuild).createAST(null);
@@ -334,6 +357,9 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking required class
+	 */
 	private void testRequiredClass() {
 		for (String each : policy.getReqClass()){
 			if (!classes.contains(each)){
@@ -344,6 +370,9 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking required package
+	 */
 	private void testRequiredPackage() {
 		for (String each : policy.getPackageName()){
 			if (!packages.contains(each)){
@@ -354,6 +383,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking inheritance (superclass)
+	 * @param unit CompilationUnit
+	 */
 	private void testSuperclass(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -384,6 +417,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking inheritance (interface)
+	 * @param unit CompilationUnit
+	 */
 	private void testInterface(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -421,6 +458,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking overriding method
+	 * @param unit CompilationUnit
+	 */
 	public void testOverriding(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -452,6 +493,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking overloading method
+	 * @param unit CompilationUnit
+	 */
 	public void testOverloading(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -483,6 +528,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for checking encapsulation
+	 * @param unit CompilationUnit
+	 */
 	private void testEncapsulation(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -567,6 +616,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for getting return statements
+	 * @param unit CompilationUnit
+	 */
 	private void getReturnStatements(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -602,6 +655,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for getting assignment statements
+	 * @param unit CompilationUnit
+	 */
 	private void getAssignments(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -637,6 +694,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for getting MethodDeclaration
+	 * @param unit CompilationUnit
+	 */
 	private void getMethodDeclarations(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -652,6 +713,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for getting package name
+	 * @param unit CompilationUnit
+	 */
 	private void getPackageNames(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {
@@ -667,6 +732,10 @@ public class OOPChecker extends ASTChecker {
 		}
 	}
 
+	/**
+	 * Method for getting class name
+	 * @param unit CompilationUnit
+	 */
 	private void getClassNames(CompilationUnit unit) {
 		try {
 			unit.accept(new ASTVisitor() {

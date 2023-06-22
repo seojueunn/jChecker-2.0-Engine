@@ -6,6 +6,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for collecting field information
+ */
 public class FieldCollector extends VoidVisitorAdapter<List<String>> {
     private List<String> fieldNameList = new ArrayList<>();
     private String fieldName;
@@ -13,6 +16,11 @@ public class FieldCollector extends VoidVisitorAdapter<List<String>> {
     private String fieldType;
     private String fieldInfo;
 
+    /**
+     * Visit method for searching and collecting field information
+     * @param declaration FieldDeclaration
+     * @param collector collector list
+     */
     @Override
     public void visit(FieldDeclaration declaration, List<String> collector) {
         super.visit(declaration, collector);
@@ -35,6 +43,15 @@ public class FieldCollector extends VoidVisitorAdapter<List<String>> {
         collector.add(this.fieldInfo);
     }
 
+    /**
+     * Method for setting field name list
+     * @param fieldNameList field name list
+     */
     public void setFieldNameList(List<String> fieldNameList) { this.fieldNameList = fieldNameList; }
+
+    /**
+     * Method for return field name list
+     * @return fieldNameList
+     */
     public List<String> getFieldNameList() { return this.fieldNameList; }
 }

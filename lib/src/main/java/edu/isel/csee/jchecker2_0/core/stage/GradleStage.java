@@ -6,7 +6,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class for compile with Build Tool
+ */
 public class GradleStage implements IGradeStage {
+	/**
+	 * Method for compile
+	 * @param dpath source codes path
+	 * @return state
+	 */
 	@Override
 	public int compile(String dpath) {
 		int state = -1;
@@ -55,6 +63,13 @@ public class GradleStage implements IGradeStage {
 		return state;
 	}
 
+	/**
+	 * Method for execution
+	 * @param cases result of testing with oracle input
+	 * @param output oracle output
+	 * @param dpath source code path
+	 * @return result
+	 */
 	@Override
 	public boolean build(ArrayList<String> cases, String output, String dpath) {
 		boolean result = false;
@@ -115,6 +130,12 @@ public class GradleStage implements IGradeStage {
 		return result;
 	}
 
+	/**
+	 * Method for testing
+	 * @param argument oracle input
+	 * @param isTest isTest
+	 * @return command
+	 */
 	public ArrayList<String> getTest(String argument, boolean isTest) {
 		ArrayList<String> command = new ArrayList<>();
 
@@ -132,10 +153,21 @@ public class GradleStage implements IGradeStage {
 		return command;
 	}
 
+	/**
+	 * Method for testing
+	 * @param argument main path
+	 * @param cases oracle input
+	 * @param isTest isTest
+	 * @return result
+	 */
 	public ArrayList<String> getTest(String argument, String cases, boolean isTest) {
 		return null;
 	}
 
+	/**
+	 * Method for command setting
+	 * @return command
+	 */
 	private ArrayList<String> getCommand() {
 		ArrayList<String> command = new ArrayList<>();
 
@@ -146,6 +178,10 @@ public class GradleStage implements IGradeStage {
 		return command;
 	}
 
+	/**
+	 * Method for listing all files names
+	 * @param dpath main path
+	 */
 	private void listup(String dpath) {
 		ArrayList<String> command = new ArrayList<>();
 

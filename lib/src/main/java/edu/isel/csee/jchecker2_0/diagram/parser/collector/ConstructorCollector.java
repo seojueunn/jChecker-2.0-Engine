@@ -6,6 +6,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for collecting constructor information
+ */
 public class ConstructorCollector extends VoidVisitorAdapter<List<String>> {
     private List<String> constructorNameList = new ArrayList<>();
     private String constructorName;
@@ -13,6 +16,11 @@ public class ConstructorCollector extends VoidVisitorAdapter<List<String>> {
     private String constructorParamType;
     private String constructorInfo;
 
+    /**
+     * Visit method for searching and collecting constructor information
+     * @param declaration ConstructorDeclaration
+     * @param collector collector list
+     */
     @Override
     public void visit(ConstructorDeclaration declaration, List<String> collector) {
         super.visit(declaration, collector);

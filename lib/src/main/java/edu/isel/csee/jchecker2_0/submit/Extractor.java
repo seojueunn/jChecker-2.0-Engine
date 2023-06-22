@@ -11,8 +11,16 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+/**
+ * Class for preprocessing the submission
+ */
 public class Extractor {
 
+	/**
+	 * Method for unzip the submission
+	 * @param filepath file path
+	 * @param output output path
+	 */
 	public void unzip(String filepath, String output){
 		ZipFile zipfile = null;
 

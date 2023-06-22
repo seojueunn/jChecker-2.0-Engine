@@ -7,7 +7,16 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for checking output files
+ */
 public class FileGenerationChecker {
+    /**
+     * Method for creating checksum instance
+     * @param filename file name
+     * @return checksum instance
+     * @throws Exception Exception
+     */
     public static byte[] createChecksum(String filename) throws Exception {
         InputStream fis = new FileInputStream(filename);
         byte[] buffer = new byte[1024];
@@ -25,6 +34,12 @@ public class FileGenerationChecker {
         return complete.digest();
     }
 
+    /**
+     * Method for computing checksum value
+     * @param filename file name
+     * @return checksum result
+     * @throws Exception Exception
+     */
     public static String getMD5Checksum(String filename) throws Exception {
         byte[] b = createChecksum(filename);
         String result = "";
@@ -36,6 +51,14 @@ public class FileGenerationChecker {
         return result;
     }
 
+    /**
+     * Method for comparing oracle checksum with result checksum
+     * @param hash hash value
+     * @param filePath file path
+     * @param workPath work path
+     * @return flag
+     * @throws Exception Exception
+     */
     public static boolean compareChecksum(String hash, String filePath, String workPath) throws Exception {
         if (hash.isEmpty()) {
             return true;

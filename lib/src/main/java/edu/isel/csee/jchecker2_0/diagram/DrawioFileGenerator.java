@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class for generating drawio file
+ */
 public class DrawioFileGenerator {
     private String className; // Class name of the submission
     private String studentNum; // Student number of the submission
@@ -44,6 +47,12 @@ public class DrawioFileGenerator {
     private final String interfaceLineStyleConstant = "endArrow=block;dashed=1;endFill=0;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" ;
     private final String extendLineStyleConstant = "endArrow=block;endSize=16;endFill=0;html=1" ;
 
+    /**
+     * Constructor for DrawioFileGenerator class
+     * @param className class name
+     * @param studentNum student number
+     * @param sourcePathList source code path list
+     */
     public DrawioFileGenerator(String className, String studentNum, List<String> sourcePathList) {
         this.className = className;
         this.studentNum = studentNum;
@@ -52,17 +61,20 @@ public class DrawioFileGenerator {
         this.id = 0;
     }
 
-    // Main method for generating a drawio XML file
+    /**
+     * Main method for generating a drawio XML file
+     */
     public void generateDrawioFile() {
         // Set attributes
         initXMLFile();
 
         // Create the XML file
         createXMLFile();
-        System.out.println("Done creating XML file.\n");
     }
 
-    // Set attributes for creating an XML file
+    /**
+     * Method for setting attributes for creating an XML file
+     */
     public void initXMLFile() {
         try {
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -101,7 +113,9 @@ public class DrawioFileGenerator {
         }
     }
 
-    // Create the XML file using ClassBox information
+    /**
+     * Method for creating the XML file using ClassBox information
+     */
     public void createXMLFile() {
         int index = 1;
 
@@ -151,7 +165,6 @@ public class DrawioFileGenerator {
 
             DOMSource domSource = new DOMSource(document);
 
-            // String rootDir = "/Users/seojueun/data/";
             String rootDir = "/data/jchecker2.0/";
             String classDir = className + "/";
             String studentDir = studentNum + "/";
@@ -175,13 +188,16 @@ public class DrawioFileGenerator {
         }
     }
 
+    /**
+     * Method for return class boxes
+     * @return javaClassBoxList
+     */
     public ArrayList<ClassBox> getJavaClassSources() {
         javaClassBoxList = new ArrayList<>();
 
         // Loop for making ClassBox objects
         for (String path : sourcePathList) {
             JavaParser javaParser = new JavaParser(path);
-            javaParser.collectClassBoxInfo();
 
             ClassBox classBox = new ClassBox(javaParser);
             javaClassBoxList.add(classBox);
@@ -204,7 +220,6 @@ public class DrawioFileGenerator {
             List<ClassBox> classBoxList;
             if (!superClassOrInterfaceNameList.contains(className)) {
                 if (classBox.getExtends().isEmpty() && classBox.getInterface().isEmpty()) {
-                    // System.out.println("ONLY CLASS: " + className);
                     if (!classBoxGroupMap.containsKey("")) {
                         classBoxList = new ArrayList<>();
                     } else {
@@ -214,7 +229,6 @@ public class DrawioFileGenerator {
                     classBoxGroupMap.put("", classBoxList);
                 } else {
                     if (!classBox.getExtends().isEmpty()) {
-                        // System.out.println("EXTENDS: " + className);
                         String superClassName = classBox.getExtends();
                         if (!classBoxGroupMap.containsKey(superClassName)) {
                             classBoxList = new ArrayList<>();
@@ -224,7 +238,6 @@ public class DrawioFileGenerator {
                         classBoxList.add(classBox);
                         classBoxGroupMap.put(superClassName, classBoxList);
                     } else {
-                        // System.out.println("IMPLEMENTS: " + className);
                         String interfaceName = classBox.getInterface();
                         if (!classBoxGroupMap.containsKey(interfaceName)) {
                             classBoxList = new ArrayList<>();
@@ -250,6 +263,10 @@ public class DrawioFileGenerator {
         return javaClassBoxList;
     }
 
+    /**
+     * Method for setting position of class box
+     * @param classBoxMap class box HashMap
+     */
     public void setClassBoxPosition(HashMap<String, List<ClassBox>> classBoxMap) {
         int centerX;
         int startYForSuper;
@@ -259,18 +276,42 @@ public class DrawioFileGenerator {
         int totalWidth = 0;
         int maxHeight = 0;
         int maxHeightTemp = 0;
-        int count = 0;
+        int groupCount = 0;
+        int groupLineCount;
+        ClassBox superClassBox = null;
         List<ClassBox> classBoxList;
 
         for (String superClassName : classBoxMap.keySet()) {
             if (!superClassName.equals("")) {
+
+                // Set the superclass
+                for (ClassBox superClass : javaClassBoxList) {
+                    if (superClass.getClassName().contains("." + superClassName)) {
+                        superClassBox = superClass;
+                    }
+                }
+
+                groupLineCount = 0;
                 classBoxList = classBoxMap.get(superClassName);
+
+                // Move to the next line
+                if ((classBoxList.size() >= 2) && ((index % 5) != 0)) { index += (5 - (index % 5)); }
+
                 for (int i = 0; i < classBoxList.size(); i++) {
                     if ((index % 5) == 0) {
                         totalWidth = 0;
-                        maxHeight = maxHeightTemp;
-                        startYForSub = startYTemp;
+
+                        if ((groupCount != 0) && (superClassBox != null) && (groupLineCount == 0)) {
+                            maxHeight = superClassBox.getHeight();
+                            startYForSub = startYTemp + maxHeightTemp + 70;
+                        }
+                        else {
+                            maxHeight = maxHeightTemp;
+                            startYForSub = startYTemp;
+                        }
+
                         maxHeightTemp = 0;
+                        groupLineCount ++;
                     }
 
                     maxHeightTemp = Math.max(maxHeightTemp, classBoxList.get(i).getHeight());
@@ -279,8 +320,6 @@ public class DrawioFileGenerator {
                     totalWidth += classBoxList.get(i).getWidth();
                     index ++;
                 }
-
-                if ((count != classBoxMap.keySet().size() - 2) && ((index % 5) != 0)) { index += (5 - (index % 5)); }
 
                 if (classBoxList.size() <= 5) {
                     if (classBoxList.size() % 2 == 0) {
@@ -296,17 +335,15 @@ public class DrawioFileGenerator {
                     centerX = middleSubClass.getX() + (middleSubClass.getWidth() / 2);
                 }
 
-                startYForSuper = classBoxList.get(0).getY();
-
-                for (ClassBox superClass : javaClassBoxList) {
-                    if (superClass.getClassName().contains("." + superClassName)) {
-                        int width = superClass.getWidth();
-                        int height = superClass.getHeight();
-                        superClass.setSuperClassCoordinate(centerX, startYForSuper, width, height);
-                    }
+                if (superClassBox != null) {
+                    startYForSuper = classBoxList.get(0).getY();
+                    int width = superClassBox.getWidth();
+                    int height = superClassBox.getHeight();
+                    superClassBox.setSuperClassCoordinate(centerX, startYForSuper, width, height);
                 }
+
+                groupCount ++;
             }
-            count ++;
         }
 
         if (classBoxMap.containsKey("")) {
@@ -328,7 +365,11 @@ public class DrawioFileGenerator {
         }
     }
 
-    // Draw a ClassBox
+    /**
+     * Method for drawing class box
+     * @param classBox class box
+     * @param index index number
+     */
     public void drawClassBox(ClassBox classBox, int index) {
         // XML header
         if (index == 1) {
@@ -389,7 +430,14 @@ public class DrawioFileGenerator {
         }
     }
 
-    // Draw a FieldsBox
+    /**
+     * Method for drawing field box
+     * @param fieldDeclaration FieldDeclaration
+     * @param fieldInfo field information
+     * @param classId ID of class box
+     * @param y y value
+     * @param width width value
+     */
     public void drawFieldBox(FieldDeclaration fieldDeclaration, String fieldInfo, int classId, int y, int width) {
         Element fieldBox = document.createElement("mxCell");
         addAttribute(fieldBox, "id", Integer.toString(id ++));
@@ -408,7 +456,14 @@ public class DrawioFileGenerator {
         root.appendChild(fieldBox);
     }
 
-    // Draw a MethodsBox (constructor)
+    /**
+     * Method for drawing method box (constructor)
+     * @param constructorDeclaration ConstructorDeclaration
+     * @param constructorInfo constructor information
+     * @param classId ID of class box
+     * @param y y value
+     * @param width width value
+     */
     public void drawMethodBox(ConstructorDeclaration constructorDeclaration, String constructorInfo, int classId, int y, int width) {
         Element methodBox = document.createElement("mxCell");
         addAttribute(methodBox, "id", Integer.toString(id ++));
@@ -424,7 +479,14 @@ public class DrawioFileGenerator {
         root.appendChild(methodBox);
     }
 
-    // Draw a MethodsBox (method)
+    /**
+     * Method for drawing method box
+     * @param methodDeclaration MethodDeclaration
+     * @param methodInfo method information
+     * @param classId ID of class box
+     * @param y y value
+     * @param width width value
+     */
     public void drawMethodBox(MethodDeclaration methodDeclaration, String methodInfo, int classId, int y, int width) {
         Element methodBox = document.createElement("mxCell");
         addAttribute(methodBox, "id", Integer.toString(id ++));
@@ -440,7 +502,12 @@ public class DrawioFileGenerator {
         root.appendChild(methodBox);
     }
 
-    // Draw a relationship lines
+    /**
+     * Method for drawing relationship line
+     * @param value type of relationship
+     * @param sourceClassBox source class box
+     * @param targetClassBox target class box
+     */
     public void drawLines(int value, ClassBox sourceClassBox, ClassBox targetClassBox) {
         Element lines = document.createElement("mxCell");
         addAttribute(lines, "id", Integer.toString(id ++));
@@ -462,7 +529,12 @@ public class DrawioFileGenerator {
         root.appendChild(lines);
     }
 
-    // Draw a SeparatorLine
+    /**
+     * Method for drawing separator line
+     * @param classId ID of class box
+     * @param y y value
+     * @param width width value
+     */
     public void drawSeparatorLine(int classId, int y, int width) {
         Element separator = document.createElement("mxCell");
         addAttribute(separator, "id", Integer.toString(id++));
@@ -473,14 +545,26 @@ public class DrawioFileGenerator {
         root.appendChild(separator);
     }
 
-    // Add the attribute (helper function)
+    /**
+     * Method for adding the attribute (helper function)
+     * @param element target element
+     * @param attrName attribute name
+     * @param attrValue attribute value
+     */
     public void addAttribute(Element element, String attrName, String attrValue) {
         Attr attr = document.createAttribute(attrName);
         attr.setValue(attrValue);
         element.setAttribute(attrName, attrValue);
     }
 
-    // Add the child attribute (helper function)
+    /**
+     * Method for adding the child attribute (helper function)
+     * @param element target element
+     * @param x x value
+     * @param y y value
+     * @param width width value
+     * @param height height value
+     */
     public void addMxGeometry(Element element, int x, int y, int width, int height) {
         Element mxGeometry = document.createElement("mxGeometry");
         if (x != -1) { addAttribute(mxGeometry, "x", Integer.toString(x)); }
@@ -491,7 +575,10 @@ public class DrawioFileGenerator {
         element.appendChild(mxGeometry);
     }
 
-    // Add the lines (helper function)
+    /**
+     * Method for adding the lines (helper function)
+     * @param element target element
+     */
     public void addLineMxGeometry(Element element) {
         Element mxGeometry = document.createElement("mxGeometry");
         addAttribute(mxGeometry, "width", "160");

@@ -5,10 +5,22 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 
+/**
+ * Class for AST analysis
+ */
 public class ASTChecker {
 	private ASTParser parser;
 	private String filePath;
 
+	/**
+	 * Method for setting parser properties and return parser
+	 * @param source source code
+	 * @param unit unit information
+	 * @param filePath file path
+	 * @param libPath library path
+	 * @param isBuild isBuild
+	 * @return parser
+	 */
 	public ASTParser parserSetProperties(String source, String unit, String filePath, String libPath, boolean isBuild) {
 		char[] content = source.toCharArray();
 		String[] classpath;
@@ -50,6 +62,11 @@ public class ASTChecker {
 		return parser;
 	}
 
+	/**
+	 * Method for setting parser properties and return parser
+	 * @param source source code
+	 * @return parser
+	 */
 	public ASTParser parserSetProperties(String source) {
 		char[] content = source.toCharArray();
 
@@ -77,6 +94,10 @@ public class ASTChecker {
 		return parser;
 	}
 
+	/**
+	 * Method for setting file path
+	 * @param filePath file path
+	 */
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
