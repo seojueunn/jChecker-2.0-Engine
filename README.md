@@ -1,6 +1,6 @@
 # jChecker 2.0 Engine
 
-repository for Scoreing Engine of _jChecker 2.0_
+Repository for Scoreing Engine of _jChecker 2.0_
 
 <img width="555" alt="스크린샷 2024-02-13 오후 10 35 27" src="https://github.com/seojueunn/jChecker-2.0-Front/assets/79799635/e038e32c-ee40-4d5d-ac03-8110894d1887">
 
