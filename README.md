@@ -2,6 +2,8 @@
 
 repository for Scoreing Engine of _jChecker 2.0_
 
+<img width="555" alt="스크린샷 2024-02-13 오후 10 35 27" src="https://github.com/seojueunn/jChecker-2.0-Front/assets/79799635/e038e32c-ee40-4d5d-ac03-8110894d1887">
+
 ## 👋 소개
 jChecker 2.0 시스템의 핵심 기능들을 구현한 자동 채점 엔진 <br>
 테스트 케이스 기반 채점 방식과 Abstract Syntax Tree (AST) 구문 분석 채점 방식을 지원 <br>
